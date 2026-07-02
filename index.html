@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.1 개인용 간소화판</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.3 반응형 UI</title>
 <link href="manifest.json" rel="manifest"/>
 
 <link href="icon.svg" rel="icon" type="image/svg+xml"/>
@@ -50,43 +50,86 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
 
 .flow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.flow-step{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:14px}.flow-mini{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:8px}.flow-mini b{display:block;margin-bottom:4px}.v8-flow-card{border:2px solid rgba(37,99,235,.18)}@media(max-width:900px){.flow-grid{grid-template-columns:1fr}}
 
+
+/* v8.2 심플 UI 리프레시 */
+body{background:#f4f6fb;color:#0f172a}
+.hero{max-width:none;margin:0;padding:18px 20px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.18);display:flex;align-items:center;justify-content:center;min-height:74px;box-shadow:0 8px 30px rgba(15,23,42,.05)}
+.hero h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.03em;text-align:center}
+.tabs{top:0;background:rgba(244,246,251,.88);border-bottom:1px solid rgba(148,163,184,.16);padding:10px 14px 12px;gap:10px}
+.tab{background:#ffffff;border:1px solid #e2e8f0;color:#334155;padding:11px 15px;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.tab.active{background:#0f172a;color:#fff;border-color:#0f172a;box-shadow:0 10px 22px rgba(15,23,42,.16)}
+.global-actions{max-width:1280px;margin:16px auto 0;padding:0 18px;display:flex;gap:10px;flex-wrap:wrap}
+.global-actions .btn{border-radius:16px;min-height:44px;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+main{padding:16px 18px 24px}
+.card{border:1px solid rgba(226,232,240,.95);border-radius:22px;box-shadow:0 12px 28px rgba(15,23,42,.06)}
+.kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
+.item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
+@media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+
+/* v8.3 2안+4안 혼합 반응형 UI */
+:root{
+  --app-bg:#f7f8fb; --app-panel:#ffffff; --app-ink:#111827; --app-muted:#6b7280;
+  --app-line:#e7e9ef; --app-gold:#c7922b; --app-gold-soft:#fff7e6; --app-dark:#171717;
+  --app-shadow:0 14px 36px rgba(15,23,42,.07); --app-radius:24px;
+}
+body{background:linear-gradient(180deg,#ffffff 0,#f7f8fb 380px,#f6f7fb 100%);color:var(--app-ink)}
+.app-header{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.82);min-height:72px;display:flex;align-items:center;justify-content:center;padding:14px 62px 13px}
+.app-header h1{margin:0;text-align:center;font-size:clamp(21px,4.6vw,34px);letter-spacing:-.04em;line-height:1.15;font-weight:950;color:#111}
+.quick-menu-toggle{position:absolute;right:16px;top:50%;transform:translateY(-50%);border:1px solid var(--app-line);background:#fff;border-radius:16px;width:42px;height:42px;font-size:24px;line-height:1;box-shadow:0 8px 20px rgba(15,23,42,.06);color:#111}
+.quick-actions-panel{display:none;position:sticky;top:72px;z-index:25;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--app-line)}
+.quick-actions-panel.open{display:block}.quick-actions-panel .global-actions{margin:0 auto;padding:12px 18px;justify-content:center}.quick-actions-panel .global-actions .btn{min-height:42px;border-radius:999px}
+.app-shell{max-width:1440px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:0}.main-area{min-width:0}.mobile-tabs{position:sticky;top:72px;z-index:20;display:flex;gap:10px;overflow-x:auto;padding:13px 16px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(226,232,240,.72);scrollbar-width:none}.mobile-tabs::-webkit-scrollbar{display:none}
+.nav-btn{border:1px solid var(--app-line);background:#fff;color:#2f3542;border-radius:999px;padding:11px 17px;min-height:44px;white-space:nowrap;font-weight:900;letter-spacing:-.02em;box-shadow:0 7px 18px rgba(15,23,42,.05);touch-action:manipulation}.nav-btn.active{background:linear-gradient(135deg,#222,#111);color:#f8d98d;border-color:#111;box-shadow:0 12px 25px rgba(17,17,17,.18)}
+.desktop-sidebar{display:none}.side-logo{width:58px;height:58px;border-radius:18px;object-fit:cover;margin:2px 14px 20px;box-shadow:0 12px 24px rgba(15,23,42,.12)}
+.side-nav-btn{width:100%;display:flex;align-items:center;gap:10px;border:0;background:transparent;color:#4b5563;border-radius:16px;padding:12px 14px;text-align:left;font-weight:900}.side-nav-btn .ico{width:24px;text-align:center;opacity:.78}.side-nav-btn.active{background:linear-gradient(90deg,var(--app-gold-soft),#fff);color:#111;box-shadow:inset 4px 0 0 var(--app-gold)}
+.subnav{position:sticky;top:129px;z-index:18;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:rgba(247,248,251,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(226,232,240,.75);scrollbar-width:none}.subnav::-webkit-scrollbar{display:none}.subtab{border:1px solid #e5e7eb;background:#fff;color:#475569;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:900;white-space:nowrap}.subtab.active{background:#fff7e6;color:#8a5b05;border-color:#f3d696}
+main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background:rgba(255,255,255,.98);border:1px solid rgba(226,232,240,.94);box-shadow:var(--app-shadow)}.card{border-radius:24px}.kpi{border-radius:22px}.kpi b{letter-spacing:-.035em}.btn-primary{background:linear-gradient(135deg,#111,#2b2b2b);color:#f8d98d}.btn-primary:hover{background:#111}.btn-secondary{background:#111;color:#f8d98d}.btn-ghost{background:#fff7e6;color:#7c5306}.footer{display:none!important}.hero{display:none!important}.tabs:not(.mobile-tabs){display:none!important}
+@media (min-width:1080px){
+  .app-header{position:sticky;top:0;min-height:82px;padding:18px 76px}.quick-actions-panel{top:82px}.mobile-tabs{display:none}.app-shell{grid-template-columns:210px minmax(0,1fr);padding:22px 18px 34px;gap:20px}.desktop-sidebar{display:flex;position:sticky;top:104px;align-self:start;height:calc(100vh - 128px);overflow:auto;flex-direction:column;background:rgba(255,255,255,.94);border:1px solid rgba(226,232,240,.92);border-radius:28px;box-shadow:var(--app-shadow);padding:18px 12px}.subnav{position:sticky;top:82px;border:1px solid rgba(226,232,240,.92);border-radius:24px;margin:0 0 14px;background:rgba(255,255,255,.88);box-shadow:0 8px 22px rgba(15,23,42,.05);padding:12px}.main-area{min-width:0}main{max-width:none;padding:0 0 42px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.quick-menu-toggle{right:22px}.quick-actions-panel .global-actions{justify-content:flex-end;max-width:1440px;padding-right:30px}
+}
+@media (max-width:860px){.app-header{min-height:64px;padding:12px 56px 11px}.quick-actions-panel{top:64px}.mobile-tabs{top:64px;padding:10px 12px}.nav-btn{padding:10px 14px;min-height:42px}.subnav{top:116px;padding:9px 12px}.quick-actions-panel .global-actions .btn{flex:1 1 calc(50% - 8px);min-width:0}.card{border-radius:20px;padding:15px}.kpi{border-radius:18px}.outputs textarea,.large-text{min-height:210px}}
+@media print{.app-header,.quick-actions-panel,.desktop-sidebar,.mobile-tabs,.subnav{display:none!important}.app-shell{display:block;padding:0}main{max-width:none;padding:0}.view{display:block}.footer{display:none}}
+
 </style></head>
 <body>
 <div aria-live="polite" class="toast" id="toast"></div>
-<header class="hero">
-<div>
-<p class="eyebrow">No API · 수동 게시 · 카드뉴스 · 정책검수 · 수익모델 · 벤치마킹 · 실전 리포트 · ChatGPT 프롬프트 · 트렌드 리서치 · v8.1</p>
+<header class="app-header">
 <h1>멀티 SNS 수익화 관리자 Pro</h1>
-<p class="lead">Threads 글을 Instagram 카드뉴스, Facebook 글, 블로그 목차, 링크허브, 정책 변화 대응, 수익모델, 벤치마킹 인사이트, 링크 클릭 기록, 월간 PDF 리포트, 실전 점검, 성과 누락 알림, 캠페인별 미디어킷, ChatGPT/Gemini 복사용 프롬프트, 트렌드 키워드 수익화 리서치, 상품 후보 수익성 분석, 실전 운영 보드, v8.1 전환 플로우까지 캠페인 단위로 관리합니다.</p>
-</div>
-<div class="hero-actions">
+<button aria-label="빠른 실행 메뉴" class="quick-menu-toggle" id="quickMenuToggle" type="button">⋯</button>
+</header>
+<div class="quick-actions-panel" id="quickActionsPanel">
+<section aria-label="빠른 실행" class="global-actions">
 <button class="btn btn-ghost hidden" id="installBtn">앱 설치</button>
 <button class="btn btn-secondary" id="seedBtn">기본 샘플</button>
 <button class="btn btn-primary" id="samplePackBtn">실전 샘플팩</button>
 <button class="btn btn-danger-soft" id="resetBtn">초기화</button>
+</section>
 </div>
-</header><section class="section-card update-note" style="margin:0 auto 14px;max-width:1180px;"><div class="notice good"><strong>v8.1 개인용 간소화판</strong><br/>이 버전은 app.js와 style.css를 index.html 안에 통합했습니다. 처음 GitHub 등록 시 index.html, manifest.json, service-worker.js, icon.svg 4개만 올리고, 이후 업그레이드는 대부분 index.html만 교체하면 됩니다.</div></section>
-<nav aria-label="앱 메뉴" class="tabs">
-<button class="tab active" data-view="dashboard">대시보드</button>
-<button class="tab" data-view="campaigns">캠페인</button>
-<button class="tab" data-view="trends">트렌드 수집</button>
-<button class="tab" data-view="assets">상품·맛집DB</button>
-<button class="tab" data-view="writer">멀티SNS 글쓰기</button>
-<button class="tab" data-view="cardnews">카드뉴스 제작소</button>
-<button class="tab" data-view="planner">게시계획</button>
-<button class="tab" data-view="performance">성과기록</button>
-<button class="tab" data-view="revenueModels">수익모델</button>
-<button class="tab" data-view="links">링크허브</button>
-<button class="tab" data-view="blog">블로그·협찬</button>
-<button class="tab" data-view="chatgptPrompts">ChatGPT 프롬프트</button>
-<button class="tab" data-view="policyCenter">정책센터</button>
-<button class="tab" data-view="infoNotes">정보수집</button>
-<button class="tab" data-view="benchmark">벤치마킹</button>
-<button class="tab" data-view="updateTasks">업데이트추천</button>
-<button class="tab" data-view="report">리포트</button>
-<button class="tab" data-view="preflight">실전점검</button>
-<button class="tab" data-view="backup">백업</button>
+<div class="app-shell">
+<aside aria-label="태블릿·PC 메뉴" class="desktop-sidebar">
+<img alt="앱 아이콘" class="side-logo" src="icon.svg"/>
+<button class="nav-btn side-nav-btn active" data-view="dashboard" type="button"><span class="ico">⌂</span><span>홈</span></button>
+<button class="nav-btn side-nav-btn" data-view="trends" type="button"><span class="ico">⌕</span><span>수집</span></button>
+<button class="nav-btn side-nav-btn" data-view="assets" type="button"><span class="ico">DB</span><span>소재DB</span></button>
+<button class="nav-btn side-nav-btn" data-view="campaigns" type="button"><span class="ico">◉</span><span>캠페인</span></button>
+<button class="nav-btn side-nav-btn" data-view="writer" type="button"><span class="ico">✎</span><span>콘텐츠 제작</span></button>
+<button class="nav-btn side-nav-btn" data-view="planner" type="button"><span class="ico">□</span><span>게시관리</span></button>
+<button class="nav-btn side-nav-btn" data-view="links" type="button"><span class="ico">🔗</span><span>링크허브</span></button>
+<button class="nav-btn side-nav-btn" data-view="performance" type="button"><span class="ico">▥</span><span>성과분석</span></button>
+<button class="nav-btn side-nav-btn" data-view="policyCenter" type="button"><span class="ico">◇</span><span>정책·관리</span></button>
+<button class="nav-btn side-nav-btn" data-view="backup" type="button"><span class="ico">☁</span><span>백업</span></button>
+</aside>
+<div class="main-area">
+<nav aria-label="스마트폰 메뉴" class="mobile-tabs">
+<button class="nav-btn mobile-main active" data-group="dashboard" data-view="dashboard" type="button">대시보드</button>
+<button class="nav-btn mobile-main" data-group="content" data-view="writer" type="button">콘텐츠</button>
+<button class="nav-btn mobile-main" data-group="campaign" data-view="campaigns" type="button">캠페인</button>
+<button class="nav-btn mobile-main" data-group="links" data-view="links" type="button">링크허브</button>
+<button class="nav-btn mobile-main" data-group="analysis" data-view="performance" type="button">분석</button>
+<button class="nav-btn mobile-main" data-group="settings" data-view="backup" type="button">설정</button>
 </nav>
+<nav aria-label="세부 기능" class="subnav" id="subnav"></nav>
 <main>
 <section class="view active" id="dashboard">
 <div class="kpis" id="kpis"></div>
@@ -873,7 +916,9 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
 </div>
 </section>
 </main>
-<footer class="footer">수익 보장 앱이 아니라 수익화 실험과 장기 업데이트를 체계화하는 관리 도구입니다. 제휴·협찬 글은 반드시 표시문구와 플랫폼 정책을 확인하세요.</footer>
+</div>
+</div>
+<footer class="footer" aria-hidden="true"></footer>
 
 <script id="inline-app-v8-1">
 (() => {
@@ -910,7 +955,7 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
     check: { bg: '#ecfdf5', ink: '#064e3b', sub: '#047857', title: '#059669', box: '#ffffff', label: '체크리스트형' }
   };
 
-  let state = load();
+  let state;
   let outputs = {};
   let currentCards = [];
   let currentCardIndex = 0;
@@ -926,6 +971,8 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
   const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const money = (n) => Math.round(num(n)).toLocaleString('ko-KR') + '원';
   const pct = (a, b) => b ? (a / b * 100).toFixed(1) + '%' : '0%';
+
+  state = load();
 
   function defaultScoreWeights() { return { clicks: 6, saves: 4, shares: 5, comments: 3, purchases: 25, profileVisits: 1, netUnit: 1000, ctrBonus: 30, roiBonus: 20 }; }
   function defaultLinkHubSettings() { return { title: '추천 링크 모음', intro: '구매 전 체크포인트, 비교표, 상세 리뷰를 모아두었습니다.', theme: 'clean', primary: '', disclosure: 'affiliate' }; }
@@ -958,6 +1005,24 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
   function save() { state = migrate(state); localStorage.setItem(APP_KEY, JSON.stringify(state)); renderAll(); }
   function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 2200); }
   function copy(text) { navigator.clipboard?.writeText(text).then(() => toast('복사했습니다.')).catch(() => { prompt('아래 내용을 복사하세요.', text); }); }
+
+  const NAV_GROUPS = {
+    dashboard: [['홈', 'dashboard']],
+    content: [['트렌드 수집', 'trends'], ['상품·맛집DB', 'assets'], ['멀티SNS 글쓰기', 'writer'], ['카드뉴스 제작소', 'cardnews'], ['블로그·협찬', 'blog'], ['ChatGPT 프롬프트', 'chatgptPrompts'], ['정보수집', 'infoNotes'], ['벤치마킹', 'benchmark']],
+    campaign: [['캠페인', 'campaigns'], ['수익모델', 'revenueModels'], ['게시계획', 'planner'], ['실전점검', 'preflight']],
+    links: [['링크허브', 'links']],
+    analysis: [['성과기록', 'performance'], ['리포트', 'report'], ['업데이트추천', 'updateTasks']],
+    settings: [['정책센터', 'policyCenter'], ['백업', 'backup'], ['실전점검', 'preflight']]
+  };
+  const VIEW_TO_GROUP = Object.entries(NAV_GROUPS).reduce((m, [group, items]) => { items.forEach(([, view]) => { if (!m[view]) m[view] = group; }); return m; }, {});
+  function viewGroup(name) { return VIEW_TO_GROUP[name] || 'dashboard'; }
+  function renderSubnav(activeView) {
+    const box = $('#subnav'); if (!box) return;
+    const group = viewGroup(activeView);
+    const items = NAV_GROUPS[group] || NAV_GROUPS.dashboard;
+    box.innerHTML = items.map(([label, view]) => `<button class="subtab ${view === activeView ? 'active' : ''}" data-subview="${esc(view)}" type="button">${esc(label)}</button>`).join('');
+    $$('[data-subview]', box).forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.subview)));
+  }
   function download(name, content, type = 'text/plain') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([content], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 800); }
   function getCampaign(cid) { return state.campaigns.find(c => c.id === cid) || {}; }
   function getAsset(aid) { return state.assets.find(a => a.id === aid) || {}; }
@@ -969,13 +1034,13 @@ main{max-width:1280px;margin:0 auto;padding:18px}.view{display:none}.view.active
   }
 
   function bindTabs() {
-    $$('.tab').forEach(btn => btn.addEventListener('click', () => {
-      $$('.tab').forEach(b => b.classList.remove('active'));
-      $$('.view').forEach(v => v.classList.remove('active'));
-      btn.classList.add('active'); $('#' + btn.dataset.view).classList.add('active');
-      if (btn.dataset.view === 'cardnews') drawCard();
-      if (btn.dataset.view === 'dashboard') drawChannelChart();
-    }));
+    $$('.nav-btn[data-view]').forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
+    const quick = $('#quickMenuToggle'), panel = $('#quickActionsPanel');
+    if (quick && panel) {
+      quick.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('open'); });
+      document.addEventListener('click', (e) => { if (!panel.contains(e.target) && e.target !== quick) panel.classList.remove('open'); });
+    }
+    renderSubnav('dashboard');
   }
   function bindInstall() {
     window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; $('#installBtn').classList.remove('hidden'); });
@@ -1464,8 +1529,18 @@ ${raw}`; }
   }
 
   function switchView(name) {
-    $$('.tab').forEach(b => b.classList.toggle('active', b.dataset.view === name));
+    const target = $('#' + name); if (!target) return;
+    const group = viewGroup(name);
+    $$('.nav-btn[data-view]').forEach(b => {
+      const sameView = b.dataset.view === name;
+      const sameMobileGroup = b.classList.contains('mobile-main') && b.dataset.group === group;
+      b.classList.toggle('active', sameView || sameMobileGroup);
+    });
     $$('.view').forEach(v => v.classList.toggle('active', v.id === name));
+    renderSubnav(name);
+    if (name === 'cardnews') drawCard();
+    if (name === 'dashboard') drawChannelChart();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   function fillWriterFromAsset() {
     const a = getAsset($('#wAsset').value); if (!a.id) return;
@@ -1750,7 +1825,23 @@ ${raw}`; }
     const featured = sorted.find(l => primaryType ? l.type === primaryType : /쿠팡|블로그|비교표/.test(l.type));
     const featuredHtml = featured ? `<a class="featured" href="${esc(featured.url)}" target="_blank" rel="noopener"><small>오늘의 대표 링크</small><b>${esc(featured.title)}</b><span>${esc(featured.desc || featured.type)}</span></a>` : '';
     const sections = Object.entries(grouped).map(([type, arr]) => `<section class="group"><h2>${esc(type)}</h2>${arr.map(l => `<a class="link" href="${esc(l.url)}" target="_blank" rel="noopener"><b>${esc(l.title)}</b><span>${esc(l.desc || '')}</span></a>`).join('')}</section>`).join('');
-    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>:root{--bg:${theme.bg};--card:${theme.card};--ink:${theme.ink};--muted:${theme.muted};--accent:${theme.accent}}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,var(--card),var(--bg) 360px);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:720px;margin:0 auto;padding:30px 18px 54px}.profile{border:1px solid rgba(148,163,184,.35);background:var(--card);border-radius:28px;padding:24px;box-shadow:0 18px 42px rgba(15,23,42,.12)}h1{font-size:30px;margin:0 0 8px}.intro{color:var(--muted);line-height:1.6}.notice{font-size:13px;color:var(--muted);border-left:4px solid var(--accent);padding:8px 10px;background:rgba(148,163,184,.12);border-radius:12px}.featured,.link{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid rgba(148,163,184,.35);border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 10px 28px rgba(15,23,42,.08)}.featured{border:2px solid var(--accent);background:linear-gradient(135deg,rgba(37,99,235,.14),var(--card))}.featured small{display:block;color:var(--accent);font-weight:900;margin-bottom:4px}.featured b,.link b{display:block;font-size:17px}.featured span,.link span{display:block;color:var(--muted);margin-top:5px;font-size:14px}.group h2{font-size:17px;margin:22px 0 8px}footer{color:var(--muted);font-size:12px;text-align:center;margin-top:26px}@media(max-width:520px){.wrap{padding:18px 12px}.profile{padding:20px;border-radius:22px}h1{font-size:25px}.featured,.link{padding:15px}}</style></head><body><main class="wrap"><div class="profile"><h1>${esc(title)}</h1><p class="intro">${esc(intro)}</p>${notice ? `<p class="notice">${esc(notice)}</p>` : ''}</div>${featuredHtml}${sections || '<p>아직 등록된 링크가 없습니다.</p>'}<footer>가격, 정책, 재고는 확인 시점에 따라 달라질 수 있습니다.</footer></main></body></html>`;
+    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title><style>:root{--bg:${theme.bg};--card:${theme.card};--ink:${theme.ink};--muted:${theme.muted};--accent:${theme.accent}}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,var(--card),var(--bg) 360px);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:720px;margin:0 auto;padding:30px 18px 54px}.profile{border:1px solid rgba(148,163,184,.35);background:var(--card);border-radius:28px;padding:24px;box-shadow:0 18px 42px rgba(15,23,42,.12)}h1{font-size:30px;margin:0 0 8px}.intro{color:var(--muted);line-height:1.6}.notice{font-size:13px;color:var(--muted);border-left:4px solid var(--accent);padding:8px 10px;background:rgba(148,163,184,.12);border-radius:12px}.featured,.link{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:1px solid rgba(148,163,184,.35);border-radius:20px;padding:17px;margin:12px 0;box-shadow:0 10px 28px rgba(15,23,42,.08)}.featured{border:2px solid var(--accent);background:linear-gradient(135deg,rgba(37,99,235,.14),var(--card))}.featured small{display:block;color:var(--accent);font-weight:900;margin-bottom:4px}.featured b,.link b{display:block;font-size:17px}.featured span,.link span{display:block;color:var(--muted);margin-top:5px;font-size:14px}.group h2{font-size:17px;margin:22px 0 8px}footer{color:var(--muted);font-size:12px;text-align:center;margin-top:26px}@media(max-width:520px){.wrap{padding:18px 12px}.profile{padding:20px;border-radius:22px}h1{font-size:25px}.featured,.link{padding:15px}}
+/* v8.2 심플 UI 리프레시 */
+body{background:#f4f6fb;color:#0f172a}
+.hero{max-width:none;margin:0;padding:18px 20px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.18);display:flex;align-items:center;justify-content:center;min-height:74px;box-shadow:0 8px 30px rgba(15,23,42,.05)}
+.hero h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.03em;text-align:center}
+.tabs{top:0;background:rgba(244,246,251,.88);border-bottom:1px solid rgba(148,163,184,.16);padding:10px 14px 12px;gap:10px}
+.tab{background:#ffffff;border:1px solid #e2e8f0;color:#334155;padding:11px 15px;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.tab.active{background:#0f172a;color:#fff;border-color:#0f172a;box-shadow:0 10px 22px rgba(15,23,42,.16)}
+.global-actions{max-width:1280px;margin:16px auto 0;padding:0 18px;display:flex;gap:10px;flex-wrap:wrap}
+.global-actions .btn{border-radius:16px;min-height:44px;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+main{padding:16px 18px 24px}
+.card{border:1px solid rgba(226,232,240,.95);border-radius:22px;box-shadow:0 12px 28px rgba(15,23,42,.06)}
+.kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
+.item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
+@media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+</style></head><body><main class="wrap"><div class="profile"><h1>${esc(title)}</h1><p class="intro">${esc(intro)}</p>${notice ? `<p class="notice">${esc(notice)}</p>` : ''}</div>${featuredHtml}${sections || '<p>아직 등록된 링크가 없습니다.</p>'}<footer>가격, 정책, 재고는 확인 시점에 따라 달라질 수 있습니다.</footer></main></body></html>`;
   }
 
 
@@ -2217,7 +2308,23 @@ ${raw}`; }
     const linkRows = linkClickRowsForReport().map(r => [r.link.title, r.link.type, r.clicks, Object.entries(r.sources).sort((a,b)=>sum(b[1],'clicks')-sum(a[1],'clicks'))[0]?.[0] || '-', r.count]);
     const table = (heads, rows) => `<table><thead><tr>${heads.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length ? rows.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('') : `<tr><td colspan="${heads.length}">데이터 없음</td></tr>`}</tbody></table>`;
     const recs = recommendations().slice(0, 5).map(r => `<li><b>${esc(r.title)}</b> - ${esc(r.body)}</li>`).join('');
-    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>멀티 SNS 월간 리포트 ${today()}</title><style>body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;margin:0;background:#f8fafc}.wrap{max-width:980px;margin:0 auto;background:#fff;padding:34px}h1{font-size:30px;margin:0 0 8px}h2{margin-top:28px;border-bottom:2px solid #e5e7eb;padding-bottom:8px}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px;border-radius:10px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.kpi{border:1px solid #e5e7eb;border-radius:14px;padding:14px;background:#f8fafc}.kpi b{display:block;font-size:21px}table{width:100%;border-collapse:collapse;margin:10px 0 18px}th,td{border:1px solid #d1d5db;padding:9px;text-align:left;font-size:13px}th{background:#e0ecff}li{margin:8px 0}.footer{font-size:12px;color:#64748b;margin-top:28px}@media print{body{background:#fff}.wrap{padding:0;max-width:none}.no-print{display:none}.kpis{grid-template-columns:repeat(2,1fr)}h2{break-after:avoid}table{break-inside:auto}}</style></head><body><main class="wrap"><div class="no-print"><button onclick="window.print()">PDF로 저장/인쇄</button></div><h1>멀티 SNS 수익화 월간 리포트</h1><p>작성일: ${today()} / 기간: ${esc($('#reportRange')?.selectedOptions?.[0]?.textContent || '최근 30일')}</p><p class="note">수익은 보장되지 않으며 콘텐츠 품질, 트래픽, 전환율, 플랫폼 정책, 상품 선택, 운영량에 따라 달라집니다.</p><section class="kpis"><div class="kpi"><span>순수익</span><b>${money(net)}</b></div><div class="kpi"><span>CTR</span><b>${pct(clicks, views)}</b></div><div class="kpi"><span>구매/문의</span><b>${purchases}</b></div><div class="kpi"><span>등급</span><b>${g.grade} · ${Math.round(score)}점</b></div></section><h2>채널별 성과</h2>${table(['채널','조회','클릭','CTR','구매/문의','순수익'], channelRows)}<h2>카드뉴스 템플릿별 성과</h2>${table(['템플릿','개수','저장','클릭','구매/문의','순수익','점수'], templateRows)}<h2>링크허브 클릭 리포트</h2>${table(['링크','유형','클릭','상위 유입','기록 건수'], linkRows)}<h2>다음 행동 추천</h2><ol>${recs || '<li>성과 데이터를 먼저 입력하세요.</li>'}</ol><p class="footer">이 리포트는 브라우저에서 생성되는 인쇄용 HTML입니다. 자동 게시, 자동 로그인, 외부 크롤링 없이 수동 기록 데이터를 기준으로 합니다.</p></main></body></html>`;
+    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>멀티 SNS 월간 리포트 ${today()}</title><style>body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;margin:0;background:#f8fafc}.wrap{max-width:980px;margin:0 auto;background:#fff;padding:34px}h1{font-size:30px;margin:0 0 8px}h2{margin-top:28px;border-bottom:2px solid #e5e7eb;padding-bottom:8px}.note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px;border-radius:10px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0}.kpi{border:1px solid #e5e7eb;border-radius:14px;padding:14px;background:#f8fafc}.kpi b{display:block;font-size:21px}table{width:100%;border-collapse:collapse;margin:10px 0 18px}th,td{border:1px solid #d1d5db;padding:9px;text-align:left;font-size:13px}th{background:#e0ecff}li{margin:8px 0}.footer{font-size:12px;color:#64748b;margin-top:28px}@media print{body{background:#fff}.wrap{padding:0;max-width:none}.no-print{display:none}.kpis{grid-template-columns:repeat(2,1fr)}h2{break-after:avoid}table{break-inside:auto}}
+/* v8.2 심플 UI 리프레시 */
+body{background:#f4f6fb;color:#0f172a}
+.hero{max-width:none;margin:0;padding:18px 20px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.18);display:flex;align-items:center;justify-content:center;min-height:74px;box-shadow:0 8px 30px rgba(15,23,42,.05)}
+.hero h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.03em;text-align:center}
+.tabs{top:0;background:rgba(244,246,251,.88);border-bottom:1px solid rgba(148,163,184,.16);padding:10px 14px 12px;gap:10px}
+.tab{background:#ffffff;border:1px solid #e2e8f0;color:#334155;padding:11px 15px;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.tab.active{background:#0f172a;color:#fff;border-color:#0f172a;box-shadow:0 10px 22px rgba(15,23,42,.16)}
+.global-actions{max-width:1280px;margin:16px auto 0;padding:0 18px;display:flex;gap:10px;flex-wrap:wrap}
+.global-actions .btn{border-radius:16px;min-height:44px;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+main{padding:16px 18px 24px}
+.card{border:1px solid rgba(226,232,240,.95);border-radius:22px;box-shadow:0 12px 28px rgba(15,23,42,.06)}
+.kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
+.item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
+@media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+</style></head><body><main class="wrap"><div class="no-print"><button onclick="window.print()">PDF로 저장/인쇄</button></div><h1>멀티 SNS 수익화 월간 리포트</h1><p>작성일: ${today()} / 기간: ${esc($('#reportRange')?.selectedOptions?.[0]?.textContent || '최근 30일')}</p><p class="note">수익은 보장되지 않으며 콘텐츠 품질, 트래픽, 전환율, 플랫폼 정책, 상품 선택, 운영량에 따라 달라집니다.</p><section class="kpis"><div class="kpi"><span>순수익</span><b>${money(net)}</b></div><div class="kpi"><span>CTR</span><b>${pct(clicks, views)}</b></div><div class="kpi"><span>구매/문의</span><b>${purchases}</b></div><div class="kpi"><span>등급</span><b>${g.grade} · ${Math.round(score)}점</b></div></section><h2>채널별 성과</h2>${table(['채널','조회','클릭','CTR','구매/문의','순수익'], channelRows)}<h2>카드뉴스 템플릿별 성과</h2>${table(['템플릿','개수','저장','클릭','구매/문의','순수익','점수'], templateRows)}<h2>링크허브 클릭 리포트</h2>${table(['링크','유형','클릭','상위 유입','기록 건수'], linkRows)}<h2>다음 행동 추천</h2><ol>${recs || '<li>성과 데이터를 먼저 입력하세요.</li>'}</ol><p class="footer">이 리포트는 브라우저에서 생성되는 인쇄용 HTML입니다. 자동 게시, 자동 로그인, 외부 크롤링 없이 수동 기록 데이터를 기준으로 합니다.</p></main></body></html>`;
   }
 
 
@@ -2510,7 +2617,23 @@ ${raw}`; }
   }
   function mediaKitHtmlFromText(text) {
     const blocks = text.split('\n').map(line => line.startsWith('# ') ? `<h1>${esc(line.slice(2))}</h1>` : line.startsWith('## ') ? `<h2>${esc(line.slice(3))}</h2>` : line.startsWith('- ') ? `<li>${esc(line.slice(2))}</li>` : line.trim() ? `<p>${esc(line)}</p>` : '').join('').replace(/(<li>.*?<\/li>)+/g, m => `<ul>${m}</ul>`);
-    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>캠페인 미디어킷</title><style>body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;margin:0;background:#f8fafc}.page{max-width:880px;margin:0 auto;background:#fff;padding:42px;min-height:100vh}h1{font-size:32px;margin:0 0 18px;color:#1f4e79}h2{font-size:20px;margin:24px 0 10px;color:#1f4e79}p,li{line-height:1.7;color:#334155}.notice{border-left:4px solid #2563eb;background:#eff6ff;padding:12px 14px;border-radius:12px}@media print{body{background:#fff}.page{padding:20mm;box-shadow:none}}</style></head><body><main class="page">${blocks}<p class="notice">본 미디어킷은 사용자가 직접 기록한 수동 운영 데이터 기준입니다.</p></main></body></html>`;
+    return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>캠페인 미디어킷</title><style>body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;margin:0;background:#f8fafc}.page{max-width:880px;margin:0 auto;background:#fff;padding:42px;min-height:100vh}h1{font-size:32px;margin:0 0 18px;color:#1f4e79}h2{font-size:20px;margin:24px 0 10px;color:#1f4e79}p,li{line-height:1.7;color:#334155}.notice{border-left:4px solid #2563eb;background:#eff6ff;padding:12px 14px;border-radius:12px}@media print{body{background:#fff}.page{padding:20mm;box-shadow:none}}
+/* v8.2 심플 UI 리프레시 */
+body{background:#f4f6fb;color:#0f172a}
+.hero{max-width:none;margin:0;padding:18px 20px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.18);display:flex;align-items:center;justify-content:center;min-height:74px;box-shadow:0 8px 30px rgba(15,23,42,.05)}
+.hero h1{margin:0;font-size:clamp(22px,4vw,30px);font-weight:900;letter-spacing:-.03em;text-align:center}
+.tabs{top:0;background:rgba(244,246,251,.88);border-bottom:1px solid rgba(148,163,184,.16);padding:10px 14px 12px;gap:10px}
+.tab{background:#ffffff;border:1px solid #e2e8f0;color:#334155;padding:11px 15px;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.tab.active{background:#0f172a;color:#fff;border-color:#0f172a;box-shadow:0 10px 22px rgba(15,23,42,.16)}
+.global-actions{max-width:1280px;margin:16px auto 0;padding:0 18px;display:flex;gap:10px;flex-wrap:wrap}
+.global-actions .btn{border-radius:16px;min-height:44px;box-shadow:0 8px 22px rgba(15,23,42,.06)}
+main{padding:16px 18px 24px}
+.card{border:1px solid rgba(226,232,240,.95);border-radius:22px;box-shadow:0 12px 28px rgba(15,23,42,.06)}
+.kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
+.item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
+@media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+</style></head><body><main class="page">${blocks}<p class="notice">본 미디어킷은 사용자가 직접 기록한 수동 운영 데이터 기준입니다.</p></main></body></html>`;
   }
   function generateMediaKit() {
     const text = generateMediaKitText();

@@ -1,7 +1,7 @@
 {
-  "name": "멀티 SNS 수익화 관리자 Pro v8.1 개인용 간소화판",
+  "name": "멀티 SNS 수익화 관리자 Pro v8.3 반응형 혼합 UI",
   "short_name": "SNS수익Pro",
-  "description": "index.html 중심으로 업그레이드할 수 있는 개인용 수동 게시형 멀티 SNS 수익화 PWA",
+  "description": "스마트폰은 2안형 상단 탭, 태블릿/PC는 4안형 사이드바로 작동하는 개인용 수동 게시형 멀티 SNS 수익화 PWA",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

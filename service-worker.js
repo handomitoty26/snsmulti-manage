@@ -1,4 +1,4 @@
-const CACHE_NAME = 'multi-sns-profit-v8.1-personal-icon2';
+const CACHE_NAME = 'multi-sns-profit-v8.3-hybrid-ui';
 const CORE_ASSETS = ['./index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {
