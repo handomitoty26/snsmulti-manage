@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.3 반응형 UI</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.3.1 대시보드 반영</title>
 <link href="manifest.json" rel="manifest"/>
 
 <link href="icon.svg" rel="icon" type="image/svg+xml"/>
@@ -91,6 +91,22 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 @media (max-width:860px){.app-header{min-height:64px;padding:12px 56px 11px}.quick-actions-panel{top:64px}.mobile-tabs{top:64px;padding:10px 12px}.nav-btn{padding:10px 14px;min-height:42px}.subnav{top:116px;padding:9px 12px}.quick-actions-panel .global-actions .btn{flex:1 1 calc(50% - 8px);min-width:0}.card{border-radius:20px;padding:15px}.kpi{border-radius:18px}.outputs textarea,.large-text{min-height:210px}}
 @media print{.app-header,.quick-actions-panel,.desktop-sidebar,.mobile-tabs,.subnav{display:none!important}.app-shell{display:block;padding:0}main{max-width:none;padding:0}.view{display:block}.footer{display:none}}
 
+
+
+/* v8.3.1 2안 대시보드 실구현 보강 */
+.dash-card{overflow:hidden}
+.dash-card h2{letter-spacing:-.035em}
+.dash-date{color:var(--app-muted);font-size:13px;font-weight:800;white-space:nowrap}
+.dash-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dash-metric{border:1px solid rgba(226,232,240,.95);background:linear-gradient(180deg,#fff,#fbfcff);border-radius:22px;padding:16px;min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:center;box-shadow:0 8px 22px rgba(15,23,42,.04)}
+.dash-icon{width:46px;height:46px;border-radius:17px;margin:0 auto 2px;display:grid;place-items:center;font-size:22px;background:#fff7e6;color:#9a6508}
+.dash-icon.blue{background:#eff6ff;color:#2563eb}.dash-icon.green{background:#ecfdf5;color:#059669}.dash-icon.purple{background:#f5f3ff;color:#7c3aed}
+.dash-label{font-size:13px;color:#64748b;font-weight:900}.dash-value{font-size:clamp(22px,4vw,30px);font-weight:950;letter-spacing:-.045em;color:#111}.dash-delta{font-size:13px;font-weight:900;color:#c7922b}
+.dash-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.dash-list{display:flex;flex-direction:column;gap:10px}.dash-content-row{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;border:1px solid #eef1f5;border-radius:18px;padding:10px;background:#fff}.dash-thumb{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:950;background:#f8fafc;color:#111;border:1px solid #e5e7eb}.dash-content-row h3{margin:0 0 3px;font-size:15px;line-height:1.28}.dash-content-row p{margin:0;color:#64748b;font-size:12px;font-weight:700}.dash-count{font-weight:950;color:#111;white-space:nowrap}.dash-overview{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}.dash-donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#111 0 0,#f3f4f6 0 100%);position:relative}.dash-donut:after{content:"";position:absolute;inset:24px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px #edf0f4}.dash-donut b{position:relative;z-index:1;font-size:28px;letter-spacing:-.05em}.dash-donut span{position:relative;z-index:1;color:#64748b;font-size:12px;font-weight:900}.dash-legend{display:flex;flex-direction:column;gap:8px}.dash-legend-row{display:flex;justify-content:space-between;gap:10px;color:#475569;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.dot.black{background:#111}.dot.gold{background:#c7922b}.dot.gray{background:#cbd5e1}.dot.green{background:#10b981}
+.dash-wide{grid-column:1/-1}.link-summary{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:18px;align-items:center}.link-total{background:linear-gradient(135deg,#181818,#303030);color:#fff;border-radius:20px;padding:18px}.link-total span{display:block;color:#f8d98d;font-weight:900}.link-total b{display:block;font-size:30px;letter-spacing:-.04em}.sparkline{width:100%;min-height:120px}.top-link-row{display:grid;grid-template-columns:34px 1fr 74px 74px;gap:10px;align-items:center;border-top:1px solid #eef1f5;padding:10px 0}.rank-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f5e4bb;color:#6b4707;font-weight:950}.top-link-row h3{margin:0;font-size:14px}.top-link-row p{margin:2px 0 0;font-size:12px;color:#2563eb;word-break:break-all}.metric-mini{font-size:12px;color:#64748b;font-weight:800}.metric-mini b{display:block;color:#111;font-size:15px}
+@media(max-width:860px){.dash-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.dash-overview{grid-template-columns:1fr;text-align:center}.dash-donut{margin:0 auto}.link-summary{grid-template-columns:1fr}.top-link-row{grid-template-columns:30px 1fr;align-items:start}.top-link-row .metric-mini{grid-column:2/-1;display:inline-block;margin-right:16px}.dash-content-row{grid-template-columns:42px 1fr}.dash-content-row .dash-count{grid-column:2/-1}}
+@media(max-width:420px){.dash-summary-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-metric{padding:13px;min-height:118px}.dash-value{font-size:21px}.dash-icon{width:40px;height:40px;border-radius:14px}}
+
 </style></head>
 <body>
 <div aria-live="polite" class="toast" id="toast"></div>
@@ -101,6 +117,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <div class="quick-actions-panel" id="quickActionsPanel">
 <section aria-label="빠른 실행" class="global-actions">
 <button class="btn btn-ghost hidden" id="installBtn">앱 설치</button>
+<button class="btn btn-ghost" id="refreshAppBtn">최신화</button>
 <button class="btn btn-secondary" id="seedBtn">기본 샘플</button>
 <button class="btn btn-primary" id="samplePackBtn">실전 샘플팩</button>
 <button class="btn btn-danger-soft" id="resetBtn">초기화</button>
@@ -132,25 +149,26 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <nav aria-label="세부 기능" class="subnav" id="subnav"></nav>
 <main>
 <section class="view active" id="dashboard">
-<div class="kpis" id="kpis"></div>
-<div class="grid two">
-<article class="card">
-<div class="card-head"><h2>오늘 할 일</h2><button class="mini" id="refreshDashboard">새로고침</button></div>
-<div class="list" id="todayTasks"></div>
+<article class="card dash-card">
+<div class="card-head"><h2>오늘의 요약</h2><span class="dash-date" id="dashboardDate"></span></div>
+<div class="dash-summary-grid" id="dashboardSummary"></div>
 </article>
-<article class="card">
-<h2>수익 기회 TOP</h2>
-<div class="list" id="profitOpportunities"></div>
+<div class="dash-grid">
+<article class="card dash-card">
+<div class="card-head"><h2>최근 콘텐츠</h2><button class="mini" id="refreshDashboard">새로고침</button></div>
+<div class="dash-list" id="recentContentDashboard"></div>
 </article>
-</div>
-<div class="grid two">
-<article class="card">
-<h2>채널별 순수익</h2>
-<canvas class="chart" height="360" id="channelChart" width="900"></canvas>
+<article class="card dash-card">
+<div class="card-head"><h2>캠페인 개요</h2><button class="mini" id="dashboardCreateCampaign" type="button">캠페인 만들기</button></div>
+<div id="campaignOverviewDashboard"></div>
 </article>
-<article class="card">
-<h2>다음 행동 추천</h2>
-<div class="list" id="nextActions"></div>
+<article class="card dash-card dash-wide">
+<div class="card-head"><h2>링크 성과</h2><span class="dash-date">프로필·링크허브 클릭 기준</span></div>
+<div id="dashboardLinkPerformance"></div>
+</article>
+<article class="card dash-card dash-wide">
+<div class="card-head"><h2>상위 링크 TOP 3</h2><span class="dash-date">클릭 많은 링크</span></div>
+<div id="dashboardTopLinks"></div>
 </article>
 </div>
 </section>
@@ -1030,7 +1048,53 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 
   function init() {
     bindTabs(); bindInstall(); bindButtons(); setDates(); renderAll();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    initServiceWorkerUpdate();
+  }
+
+  async function initServiceWorkerUpdate() {
+    if (!('serviceWorker' in navigator)) return;
+    let refreshed = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshed) return;
+      refreshed = true;
+      window.location.reload();
+    });
+    try {
+      const reg = await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+      await reg.update();
+      if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      reg.addEventListener('updatefound', () => {
+        const worker = reg.installing;
+        if (!worker) return;
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+            worker.postMessage({ type: 'SKIP_WAITING' });
+          }
+        });
+      });
+    } catch (err) {
+      console.warn('service worker update skipped', err);
+    }
+  }
+
+  async function refreshAppVersion() {
+    toast('최신 버전 확인 중입니다. 잠시 후 새로고침됩니다.');
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (const reg of regs) {
+          await reg.update().catch(() => {});
+          if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      }
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.filter(k => k.startsWith('multi-sns-profit-')).map(k => caches.delete(k)));
+      }
+      await fetch('./index.html', { cache: 'reload' }).catch(() => {});
+    } finally {
+      window.location.reload();
+    }
   }
 
   function bindTabs() {
@@ -1047,6 +1111,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     $('#installBtn').addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; $('#installBtn').classList.add('hidden'); } });
   }
   function bindButtons() {
+    if ($('#refreshAppBtn')) $('#refreshAppBtn').onclick = refreshAppVersion;
     $('#seedBtn').onclick = seed;
     if ($('#samplePackBtn')) $('#samplePackBtn').onclick = loadSamplePack;
     if ($('#loadSamplePack')) $('#loadSamplePack').onclick = loadSamplePack;
@@ -1841,6 +1906,22 @@ main{padding:16px 18px 24px}
 .item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
 @media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
 
+
+
+/* v8.3.1 2안 대시보드 실구현 보강 */
+.dash-card{overflow:hidden}
+.dash-card h2{letter-spacing:-.035em}
+.dash-date{color:var(--app-muted);font-size:13px;font-weight:800;white-space:nowrap}
+.dash-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dash-metric{border:1px solid rgba(226,232,240,.95);background:linear-gradient(180deg,#fff,#fbfcff);border-radius:22px;padding:16px;min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:center;box-shadow:0 8px 22px rgba(15,23,42,.04)}
+.dash-icon{width:46px;height:46px;border-radius:17px;margin:0 auto 2px;display:grid;place-items:center;font-size:22px;background:#fff7e6;color:#9a6508}
+.dash-icon.blue{background:#eff6ff;color:#2563eb}.dash-icon.green{background:#ecfdf5;color:#059669}.dash-icon.purple{background:#f5f3ff;color:#7c3aed}
+.dash-label{font-size:13px;color:#64748b;font-weight:900}.dash-value{font-size:clamp(22px,4vw,30px);font-weight:950;letter-spacing:-.045em;color:#111}.dash-delta{font-size:13px;font-weight:900;color:#c7922b}
+.dash-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.dash-list{display:flex;flex-direction:column;gap:10px}.dash-content-row{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;border:1px solid #eef1f5;border-radius:18px;padding:10px;background:#fff}.dash-thumb{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:950;background:#f8fafc;color:#111;border:1px solid #e5e7eb}.dash-content-row h3{margin:0 0 3px;font-size:15px;line-height:1.28}.dash-content-row p{margin:0;color:#64748b;font-size:12px;font-weight:700}.dash-count{font-weight:950;color:#111;white-space:nowrap}.dash-overview{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}.dash-donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#111 0 0,#f3f4f6 0 100%);position:relative}.dash-donut:after{content:"";position:absolute;inset:24px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px #edf0f4}.dash-donut b{position:relative;z-index:1;font-size:28px;letter-spacing:-.05em}.dash-donut span{position:relative;z-index:1;color:#64748b;font-size:12px;font-weight:900}.dash-legend{display:flex;flex-direction:column;gap:8px}.dash-legend-row{display:flex;justify-content:space-between;gap:10px;color:#475569;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.dot.black{background:#111}.dot.gold{background:#c7922b}.dot.gray{background:#cbd5e1}.dot.green{background:#10b981}
+.dash-wide{grid-column:1/-1}.link-summary{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:18px;align-items:center}.link-total{background:linear-gradient(135deg,#181818,#303030);color:#fff;border-radius:20px;padding:18px}.link-total span{display:block;color:#f8d98d;font-weight:900}.link-total b{display:block;font-size:30px;letter-spacing:-.04em}.sparkline{width:100%;min-height:120px}.top-link-row{display:grid;grid-template-columns:34px 1fr 74px 74px;gap:10px;align-items:center;border-top:1px solid #eef1f5;padding:10px 0}.rank-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f5e4bb;color:#6b4707;font-weight:950}.top-link-row h3{margin:0;font-size:14px}.top-link-row p{margin:2px 0 0;font-size:12px;color:#2563eb;word-break:break-all}.metric-mini{font-size:12px;color:#64748b;font-weight:800}.metric-mini b{display:block;color:#111;font-size:15px}
+@media(max-width:860px){.dash-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.dash-overview{grid-template-columns:1fr;text-align:center}.dash-donut{margin:0 auto}.link-summary{grid-template-columns:1fr}.top-link-row{grid-template-columns:30px 1fr;align-items:start}.top-link-row .metric-mini{grid-column:2/-1;display:inline-block;margin-right:16px}.dash-content-row{grid-template-columns:42px 1fr}.dash-content-row .dash-count{grid-column:2/-1}}
+@media(max-width:420px){.dash-summary-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-metric{padding:13px;min-height:118px}.dash-value{font-size:21px}.dash-icon{width:40px;height:40px;border-radius:14px}}
+
 </style></head><body><main class="wrap"><div class="profile"><h1>${esc(title)}</h1><p class="intro">${esc(intro)}</p>${notice ? `<p class="notice">${esc(notice)}</p>` : ''}</div>${featuredHtml}${sections || '<p>아직 등록된 링크가 없습니다.</p>'}<footer>가격, 정책, 재고는 확인 시점에 따라 달라질 수 있습니다.</footer></main></body></html>`;
   }
 
@@ -2174,23 +2255,55 @@ main{padding:16px 18px 24px}
   }
 
   function renderDashboard() {
-    const totalRevenue = sum(state.performances, 'revenue') + sum(state.revenueModels, 'actualRevenue');
-    const totalCost = sum(state.performances, 'cost') + sum(state.campaigns, 'cost') + sum(state.revenueModels, 'cost');
-    const totalClicks = sum(state.performances, 'clicks'); const totalViews = sum(state.performances, 'views');
-    const pendingPolicies = state.policyUpdates.filter(p => p.status !== '반영완료').length;
-    const latestPolicyDate = state.policyUpdates.map(p => p.checkDate).filter(Boolean).sort().pop() || '-';
-    const runningModels = state.revenueModels.filter(m => m.status === '운영중').length;
-    const saBench = state.benchmarkCases.filter(b => ['S','A'].includes(benchmarkGrade(b).grade)).length;
-    const waitingUpdates = state.updateTasks.filter(t => ['대기','진행중'].includes(t.status)).length;
-    $('#kpis').innerHTML = [
-      ['순수익', money(totalRevenue - totalCost)], ['링크 클릭', totalClicks.toLocaleString('ko-KR')], ['CTR', pct(totalClicks, totalViews)], ['카드뉴스', state.cardNews.length.toLocaleString('ko-KR') + '개'],
-      ['최근 정책 확인일', latestPolicyDate], ['정책 반영 대기', pendingPolicies + '건'], ['운영중 수익모델', runningModels + '개'], ['정보 노트', state.infoNotes.length + '개'], ['S/A급 벤치마킹', saBench + '건'], ['업데이트 대기', waitingUpdates + '건'], ['성과 입력 누락', missingPerformanceItems().length + '건'], ['트렌드 상품후보', state.trendProductCandidates.length + '개']
-    ].map(([k, v]) => `<div class="kpi"><span>${k}</span><b>${v}</b></div>`).join('');
-    const todayItems = state.posts.concat(state.cardNews).filter(p => String(p.plannedAt || '').startsWith(today()) && p.status !== '완료');
-    $('#todayTasks').innerHTML = todayItems.length ? todayItems.map(p => `<div class="item"><h3>${esc(p.channel || 'Instagram')} · ${esc(titleOfPost(p))}</h3><p>${esc((p.text || p.caption || '').slice(0, 120))}</p></div>`).join('') : empty('오늘 예정된 콘텐츠가 없습니다.');
-    const opportunities = state.assets.map(a => ({ a, perf: perfByAsset(a.id) })).sort((x, y) => profitScore(y.perf) - profitScore(x.perf)).slice(0, 5);
-    $('#profitOpportunities').innerHTML = opportunities.length ? opportunities.map(x => `<div class="item"><h3>${esc(x.a.name)}</h3><div class="meta"><span class="badge gray">${x.a.type}</span><span class="badge good">점수 ${Math.round(profitScore(x.perf))}</span></div><p>다음 행동: ${nextActionByAsset(x.a, x.perf)}</p></div>`).join('') : empty('상품/성과 데이터가 쌓이면 추천이 표시됩니다.');
-    $('#nextActions').innerHTML = recommendations().slice(0, 7).map(r => `<div class="item"><h3>${esc(r.title)}</h3><p>${esc(r.body)}</p></div>`).join('');
+    const perfs = state.performances || [];
+    const totalRevenue = sum(perfs, 'revenue') + sum(state.revenueModels, 'actualRevenue');
+    const totalCost = sum(perfs, 'cost') + sum(state.campaigns, 'cost') + sum(state.revenueModels, 'cost');
+    const totalViews = sum(perfs, 'views');
+    const totalClicks = sum(perfs, 'clicks') + sum(state.linkClicks, 'clicks');
+    const purchases = sum(perfs, 'purchases');
+    const net = totalRevenue - totalCost;
+    const safeDate = new Date().toISOString().slice(0,10);
+    if ($('#dashboardDate')) $('#dashboardDate').textContent = `오늘 ${safeDate}`;
+    const metric = (icon, label, value, delta, cls='') => `<div class="dash-metric"><div class="dash-icon ${cls}">${icon}</div><div class="dash-label">${label}</div><div class="dash-value">${value}</div><div class="dash-delta">${delta}</div></div>`;
+    if ($('#dashboardSummary')) $('#dashboardSummary').innerHTML = [
+      metric('◉', '총 조회수', totalViews.toLocaleString('ko-KR'), '성과기록 기준', ''),
+      metric('↗', '클릭 수', totalClicks.toLocaleString('ko-KR'), `CTR ${pct(totalClicks, Math.max(1,totalViews))}`, 'blue'),
+      metric('₩', '예상 수익', money(totalRevenue), `순수익 ${money(net)}`, 'green'),
+      metric('▥', '전환율', pct(purchases, Math.max(1,totalClicks)), `전환 ${purchases}건`, 'purple')
+    ].join('');
+
+    const allContent = [
+      ...state.posts.map(p => ({ ...p, kind: p.channel || 'Threads', title: titleOfPost(p), body: p.text || '', when: p.plannedAt || p.createdAt || '', status: p.status || '대기' })),
+      ...state.cardNews.map(c => ({ ...c, kind: 'Instagram', title: c.title || '카드뉴스', body: c.caption || '', when: c.plannedAt || c.createdAt || '', status: c.status || '대기' }))
+    ].sort((a,b)=>String(b.when).localeCompare(String(a.when))).slice(0,4);
+    const statusCls = s => s === '완료' || s === '게시됨' ? 'good' : s === '대기' || s === '예약됨' ? 'warn' : 'gray';
+    if ($('#recentContentDashboard')) $('#recentContentDashboard').innerHTML = allContent.length ? allContent.map(c => `<div class="dash-content-row"><div class="dash-thumb">${esc((c.kind || 'SNS').slice(0,2))}</div><div><h3>${esc(c.title)}</h3><p>${esc((c.when || '').replace('T',' ').slice(0,16))} · ${esc(c.kind)}</p></div><div class="dash-count"><span class="badge ${statusCls(c.status)}">${esc(c.status)}</span></div></div>`).join('') : empty('최근 콘텐츠가 없습니다. 콘텐츠 탭에서 글이나 카드뉴스를 만들어보세요.');
+
+    const todayStr = today();
+    const counts = { active:0, reserved:0, done:0 };
+    state.campaigns.forEach(c => {
+      if (c.start && c.start > todayStr) counts.reserved++;
+      else if (c.end && c.end < todayStr) counts.done++;
+      else counts.active++;
+    });
+    const totalCampaigns = state.campaigns.length;
+    const activePct = totalCampaigns ? Math.round(counts.active / totalCampaigns * 100) : 0;
+    if ($('#campaignOverviewDashboard')) $('#campaignOverviewDashboard').innerHTML = totalCampaigns ? `<div class="dash-overview"><div class="dash-donut" style="background:conic-gradient(#111 0 ${activePct}%, #c7922b ${activePct}% ${Math.min(100, activePct + (counts.reserved/totalCampaigns*100))}%, #e5e7eb ${Math.min(100, activePct + (counts.reserved/totalCampaigns*100))}% 100%)"><span>진행 캠페인</span><b>${counts.active}건</b></div><div class="dash-legend"><div class="dash-legend-row"><span><i class="dot black"></i>진행 중</span><b>${counts.active}건</b></div><div class="dash-legend-row"><span><i class="dot gold"></i>예약/준비</span><b>${counts.reserved}건</b></div><div class="dash-legend-row"><span><i class="dot gray"></i>완료</span><b>${counts.done}건</b></div><div class="dash-legend-row"><span><i class="dot green"></i>전체</span><b>${totalCampaigns}건</b></div></div></div>` : empty('캠페인이 없습니다. 캠페인 만들기에서 첫 캠페인을 등록하세요.');
+    const createBtn = $('#dashboardCreateCampaign'); if (createBtn) createBtn.onclick = () => switchView('campaigns');
+
+    const linkTotal = sum(state.linkClicks, 'clicks');
+    const linkByDate = Object.entries(groupBy(state.linkClicks, 'date')).sort((a,b)=>a[0].localeCompare(b[0])).slice(-7);
+    const vals = linkByDate.map(([d,rows]) => sum(rows,'clicks'));
+    const max = Math.max(1, ...vals);
+    const pts = vals.length ? vals.map((v,i)=> `${20 + i*(260/Math.max(1, vals.length-1))},${105 - (v/max)*80}`).join(' ') : '20,105 280,105';
+    const labels = linkByDate.map(([d])=>d.slice(5)).join(' · ') || '클릭 기록 없음';
+    if ($('#dashboardLinkPerformance')) $('#dashboardLinkPerformance').innerHTML = `<div class="link-summary"><div class="link-total"><span>총 클릭 수</span><b>${linkTotal.toLocaleString('ko-KR')}</b><small>링크허브 클릭 기록</small></div><svg class="sparkline" viewBox="0 0 320 130" role="img" aria-label="링크 클릭 추이"><defs><linearGradient id="goldFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7922b" stop-opacity=".22"/><stop offset="1" stop-color="#c7922b" stop-opacity="0"/></linearGradient></defs><polyline points="${pts}" fill="none" stroke="#c7922b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="20,110 ${pts} 280,110" fill="url(#goldFade)" stroke="none"/><text x="20" y="124" font-size="11" fill="#64748b">${esc(labels)}</text></svg></div>`;
+
+    const topLinks = Object.entries(groupBy(state.linkClicks, 'linkId')).map(([lid, rows]) => {
+      const link = state.links.find(l => l.id === lid) || {};
+      return { title: link.title || '링크', url: link.url || '', clicks: sum(rows, 'clicks'), conv: pct(sum(rows, 'purchases'), Math.max(1,sum(rows,'clicks'))) };
+    }).sort((a,b)=>b.clicks-a.clicks).slice(0,3);
+    if ($('#dashboardTopLinks')) $('#dashboardTopLinks').innerHTML = topLinks.length ? topLinks.map((l,i)=>`<div class="top-link-row"><div class="rank-badge">${i+1}</div><div><h3>${esc(l.title)}</h3><p>${esc(l.url || 'URL 미입력')}</p></div><div class="metric-mini">클릭 수<b>${l.clicks.toLocaleString('ko-KR')}</b></div><div class="metric-mini">전환율<b>${l.conv}</b></div></div>`).join('') : empty('링크 클릭 데이터가 없습니다. 링크허브 클릭 기록을 입력하면 TOP 링크가 표시됩니다.');
   }
   function drawChannelChart() {
     const canvas = $('#channelChart'); if (!canvas) return; const ctx = canvas.getContext('2d'); const W = canvas.width, H = canvas.height; ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
@@ -2323,6 +2436,22 @@ main{padding:16px 18px 24px}
 .kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
 .item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
 @media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+
+
+/* v8.3.1 2안 대시보드 실구현 보강 */
+.dash-card{overflow:hidden}
+.dash-card h2{letter-spacing:-.035em}
+.dash-date{color:var(--app-muted);font-size:13px;font-weight:800;white-space:nowrap}
+.dash-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dash-metric{border:1px solid rgba(226,232,240,.95);background:linear-gradient(180deg,#fff,#fbfcff);border-radius:22px;padding:16px;min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:center;box-shadow:0 8px 22px rgba(15,23,42,.04)}
+.dash-icon{width:46px;height:46px;border-radius:17px;margin:0 auto 2px;display:grid;place-items:center;font-size:22px;background:#fff7e6;color:#9a6508}
+.dash-icon.blue{background:#eff6ff;color:#2563eb}.dash-icon.green{background:#ecfdf5;color:#059669}.dash-icon.purple{background:#f5f3ff;color:#7c3aed}
+.dash-label{font-size:13px;color:#64748b;font-weight:900}.dash-value{font-size:clamp(22px,4vw,30px);font-weight:950;letter-spacing:-.045em;color:#111}.dash-delta{font-size:13px;font-weight:900;color:#c7922b}
+.dash-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.dash-list{display:flex;flex-direction:column;gap:10px}.dash-content-row{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;border:1px solid #eef1f5;border-radius:18px;padding:10px;background:#fff}.dash-thumb{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:950;background:#f8fafc;color:#111;border:1px solid #e5e7eb}.dash-content-row h3{margin:0 0 3px;font-size:15px;line-height:1.28}.dash-content-row p{margin:0;color:#64748b;font-size:12px;font-weight:700}.dash-count{font-weight:950;color:#111;white-space:nowrap}.dash-overview{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}.dash-donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#111 0 0,#f3f4f6 0 100%);position:relative}.dash-donut:after{content:"";position:absolute;inset:24px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px #edf0f4}.dash-donut b{position:relative;z-index:1;font-size:28px;letter-spacing:-.05em}.dash-donut span{position:relative;z-index:1;color:#64748b;font-size:12px;font-weight:900}.dash-legend{display:flex;flex-direction:column;gap:8px}.dash-legend-row{display:flex;justify-content:space-between;gap:10px;color:#475569;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.dot.black{background:#111}.dot.gold{background:#c7922b}.dot.gray{background:#cbd5e1}.dot.green{background:#10b981}
+.dash-wide{grid-column:1/-1}.link-summary{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:18px;align-items:center}.link-total{background:linear-gradient(135deg,#181818,#303030);color:#fff;border-radius:20px;padding:18px}.link-total span{display:block;color:#f8d98d;font-weight:900}.link-total b{display:block;font-size:30px;letter-spacing:-.04em}.sparkline{width:100%;min-height:120px}.top-link-row{display:grid;grid-template-columns:34px 1fr 74px 74px;gap:10px;align-items:center;border-top:1px solid #eef1f5;padding:10px 0}.rank-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f5e4bb;color:#6b4707;font-weight:950}.top-link-row h3{margin:0;font-size:14px}.top-link-row p{margin:2px 0 0;font-size:12px;color:#2563eb;word-break:break-all}.metric-mini{font-size:12px;color:#64748b;font-weight:800}.metric-mini b{display:block;color:#111;font-size:15px}
+@media(max-width:860px){.dash-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.dash-overview{grid-template-columns:1fr;text-align:center}.dash-donut{margin:0 auto}.link-summary{grid-template-columns:1fr}.top-link-row{grid-template-columns:30px 1fr;align-items:start}.top-link-row .metric-mini{grid-column:2/-1;display:inline-block;margin-right:16px}.dash-content-row{grid-template-columns:42px 1fr}.dash-content-row .dash-count{grid-column:2/-1}}
+@media(max-width:420px){.dash-summary-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-metric{padding:13px;min-height:118px}.dash-value{font-size:21px}.dash-icon{width:40px;height:40px;border-radius:14px}}
 
 </style></head><body><main class="wrap"><div class="no-print"><button onclick="window.print()">PDF로 저장/인쇄</button></div><h1>멀티 SNS 수익화 월간 리포트</h1><p>작성일: ${today()} / 기간: ${esc($('#reportRange')?.selectedOptions?.[0]?.textContent || '최근 30일')}</p><p class="note">수익은 보장되지 않으며 콘텐츠 품질, 트래픽, 전환율, 플랫폼 정책, 상품 선택, 운영량에 따라 달라집니다.</p><section class="kpis"><div class="kpi"><span>순수익</span><b>${money(net)}</b></div><div class="kpi"><span>CTR</span><b>${pct(clicks, views)}</b></div><div class="kpi"><span>구매/문의</span><b>${purchases}</b></div><div class="kpi"><span>등급</span><b>${g.grade} · ${Math.round(score)}점</b></div></section><h2>채널별 성과</h2>${table(['채널','조회','클릭','CTR','구매/문의','순수익'], channelRows)}<h2>카드뉴스 템플릿별 성과</h2>${table(['템플릿','개수','저장','클릭','구매/문의','순수익','점수'], templateRows)}<h2>링크허브 클릭 리포트</h2>${table(['링크','유형','클릭','상위 유입','기록 건수'], linkRows)}<h2>다음 행동 추천</h2><ol>${recs || '<li>성과 데이터를 먼저 입력하세요.</li>'}</ol><p class="footer">이 리포트는 브라우저에서 생성되는 인쇄용 HTML입니다. 자동 게시, 자동 로그인, 외부 크롤링 없이 수동 기록 데이터를 기준으로 합니다.</p></main></body></html>`;
   }
@@ -2632,6 +2761,22 @@ main{padding:16px 18px 24px}
 .kpi{border-radius:20px;border:1px solid rgba(226,232,240,.95);box-shadow:0 8px 20px rgba(15,23,42,.05)}
 .item,.report-card,.board-col,.board-mini,.flow-step,.flow-mini,.section-label,.checklist,.score-grid label,.check-inline{border-color:#e2e8f0}
 @media (max-width:860px){.hero{padding:16px 14px;min-height:66px}.global-actions{padding:0 14px}.global-actions .btn{flex:1 1 calc(50% - 8px)}main{padding:14px}}
+
+
+
+/* v8.3.1 2안 대시보드 실구현 보강 */
+.dash-card{overflow:hidden}
+.dash-card h2{letter-spacing:-.035em}
+.dash-date{color:var(--app-muted);font-size:13px;font-weight:800;white-space:nowrap}
+.dash-summary-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dash-metric{border:1px solid rgba(226,232,240,.95);background:linear-gradient(180deg,#fff,#fbfcff);border-radius:22px;padding:16px;min-height:132px;display:flex;flex-direction:column;justify-content:center;gap:6px;text-align:center;box-shadow:0 8px 22px rgba(15,23,42,.04)}
+.dash-icon{width:46px;height:46px;border-radius:17px;margin:0 auto 2px;display:grid;place-items:center;font-size:22px;background:#fff7e6;color:#9a6508}
+.dash-icon.blue{background:#eff6ff;color:#2563eb}.dash-icon.green{background:#ecfdf5;color:#059669}.dash-icon.purple{background:#f5f3ff;color:#7c3aed}
+.dash-label{font-size:13px;color:#64748b;font-weight:900}.dash-value{font-size:clamp(22px,4vw,30px);font-weight:950;letter-spacing:-.045em;color:#111}.dash-delta{font-size:13px;font-weight:900;color:#c7922b}
+.dash-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}.dash-list{display:flex;flex-direction:column;gap:10px}.dash-content-row{display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;border:1px solid #eef1f5;border-radius:18px;padding:10px;background:#fff}.dash-thumb{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;font-weight:950;background:#f8fafc;color:#111;border:1px solid #e5e7eb}.dash-content-row h3{margin:0 0 3px;font-size:15px;line-height:1.28}.dash-content-row p{margin:0;color:#64748b;font-size:12px;font-weight:700}.dash-count{font-weight:950;color:#111;white-space:nowrap}.dash-overview{display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center}.dash-donut{width:150px;height:150px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#111 0 0,#f3f4f6 0 100%);position:relative}.dash-donut:after{content:"";position:absolute;inset:24px;background:#fff;border-radius:50%;box-shadow:inset 0 0 0 1px #edf0f4}.dash-donut b{position:relative;z-index:1;font-size:28px;letter-spacing:-.05em}.dash-donut span{position:relative;z-index:1;color:#64748b;font-size:12px;font-weight:900}.dash-legend{display:flex;flex-direction:column;gap:8px}.dash-legend-row{display:flex;justify-content:space-between;gap:10px;color:#475569;font-weight:800}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:7px}.dot.black{background:#111}.dot.gold{background:#c7922b}.dot.gray{background:#cbd5e1}.dot.green{background:#10b981}
+.dash-wide{grid-column:1/-1}.link-summary{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:18px;align-items:center}.link-total{background:linear-gradient(135deg,#181818,#303030);color:#fff;border-radius:20px;padding:18px}.link-total span{display:block;color:#f8d98d;font-weight:900}.link-total b{display:block;font-size:30px;letter-spacing:-.04em}.sparkline{width:100%;min-height:120px}.top-link-row{display:grid;grid-template-columns:34px 1fr 74px 74px;gap:10px;align-items:center;border-top:1px solid #eef1f5;padding:10px 0}.rank-badge{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#f5e4bb;color:#6b4707;font-weight:950}.top-link-row h3{margin:0;font-size:14px}.top-link-row p{margin:2px 0 0;font-size:12px;color:#2563eb;word-break:break-all}.metric-mini{font-size:12px;color:#64748b;font-weight:800}.metric-mini b{display:block;color:#111;font-size:15px}
+@media(max-width:860px){.dash-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.dash-overview{grid-template-columns:1fr;text-align:center}.dash-donut{margin:0 auto}.link-summary{grid-template-columns:1fr}.top-link-row{grid-template-columns:30px 1fr;align-items:start}.top-link-row .metric-mini{grid-column:2/-1;display:inline-block;margin-right:16px}.dash-content-row{grid-template-columns:42px 1fr}.dash-content-row .dash-count{grid-column:2/-1}}
+@media(max-width:420px){.dash-summary-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-metric{padding:13px;min-height:118px}.dash-value{font-size:21px}.dash-icon{width:40px;height:40px;border-radius:14px}}
 
 </style></head><body><main class="page">${blocks}<p class="notice">본 미디어킷은 사용자가 직접 기록한 수동 운영 데이터 기준입니다.</p></main></body></html>`;
   }

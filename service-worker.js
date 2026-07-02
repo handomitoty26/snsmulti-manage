@@ -1,4 +1,4 @@
-const CACHE_NAME = 'multi-sns-profit-v8.3-hybrid-ui';
+const CACHE_NAME = 'multi-sns-profit-v8.3.2-auto-update';
 const CORE_ASSETS = ['./index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', event => {
@@ -11,6 +11,11 @@ self.addEventListener('activate', event => {
     caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
   );
   self.clients.claim();
+});
+
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
