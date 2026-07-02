@@ -1,19 +1,31 @@
 {
-  "name": "멀티 SNS 수익화 관리자 Pro v8.3 반응형 혼합 UI",
+  "name": "멀티 SNS 수익화 관리자 Pro v8.3.2 반응형 혼합 UI",
   "short_name": "SNS수익Pro",
   "description": "스마트폰은 2안형 상단 탭, 태블릿/PC는 4안형 사이드바로 작동하는 개인용 수동 게시형 멀티 SNS 수익화 PWA",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#f3efe8",
-  "theme_color": "#111111",
+  "orientation": "any",
+  "background_color": "#f4f6fb",
+  "theme_color": "#111827",
   "icons": [
     {
-      "src": "icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

@@ -6,11 +6,11 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.3.1 대시보드 반영</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.3.2 검증 수정판</title>
 <link href="manifest.json" rel="manifest"/>
 
-<link href="icon.svg" rel="icon" type="image/svg+xml"/>
-<link href="icon.svg" rel="apple-touch-icon"/>
+<link href="icon-192.png" rel="icon" type="image/png"/>
+<link href="icon-192.png" rel="apple-touch-icon"/>
 <style id="inline-style-v8-1">
 :root{
   --bg:#f6f7fb; --panel:#ffffff; --ink:#111827; --muted:#64748b; --line:#e5e7eb;
@@ -117,7 +117,6 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <div class="quick-actions-panel" id="quickActionsPanel">
 <section aria-label="빠른 실행" class="global-actions">
 <button class="btn btn-ghost hidden" id="installBtn">앱 설치</button>
-<button class="btn btn-ghost" id="refreshAppBtn">최신화</button>
 <button class="btn btn-secondary" id="seedBtn">기본 샘플</button>
 <button class="btn btn-primary" id="samplePackBtn">실전 샘플팩</button>
 <button class="btn btn-danger-soft" id="resetBtn">초기화</button>
@@ -169,6 +168,10 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <article class="card dash-card dash-wide">
 <div class="card-head"><h2>상위 링크 TOP 3</h2><span class="dash-date">클릭 많은 링크</span></div>
 <div id="dashboardTopLinks"></div>
+</article>
+<article class="card dash-card dash-wide">
+<div class="card-head"><h2>채널별 순수익</h2><span class="dash-date">성과기록 기준</span></div>
+<canvas class="chart" height="380" id="channelChart" width="960"></canvas>
 </article>
 </div>
 </section>
@@ -981,7 +984,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   let deferredPrompt = null;
 
   const $ = (sel) => document.querySelector(sel);
-  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const id = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   const nowISO = () => new Date().toISOString();
   const today = () => new Date().toISOString().slice(0, 10);
@@ -1027,7 +1030,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   const NAV_GROUPS = {
     dashboard: [['홈', 'dashboard']],
     content: [['트렌드 수집', 'trends'], ['상품·맛집DB', 'assets'], ['멀티SNS 글쓰기', 'writer'], ['카드뉴스 제작소', 'cardnews'], ['블로그·협찬', 'blog'], ['ChatGPT 프롬프트', 'chatgptPrompts'], ['정보수집', 'infoNotes'], ['벤치마킹', 'benchmark']],
-    campaign: [['캠페인', 'campaigns'], ['수익모델', 'revenueModels'], ['게시계획', 'planner'], ['실전점검', 'preflight']],
+    campaign: [['캠페인', 'campaigns'], ['수익모델', 'revenueModels'], ['게시계획', 'planner']],
     links: [['링크허브', 'links']],
     analysis: [['성과기록', 'performance'], ['리포트', 'report'], ['업데이트추천', 'updateTasks']],
     settings: [['정책센터', 'policyCenter'], ['백업', 'backup'], ['실전점검', 'preflight']]
@@ -1041,60 +1044,14 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     box.innerHTML = items.map(([label, view]) => `<button class="subtab ${view === activeView ? 'active' : ''}" data-subview="${esc(view)}" type="button">${esc(label)}</button>`).join('');
     $$('[data-subview]', box).forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.subview)));
   }
-  function download(name, content, type = 'text/plain') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([content], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 800); }
+  function download(name, content, type = 'text/plain') { const body = type.includes('csv') && !String(content).startsWith('\uFEFF') ? '\uFEFF' + content : content; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 800); }
   function getCampaign(cid) { return state.campaigns.find(c => c.id === cid) || {}; }
   function getAsset(aid) { return state.assets.find(a => a.id === aid) || {}; }
   function titleOfPost(post) { return post?.title || post?.name || post?.channel || '콘텐츠'; }
 
   function init() {
     bindTabs(); bindInstall(); bindButtons(); setDates(); renderAll();
-    initServiceWorkerUpdate();
-  }
-
-  async function initServiceWorkerUpdate() {
-    if (!('serviceWorker' in navigator)) return;
-    let refreshed = false;
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-      if (refreshed) return;
-      refreshed = true;
-      window.location.reload();
-    });
-    try {
-      const reg = await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
-      await reg.update();
-      if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-      reg.addEventListener('updatefound', () => {
-        const worker = reg.installing;
-        if (!worker) return;
-        worker.addEventListener('statechange', () => {
-          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
-            worker.postMessage({ type: 'SKIP_WAITING' });
-          }
-        });
-      });
-    } catch (err) {
-      console.warn('service worker update skipped', err);
-    }
-  }
-
-  async function refreshAppVersion() {
-    toast('최신 버전 확인 중입니다. 잠시 후 새로고침됩니다.');
-    try {
-      if ('serviceWorker' in navigator) {
-        const regs = await navigator.serviceWorker.getRegistrations();
-        for (const reg of regs) {
-          await reg.update().catch(() => {});
-          if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
-        }
-      }
-      if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.filter(k => k.startsWith('multi-sns-profit-')).map(k => caches.delete(k)));
-      }
-      await fetch('./index.html', { cache: 'reload' }).catch(() => {});
-    } finally {
-      window.location.reload();
-    }
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
   }
 
   function bindTabs() {
@@ -1111,7 +1068,6 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     $('#installBtn').addEventListener('click', async () => { if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; $('#installBtn').classList.add('hidden'); } });
   }
   function bindButtons() {
-    if ($('#refreshAppBtn')) $('#refreshAppBtn').onclick = refreshAppVersion;
     $('#seedBtn').onclick = seed;
     if ($('#samplePackBtn')) $('#samplePackBtn').onclick = loadSamplePack;
     if ($('#loadSamplePack')) $('#loadSamplePack').onclick = loadSamplePack;
@@ -1168,7 +1124,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     $('#softenAll').onclick = softenAll;
     $('#insertAllDisclosures').onclick = insertAllDisclosures;
     $('#planToday').onclick = planToday;
-    $('#clearDone').onclick = () => { state.posts = state.posts.filter(p => p.status !== '완료'); save(); toast('완료 항목을 숨겼습니다.'); };
+    $('#clearDone').onclick = () => { const doneCount = state.posts.filter(p => p.status === '완료').length; if (!doneCount) return toast('완료 상태인 항목이 없습니다.'); if (!confirm(`완료 항목 ${doneCount}건을 목록에서 완전히 삭제할까요? 삭제하면 되돌릴 수 없습니다.`)) return; state.posts = state.posts.filter(p => p.status !== '완료'); save(); toast(`완료 항목 ${doneCount}건을 삭제했습니다.`); };
     $('#savePerformance').onclick = savePerformance;
     $('#saveLink').onclick = saveLink;
     if ($('#saveLinkClick')) $('#saveLinkClick').onclick = saveLinkClick;
@@ -1262,7 +1218,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     const arr = state.assets.filter(a => !q || JSON.stringify(a).toLowerCase().includes(q));
     $('#assetList').innerHTML = arr.length ? arr.map(a => {
       const perf = perfByAsset(a.id); const net = sum(perf, 'revenue') - sum(perf, 'cost');
-      return `<div class="item"><h3>${esc(a.name)}</h3><div class="meta"><span class="badge gray">${a.type}</span><span class="badge gray">${a.experience}</span><span class="badge ${net > 0 ? 'good' : 'gray'}">수익 ${money(net)}</span></div><p>${esc(a.pros || '장점 미입력')} / 주의: ${esc(a.cons || '미입력')}</p><div class="item-actions"><button data-asset-writer="${a.id}">글쓰기</button><button data-asset-card="${a.id}">카드뉴스</button><button data-del-asset="${a.id}">삭제</button></div></div>`;
+      return `<div class="item"><h3>${esc(a.name)}</h3><div class="meta"><span class="badge gray">${esc(a.type)}</span><span class="badge gray">${esc(a.experience)}</span><span class="badge ${net > 0 ? 'good' : 'gray'}">수익 ${money(net)}</span></div><p>${esc(a.pros || '장점 미입력')} / 주의: ${esc(a.cons || '미입력')}</p><div class="item-actions"><button data-asset-writer="${a.id}">글쓰기</button><button data-asset-card="${a.id}">카드뉴스</button><button data-del-asset="${a.id}">삭제</button></div></div>`;
     }).join('') : empty('등록된 상품/맛집이 없습니다.');
     $$('[data-del-asset]').forEach(b => b.onclick = () => { state.assets = state.assets.filter(a => a.id !== b.dataset.delAsset); save(); });
     $$('[data-asset-writer]').forEach(b => b.onclick = () => { switchView('writer'); $('#wAsset').value = b.dataset.assetWriter; fillWriterFromAsset(); });
@@ -1821,7 +1777,7 @@ ${raw}`; }
 
   function renderPlanner() {
     const posts = state.posts.map(p => ({ ...p, kind: 'post' })).concat(state.cardNews.map(c => ({ ...c, kind: 'card', channel: 'Instagram', format: '카드뉴스', text: c.caption, title: c.title })));
-    $('#postPlanList').innerHTML = posts.length ? posts.sort((a, b) => String(a.plannedAt || '').localeCompare(String(b.plannedAt || ''))).map(p => `<div class="item"><h3>${esc(p.channel || 'Instagram')} · ${esc(titleOfPost(p))}</h3><div class="meta"><span class="badge gray">${esc(p.format || '짧은 글')}</span><span class="badge ${p.safetyScore >= 85 ? 'good' : p.safetyScore >= 70 ? 'warn' : 'bad'}">안전 ${p.safetyScore || '-'}점</span><span class="badge gray">${p.status || '대기'}</span></div><label class="field"><span>게시 예정</span><input type="datetime-local" value="${esc(p.plannedAt || '')}" data-plan-time="${p.kind}:${p.id}" /></label><p>${esc((p.text || p.caption || '').slice(0, 180))}</p><div class="item-actions"><button data-copy-plan="${p.kind}:${p.id}">복사</button><button data-done-plan="${p.kind}:${p.id}">완료</button><button data-del-plan="${p.kind}:${p.id}">삭제</button></div></div>`).join('') : empty('게시계획이 없습니다. 글쓰기 또는 카드뉴스를 저장하세요.');
+    $('#postPlanList').innerHTML = posts.length ? posts.sort((a, b) => String(a.plannedAt || '').localeCompare(String(b.plannedAt || ''))).map(p => `<div class="item"><h3>${esc(p.channel || 'Instagram')} · ${esc(titleOfPost(p))}</h3><div class="meta"><span class="badge gray">${esc(p.format || '짧은 글')}</span><span class="badge ${p.safetyScore >= 85 ? 'good' : p.safetyScore >= 70 ? 'warn' : 'bad'}">안전 ${p.safetyScore || '-'}점</span><span class="badge gray">${esc(p.status || '대기')}</span></div><label class="field"><span>게시 예정</span><input type="datetime-local" value="${esc(p.plannedAt || '')}" data-plan-time="${p.kind}:${p.id}" /></label><p>${esc((p.text || p.caption || '').slice(0, 180))}</p><div class="item-actions"><button data-copy-plan="${p.kind}:${p.id}">복사</button><button data-done-plan="${p.kind}:${p.id}">완료</button><button data-del-plan="${p.kind}:${p.id}">삭제</button></div></div>`).join('') : empty('게시계획이 없습니다. 글쓰기 또는 카드뉴스를 저장하세요.');
     $$('[data-plan-time]').forEach(el => el.onchange = () => { const [kind, pid] = el.dataset.planTime.split(':'); findContent(kind, pid).plannedAt = el.value; save(); });
     $$('[data-copy-plan]').forEach(b => b.onclick = () => { const [kind, pid] = b.dataset.copyPlan.split(':'); const p = findContent(kind, pid); copy(p.text || p.caption || ''); });
     $$('[data-done-plan]').forEach(b => b.onclick = () => { const [kind, pid] = b.dataset.donePlan.split(':'); findContent(kind, pid).status = '완료'; save(); });
@@ -2295,7 +2251,7 @@ main{padding:16px 18px 24px}
     const linkByDate = Object.entries(groupBy(state.linkClicks, 'date')).sort((a,b)=>a[0].localeCompare(b[0])).slice(-7);
     const vals = linkByDate.map(([d,rows]) => sum(rows,'clicks'));
     const max = Math.max(1, ...vals);
-    const pts = vals.length ? vals.map((v,i)=> `${20 + i*(260/Math.max(1, vals.length-1))},${105 - (v/max)*80}`).join(' ') : '20,105 280,105';
+    const pts = vals.length === 1 ? `20,${105 - (vals[0]/max)*80} 280,${105 - (vals[0]/max)*80}` : vals.length ? vals.map((v,i)=> `${20 + i*(260/Math.max(1, vals.length-1))},${105 - (v/max)*80}`).join(' ') : '20,105 280,105';
     const labels = linkByDate.map(([d])=>d.slice(5)).join(' · ') || '클릭 기록 없음';
     if ($('#dashboardLinkPerformance')) $('#dashboardLinkPerformance').innerHTML = `<div class="link-summary"><div class="link-total"><span>총 클릭 수</span><b>${linkTotal.toLocaleString('ko-KR')}</b><small>링크허브 클릭 기록</small></div><svg class="sparkline" viewBox="0 0 320 130" role="img" aria-label="링크 클릭 추이"><defs><linearGradient id="goldFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c7922b" stop-opacity=".22"/><stop offset="1" stop-color="#c7922b" stop-opacity="0"/></linearGradient></defs><polyline points="${pts}" fill="none" stroke="#c7922b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="20,110 ${pts} 280,110" fill="url(#goldFade)" stroke="none"/><text x="20" y="124" font-size="11" fill="#64748b">${esc(labels)}</text></svg></div>`;
 
@@ -2306,7 +2262,7 @@ main{padding:16px 18px 24px}
     if ($('#dashboardTopLinks')) $('#dashboardTopLinks').innerHTML = topLinks.length ? topLinks.map((l,i)=>`<div class="top-link-row"><div class="rank-badge">${i+1}</div><div><h3>${esc(l.title)}</h3><p>${esc(l.url || 'URL 미입력')}</p></div><div class="metric-mini">클릭 수<b>${l.clicks.toLocaleString('ko-KR')}</b></div><div class="metric-mini">전환율<b>${l.conv}</b></div></div>`).join('') : empty('링크 클릭 데이터가 없습니다. 링크허브 클릭 기록을 입력하면 TOP 링크가 표시됩니다.');
   }
   function drawChannelChart() {
-    const canvas = $('#channelChart'); if (!canvas) return; const ctx = canvas.getContext('2d'); const W = canvas.width, H = canvas.height; ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+    const canvas = $('#channelChart'); if (!canvas) return; const ctx = canvas.getContext && canvas.getContext('2d'); if (!ctx) return; const W = canvas.width, H = canvas.height; ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
     const data = ['Threads', 'Instagram', 'Facebook', 'Blog', 'YouTube Community'].map(ch => ({ ch, net: sum(state.performances.filter(p => p.channel === ch), 'revenue') - sum(state.performances.filter(p => p.channel === ch), 'cost') }));
     const max = Math.max(1, ...data.map(d => Math.abs(d.net))); const barW = (W - 120) / data.length - 22;
     ctx.font = '700 22px system-ui'; ctx.fillStyle = '#334155'; ctx.fillText('채널별 순수익', 28, 38);
@@ -2801,7 +2757,7 @@ main{padding:16px 18px 24px}
     $$('[data-del-mk]').forEach(b => b.onclick = () => { state.mediaKits = state.mediaKits.filter(x => x.id !== b.dataset.delMk); save(); });
   }
 
-  function importJson(e) { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { try { state = migrate(JSON.parse(reader.result)); save(); toast(`복원했습니다. 데이터 구조를 v${DATA_VERSION}으로 맞췄습니다.`); } catch { toast('JSON 파일을 읽을 수 없습니다.'); } }; reader.readAsText(file); }
+  function importJson(e) { const file = e.target.files[0]; if (!file) return; const hasData = state.campaigns.length || state.posts.length || state.performances.length || state.assets.length || state.trendKeywords.length || state.links.length; if (hasData && !confirm(`"${file.name}" 파일로 복원하면 현재 저장된 데이터를 모두 덮어씁니다. 계속할까요?`)) { e.target.value = ''; return; } const reader = new FileReader(); reader.onload = () => { try { const parsed = JSON.parse(reader.result); if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('형식 오류'); state = migrate(parsed); save(); toast(`복원했습니다. 데이터 구조를 v${DATA_VERSION}으로 맞췄습니다.`); } catch { toast('올바른 백업 JSON 파일이 아닙니다.'); } e.target.value = ''; }; reader.readAsText(file); }
   function performanceCsv() {
     const rows = [['date', 'channel', 'format', 'trendKeyword', 'views', 'likes', 'comments', 'saves', 'shares', 'profileVisits', 'clicks', 'purchases', 'revenue', 'cost', 'net', 'memo']].concat(state.performances.map(p => [p.date, p.channel, p.format, getTrend(perfTrendId(p)).keyword || '', p.views, p.likes, p.comments, p.saves, p.shares, p.profileVisits, p.clicks, p.purchases, p.revenue, p.cost, p.revenue - p.cost, p.memo]));
     return rows.map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
