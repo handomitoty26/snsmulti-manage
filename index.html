@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.5.0 이중 AI·수익전략판</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.5.2 자동 최신 모델판</title>
 <link href="manifest.json" rel="manifest"/>
 
 <link href="icon-192.png" rel="icon" type="image/png"/>
@@ -882,18 +882,18 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <div class="grid two">
 <article class="card">
 <h2>🤖 Gemini API (Google)</h2>
-<p class="hint">aistudio.google.com에서 무료 발급. 무료 한도가 빠듯하면 flash-lite(하루 최대 1,000회)를 선택하세요.</p>
+<p class="hint">aistudio.google.com에서 무료 발급. <b>gemini-flash-latest</b>를 선택하면 구글이 모델을 바꿔도 이 앱을 고칠 필요 없이 항상 최신 Flash 모델을 자동으로 씁니다. 특정 버전을 고정하고 싶을 때만 아래 고정판을 고르세요.</p>
 <label class="field full"><span>Gemini API 키</span><input id="aiGeminiKey" type="password" placeholder="AIza로 시작하는 키" autocomplete="off"/></label>
-<label class="field"><span>모델</span><select id="aiGeminiModel"><option value="gemini-2.5-flash">gemini-2.5-flash (권장)</option><option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (무료 한도 넉넉)</option><option value="gemini-2.5-pro">gemini-2.5-pro (고품질)</option><option value="custom">직접 입력</option></select></label>
+<label class="field"><span>모델</span><select id="aiGeminiModel"><option value="gemini-flash-latest">gemini-flash-latest (자동 최신·권장)</option><option value="gemini-3.1-flash-lite">gemini-3.1-flash-lite (저비용 고정판)</option><option value="gemini-3.5-flash">gemini-3.5-flash (품질형 고정판)</option><option value="gemini-3.1-pro-preview">gemini-3.1-pro-preview (고급 추론·프리뷰)</option><option value="gemini-2.5-flash">gemini-2.5-flash (구형)</option><option value="custom">직접 입력</option></select></label>
 <label class="field"><span>직접 입력 모델명</span><input id="aiGeminiCustom" placeholder="'직접 입력' 선택 시만"/></label>
 <div class="actions"><button class="btn btn-secondary" id="testGeminiKey">Gemini 연결 테스트</button></div>
 <div id="aiGeminiStatus"></div>
 </article>
 <article class="card">
 <h2>💬 ChatGPT API (OpenAI)</h2>
-<p class="hint">platform.openai.com에서 키 발급 후 최소 $5 선불 충전이 필요합니다. 데로사님 사용량이면 월 100~300원 수준으로, 충전액으로 몇 달을 씁니다.</p>
+<p class="hint">platform.openai.com에서 키 발급 후 최소 $5 선불 충전이 필요합니다. <b>chat-latest</b>를 선택하면 OpenAI가 기본 모델을 바꿔도 자동으로 최신을 씁니다(2026년 7월 기준 GPT-5.5 계열). 비용을 더 낮추려면 저비용 고정판을 고르세요.</p>
 <label class="field full"><span>OpenAI API 키</span><input id="aiOpenaiKey" type="password" placeholder="sk-로 시작하는 키" autocomplete="off"/></label>
-<label class="field"><span>모델</span><select id="aiOpenaiModel"><option value="gpt-4o-mini">gpt-4o-mini (권장·가성비)</option><option value="gpt-4.1-mini">gpt-4.1-mini (상위 품질)</option><option value="gpt-4o">gpt-4o (고품질·고비용)</option><option value="custom">직접 입력</option></select></label>
+<label class="field"><span>모델</span><select id="aiOpenaiModel"><option value="chat-latest">chat-latest (자동 최신·권장)</option><option value="gpt-5.4-mini">gpt-5.4-mini (저비용 고정판)</option><option value="gpt-4.1-mini">gpt-4.1-mini (구형·저비용)</option><option value="gpt-4o-mini">gpt-4o-mini (구형)</option><option value="custom">직접 입력</option></select></label>
 <label class="field"><span>직접 입력 모델명</span><input id="aiOpenaiCustom" placeholder="'직접 입력' 선택 시만"/></label>
 <div class="actions"><button class="btn btn-secondary" id="testOpenaiKey">ChatGPT 연결 테스트</button></div>
 <div id="aiOpenaiStatus"></div>
@@ -1098,11 +1098,11 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     next.prelaunchChecks = { ...(base.prelaunchChecks || {}), ...(next.prelaunchChecks || {}) };
     next.settings.scoreWeights = { ...defaultScoreWeights(), ...(next.settings.scoreWeights || {}) };
     next.settings.linkHub = { ...defaultLinkHubSettings(), ...(next.settings.linkHub || {}) };
-    next.settings.ai = { geminiKey: '', geminiModel: 'gemini-2.5-flash', geminiCustom: '', openaiKey: '', openaiModel: 'gpt-4o-mini', openaiCustom: '', roleTrends: 'gemini', roleWriter: 'openai', autoLoop: true, maxLoops: 2, voice: '', ...(next.settings.ai || {}) };
+    next.settings.ai = { geminiKey: '', geminiModel: 'gemini-flash-latest', geminiCustom: '', openaiKey: '', openaiModel: 'chat-latest', openaiCustom: '', roleTrends: 'gemini', roleWriter: 'openai', autoLoop: true, maxLoops: 2, voice: '', ...(next.settings.ai || {}) };
     if (next.settings.ai.key && !next.settings.ai.geminiKey) {
       next.settings.ai.geminiKey = next.settings.ai.key;
       const oldModel = next.settings.ai.customModel || next.settings.ai.model || '';
-      const knownGemini = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'];
+      const knownGemini = ['gemini-flash-latest', 'gemini-3.1-flash-lite', 'gemini-3.5-flash', 'gemini-3.1-pro-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'];
       if (oldModel && knownGemini.includes(oldModel)) { next.settings.ai.geminiModel = oldModel; }
       else if (oldModel && oldModel !== 'custom') { next.settings.ai.geminiModel = 'custom'; next.settings.ai.geminiCustom = oldModel; }
     }
@@ -1147,8 +1147,8 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   function providerLabel(p) { return p === 'openai' ? 'ChatGPT' : 'Gemini'; }
   function modelOf(p) {
     const c = aiConf();
-    if (p === 'openai') return (c.openaiModel === 'custom' ? (c.openaiCustom || '').trim() : c.openaiModel) || 'gpt-4o-mini';
-    return (c.geminiModel === 'custom' ? (c.geminiCustom || '').trim() : c.geminiModel) || 'gemini-2.5-flash';
+    if (p === 'openai') return (c.openaiModel === 'custom' ? (c.openaiCustom || '').trim() : c.openaiModel) || 'chat-latest';
+    return (c.geminiModel === 'custom' ? (c.geminiCustom || '').trim() : c.geminiModel) || 'gemini-flash-latest';
   }
   function keyOf(p) { const c = aiConf(); return p === 'openai' ? (c.openaiKey || '').trim() : (c.geminiKey || '').trim(); }
   function resolveProvider(task) {
@@ -1365,8 +1365,8 @@ ${vb ? '\n' + vb + '\n' : ''}
   }
   function renderAiSettings() {
     const c = aiConf(); if (!$('#aiGeminiKey')) return;
-    $('#aiGeminiKey').value = c.geminiKey || ''; setVal('aiGeminiModel', c.geminiModel || 'gemini-2.5-flash'); $('#aiGeminiCustom').value = c.geminiCustom || '';
-    $('#aiOpenaiKey').value = c.openaiKey || ''; setVal('aiOpenaiModel', c.openaiModel || 'gpt-4o-mini'); $('#aiOpenaiCustom').value = c.openaiCustom || '';
+    $('#aiGeminiKey').value = c.geminiKey || ''; setVal('aiGeminiModel', c.geminiModel || 'gemini-flash-latest'); $('#aiGeminiCustom').value = c.geminiCustom || '';
+    $('#aiOpenaiKey').value = c.openaiKey || ''; setVal('aiOpenaiModel', c.openaiModel || 'chat-latest'); $('#aiOpenaiCustom').value = c.openaiCustom || '';
     setVal('aiRoleTrends', c.roleTrends || 'gemini'); setVal('aiRoleWriter', c.roleWriter || 'openai');
     setVal('aiAutoLoop', c.autoLoop === false ? 'off' : 'on'); setVal('aiMaxLoops', String(c.maxLoops || 2));
     $('#aiVoice').value = c.voice || '';
