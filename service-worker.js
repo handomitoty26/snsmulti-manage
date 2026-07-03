@@ -1,4 +1,4 @@
-const CACHE_NAME = 'multi-sns-profit-v8.3.2-verified-fix';
+const CACHE_NAME = 'multi-sns-profit-v8.5.0-dual-ai';
 const CORE_ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', event => {

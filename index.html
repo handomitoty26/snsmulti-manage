@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.3.2 검증 수정판</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.5.0 이중 AI·수익전략판</title>
 <link href="manifest.json" rel="manifest"/>
 
 <link href="icon-192.png" rel="icon" type="image/png"/>
@@ -107,6 +107,17 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 @media(max-width:860px){.dash-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-grid{grid-template-columns:1fr}.dash-overview{grid-template-columns:1fr;text-align:center}.dash-donut{margin:0 auto}.link-summary{grid-template-columns:1fr}.top-link-row{grid-template-columns:30px 1fr;align-items:start}.top-link-row .metric-mini{grid-column:2/-1;display:inline-block;margin-right:16px}.dash-content-row{grid-template-columns:42px 1fr}.dash-content-row .dash-count{grid-column:2/-1}}
 @media(max-width:420px){.dash-summary-grid{grid-template-columns:1fr 1fr;gap:10px}.dash-metric{padding:13px;min-height:118px}.dash-value{font-size:21px}.dash-icon{width:40px;height:40px;border-radius:14px}}
 
+
+#updateBanner{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:99;display:flex;gap:10px;align-items:center;background:#111827;color:#f8d98d;padding:12px 16px;border-radius:16px;box-shadow:0 14px 34px rgba(0,0,0,.35);font-weight:800;font-size:14px;max-width:92vw}
+#updateBanner button{border:0;border-radius:10px;padding:8px 12px;font-weight:900;cursor:pointer;font-size:13px}
+#updateApply{background:#f8d98d;color:#111}
+#updateLater{background:rgba(255,255,255,.14);color:#fff}
+#updateBanner[hidden]{display:none}
+.combo-row{display:flex;align-items:center;gap:8px;padding:9px 4px;border-bottom:1px dashed #e5e7eb;font-size:13.5px;flex-wrap:wrap}
+.combo-row:last-child{border-bottom:0}
+.combo-rank{font-weight:900;color:#c7922b;min-width:26px}
+.season-chip{display:inline-flex;align-items:center;gap:6px;background:#f4f6fb;border:1px solid #e2e8f0;border-radius:999px;padding:5px 10px;margin:3px 4px 3px 0;font-size:12.5px;font-weight:700}
+.season-chip button{border:0;background:#111827;color:#f8d98d;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;cursor:pointer}
 </style></head>
 <body>
 <div aria-live="polite" class="toast" id="toast"></div>
@@ -124,7 +135,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 </div>
 <div class="app-shell">
 <aside aria-label="태블릿·PC 메뉴" class="desktop-sidebar">
-<img alt="앱 아이콘" class="side-logo" src="icon.svg"/>
+<img alt="앱 아이콘" class="side-logo" src="icon-192.png"/>
 <button class="nav-btn side-nav-btn active" data-view="dashboard" type="button"><span class="ico">⌂</span><span>홈</span></button>
 <button class="nav-btn side-nav-btn" data-view="trends" type="button"><span class="ico">⌕</span><span>수집</span></button>
 <button class="nav-btn side-nav-btn" data-view="assets" type="button"><span class="ico">DB</span><span>소재DB</span></button>
@@ -238,6 +249,12 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <label class="field full"><span>정책 주의 메모</span><textarea id="trendPolicyMemo" placeholder="예: 직접 사용 전에는 후기 정리 표현만 사용, 의료/효능 표현 금지"></textarea></label>
 </div>
 <div class="actions"><button class="btn btn-primary" id="saveTrend">트렌드 저장</button><button class="btn btn-ghost" id="clearTrendForm">입력 초기화</button></div>
+</article>
+<article class="card">
+<h2>⚡ 원클릭 AI 트렌드 수집 (Gemini 직접 연동)</h2>
+<p class="hint">설정 → AI 연동에 Gemini API 키를 저장해 두면, 복사·붙여넣기 없이 버튼 한 번으로 오늘의 수익형 트렌드 키워드를 받아 아래 목록에 자동 저장합니다.</p>
+<div class="actions"><button class="btn btn-primary" id="aiFetchTrends">AI로 트렌드 자동 수집</button><button class="btn btn-ghost" id="goAiSettings">AI 연동 설정 열기</button></div>
+<div id="aiTrendStatus"></div>
 </article>
 <article class="card">
 <h2>AI 프롬프트 복사</h2>
@@ -395,9 +412,27 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <div class="safety-box" id="safetyPanel"></div>
 <div class="safety-box" id="duplicatePanel"></div>
 <div class="actions"><button class="btn btn-secondary" id="softenAll">전체 표현 완화</button><button class="btn btn-ghost" id="insertAllDisclosures">표시문구 넣기</button></div>
+<div class="divider"></div>
+<div class="actions wrap"><button class="btn btn-primary" id="aiRefineAll">⚡ AI 다듬기 + 자동 검수</button><button class="btn btn-secondary" id="copySuperPrompt">통합 프롬프트 복사 (수동용)</button></div>
+<p class="hint">AI 다듬기: 4개 글을 Gemini가 내 말투로 다듬고, 안전점수 85점 미만이면 지적 사항을 스스로 고쳐 재검수합니다.</p>
+<div id="aiWriterStatus"></div>
 </article>
 </div>
 <div class="grid two outputs" id="channelOutputs"></div>
+<article class="card">
+<h2>통합 JSON 한 번에 배치 (API 키 없이 쓰는 수동 모드)</h2>
+<p class="hint">[통합 프롬프트 복사]로 ChatGPT/Gemini에 붙여넣고, 돌아온 JSON을 여기 붙여넣으면 <b>트렌드 등록 + 4채널 글 + 카드뉴스 문구·캡션</b>이 한 번에 채워집니다. 왕복 1회로 끝!</p>
+<textarea class="large-text" id="aiUnifiedJson" placeholder='AI가 출력한 JSON 전체를 그대로 붙여넣으세요. {"trend":{...},"posts":{...},"cards":[...],"caption":"..."}'></textarea>
+<div class="actions"><button class="btn btn-primary" id="aiUnifiedApply">한 번에 배치</button><button class="btn btn-ghost" id="aiUnifiedClear">비우기</button></div>
+<div id="aiUnifiedResult"></div>
+</article>
+<article class="card">
+<h2>🛡️ 네이버 안심 모드 (애드포스트 승인 보호)</h2>
+<p class="hint">Blog 글에서 제휴 표시문구·링크·구매 유도 문구를 걷어낸 <b>정보성 버전</b>을 만듭니다. 애드포스트 승인 전이나 네이버 검색 신뢰를 지키려면 네이버 블로그에는 이 버전만 올리고, 제휴 수익은 SNS 프로필의 링크허브로만 연결하세요.</p>
+<div class="actions"><button class="btn btn-primary" id="naverSafeMake">네이버 안심 버전 만들기</button><button class="btn btn-ghost" id="naverSafeCopy">복사</button></div>
+<textarea class="large-text" id="naverSafeOut" placeholder="[네이버 안심 버전 만들기]를 누르면 Blog 글의 정보성 버전이 생성됩니다."></textarea>
+<div id="naverSafeStatus"></div>
+</article>
 </section>
 <section class="view" id="cardnews">
 <div class="grid two">
@@ -451,7 +486,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 </section>
 <section class="view" id="planner">
 <div class="card">
-<div class="card-head"><h2>수동 게시계획</h2><div><button class="mini" id="planToday">오늘 추천 시간 채우기</button><button class="mini" id="clearDone">완료 항목 숨김</button></div></div>
+<div class="card-head"><h2>수동 게시계획</h2><div><button class="mini" id="planToday">오늘 추천 시간 채우기</button><button class="mini" id="clearDone">완료 항목 삭제</button></div></div>
 <div class="list" id="postPlanList"></div>
 </div>
 </section>
@@ -833,6 +868,54 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <article class="card"><h2>성과 입력 누락 알림</h2><div class="list" id="missingPerformanceReport"></div></article>
 <article class="card"><h2>월간 운영 체크리스트</h2><div class="checklist-list" id="reportChecklist"></div></article>
 </div>
+<article class="card">
+<div class="card-head"><h2>🥇 황금 조합 분석</h2><span class="dash-date">카테고리 × 채널 × 시간대</span></div>
+<p class="hint">성과기록이 쌓일수록 "어떤 조합이 돈이 되는지"가 드러납니다. 순수익 기준 상위 조합입니다.</p>
+<div id="goldenCombos"></div>
+</article>
+<article class="card">
+<div class="card-head"><h2>📅 시즌 준비 캘린더</h2><span class="dash-date">시즌은 6주 먼저 움직이기</span></div>
+<div id="seasonCalendar"></div>
+</article>
+</section>
+<section class="view" id="aiSettings">
+<div class="grid two">
+<article class="card">
+<h2>🤖 Gemini API (Google)</h2>
+<p class="hint">aistudio.google.com에서 무료 발급. 무료 한도가 빠듯하면 flash-lite(하루 최대 1,000회)를 선택하세요.</p>
+<label class="field full"><span>Gemini API 키</span><input id="aiGeminiKey" type="password" placeholder="AIza로 시작하는 키" autocomplete="off"/></label>
+<label class="field"><span>모델</span><select id="aiGeminiModel"><option value="gemini-2.5-flash">gemini-2.5-flash (권장)</option><option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (무료 한도 넉넉)</option><option value="gemini-2.5-pro">gemini-2.5-pro (고품질)</option><option value="custom">직접 입력</option></select></label>
+<label class="field"><span>직접 입력 모델명</span><input id="aiGeminiCustom" placeholder="'직접 입력' 선택 시만"/></label>
+<div class="actions"><button class="btn btn-secondary" id="testGeminiKey">Gemini 연결 테스트</button></div>
+<div id="aiGeminiStatus"></div>
+</article>
+<article class="card">
+<h2>💬 ChatGPT API (OpenAI)</h2>
+<p class="hint">platform.openai.com에서 키 발급 후 최소 $5 선불 충전이 필요합니다. 데로사님 사용량이면 월 100~300원 수준으로, 충전액으로 몇 달을 씁니다.</p>
+<label class="field full"><span>OpenAI API 키</span><input id="aiOpenaiKey" type="password" placeholder="sk-로 시작하는 키" autocomplete="off"/></label>
+<label class="field"><span>모델</span><select id="aiOpenaiModel"><option value="gpt-4o-mini">gpt-4o-mini (권장·가성비)</option><option value="gpt-4.1-mini">gpt-4.1-mini (상위 품질)</option><option value="gpt-4o">gpt-4o (고품질·고비용)</option><option value="custom">직접 입력</option></select></label>
+<label class="field"><span>직접 입력 모델명</span><input id="aiOpenaiCustom" placeholder="'직접 입력' 선택 시만"/></label>
+<div class="actions"><button class="btn btn-secondary" id="testOpenaiKey">ChatGPT 연결 테스트</button></div>
+<div id="aiOpenaiStatus"></div>
+</article>
+<article class="card">
+<h2>🎯 역할 배정</h2>
+<p class="hint">데로사님 사용 경험대로 기본값을 트렌드=Gemini, 글 다듬기=ChatGPT로 설정했습니다. 담당 AI의 키가 비어 있으면 다른 쪽 키로 자동 대체 실행됩니다.</p>
+<label class="field"><span>트렌드 수집 담당</span><select id="aiRoleTrends"><option value="gemini">Gemini</option><option value="openai">ChatGPT</option></select></label>
+<label class="field"><span>글 다듬기 담당</span><select id="aiRoleWriter"><option value="openai">ChatGPT</option><option value="gemini">Gemini</option></select></label>
+<label class="field"><span>자동 검수 루프</span><select id="aiAutoLoop"><option value="on">켬 — 전 채널 85점까지 자동 재수정</option><option value="off">끔 — 1회 다듬기만</option></select></label>
+<label class="field"><span>최대 반복 횟수</span><select id="aiMaxLoops"><option>1</option><option selected="">2</option><option>3</option></select></label>
+<div class="actions"><button class="btn btn-primary" id="saveAiSettings">전체 설정 저장</button></div>
+<div id="aiStatus"></div>
+<div class="safety-box"><b>보안 주의</b><br/>① 키는 이 기기 브라우저에만 저장됩니다. 공용 기기 금지. ② 백업 JSON에 키가 포함되니 백업 파일을 남에게 보내지 마세요. ③ 유출 시 각 사이트에서 즉시 폐기·재발급.</div>
+</article>
+<article class="card">
+<h2>🗣️ 내 말투 프로필</h2>
+<p class="hint">글 다듬기 담당 AI가 항상 따르는 나의 스타일 설명서입니다.</p>
+<textarea class="large-text" id="aiVoice" placeholder="예: 담백한 존댓말, 이모지는 문단당 1개 이하, 첫 문장은 질문형 후킹, 과장 없이 단점도 솔직하게."></textarea>
+<div class="actions"><button class="btn btn-primary" id="saveAiVoice">프로필 저장</button><button class="btn btn-ghost" id="aiVoiceFromTop">성과 상위 글에서 예시 추가</button></div>
+</article>
+</div>
 </section>
 <section class="view" id="preflight">
 <div class="card sticky-tools">
@@ -1015,6 +1098,15 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     next.prelaunchChecks = { ...(base.prelaunchChecks || {}), ...(next.prelaunchChecks || {}) };
     next.settings.scoreWeights = { ...defaultScoreWeights(), ...(next.settings.scoreWeights || {}) };
     next.settings.linkHub = { ...defaultLinkHubSettings(), ...(next.settings.linkHub || {}) };
+    next.settings.ai = { geminiKey: '', geminiModel: 'gemini-2.5-flash', geminiCustom: '', openaiKey: '', openaiModel: 'gpt-4o-mini', openaiCustom: '', roleTrends: 'gemini', roleWriter: 'openai', autoLoop: true, maxLoops: 2, voice: '', ...(next.settings.ai || {}) };
+    if (next.settings.ai.key && !next.settings.ai.geminiKey) {
+      next.settings.ai.geminiKey = next.settings.ai.key;
+      const oldModel = next.settings.ai.customModel || next.settings.ai.model || '';
+      const knownGemini = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.5-pro'];
+      if (oldModel && knownGemini.includes(oldModel)) { next.settings.ai.geminiModel = oldModel; }
+      else if (oldModel && oldModel !== 'custom') { next.settings.ai.geminiModel = 'custom'; next.settings.ai.geminiCustom = oldModel; }
+    }
+    delete next.settings.ai.key; delete next.settings.ai.model; delete next.settings.ai.customModel;
     next.trendKeywords = next.trendKeywords.map(t => ({ searchInterest: '', shoppingInterest: '', snsSpreadLevel: '', seasonality: '', competitionLevel: '', expectedPrice: 0, expectedCommissionRate: 0, purchaseConcernLevel: '', repeatContentPotential: '', blogSearchPotential: '', cardSavePotential: '', sponsorPotential: '', directExperienceNeed: '', policyMemo: '', ...t }));
     next.trendProductCandidates = next.trendProductCandidates.map(c => ({ productType: '기타', expectedPrice: 0, commissionRate: 0, expectedProfit: 0, affiliatePotential: 3, sponsorPotential: 3, blogPotential: 3, cardPotential: 3, threadsPotential: 3, purchaseConcern: 3, competitionLevel: 2, policyRisk: 2, directExperienceNeed: 2, pros: '', cons: '', linkHubTitle: '', target: '', nonTarget: '', memo: '', status: '검토중', ...c }));
     next.dataVersion = DATA_VERSION;
@@ -1033,7 +1125,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     campaign: [['캠페인', 'campaigns'], ['수익모델', 'revenueModels'], ['게시계획', 'planner']],
     links: [['링크허브', 'links']],
     analysis: [['성과기록', 'performance'], ['리포트', 'report'], ['업데이트추천', 'updateTasks']],
-    settings: [['정책센터', 'policyCenter'], ['백업', 'backup'], ['실전점검', 'preflight']]
+    settings: [['AI 연동', 'aiSettings'], ['정책센터', 'policyCenter'], ['백업', 'backup'], ['실전점검', 'preflight']]
   };
   const VIEW_TO_GROUP = Object.entries(NAV_GROUPS).reduce((m, [group, items]) => { items.forEach(([, view]) => { if (!m[view]) m[view] = group; }); return m; }, {});
   function viewGroup(name) { return VIEW_TO_GROUP[name] || 'dashboard'; }
@@ -1049,9 +1141,372 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   function getAsset(aid) { return state.assets.find(a => a.id === aid) || {}; }
   function titleOfPost(post) { return post?.title || post?.name || post?.channel || '콘텐츠'; }
 
+
+  /* ===== v8.5 이중 AI 연동 (Gemini + ChatGPT 역할 배정) ===== */
+  function aiConf() { return state.settings.ai || {}; }
+  function providerLabel(p) { return p === 'openai' ? 'ChatGPT' : 'Gemini'; }
+  function modelOf(p) {
+    const c = aiConf();
+    if (p === 'openai') return (c.openaiModel === 'custom' ? (c.openaiCustom || '').trim() : c.openaiModel) || 'gpt-4o-mini';
+    return (c.geminiModel === 'custom' ? (c.geminiCustom || '').trim() : c.geminiModel) || 'gemini-2.5-flash';
+  }
+  function keyOf(p) { const c = aiConf(); return p === 'openai' ? (c.openaiKey || '').trim() : (c.geminiKey || '').trim(); }
+  function resolveProvider(task) {
+    const c = aiConf();
+    const want = task === 'writer' ? (c.roleWriter || 'openai') : (c.roleTrends || 'gemini');
+    if (keyOf(want)) return { prov: want, note: '' };
+    const other = want === 'openai' ? 'gemini' : 'openai';
+    if (keyOf(other)) return { prov: other, note: `담당 AI(${providerLabel(want)}) 키가 없어 ${providerLabel(other)}로 대신 실행했습니다.` };
+    return { prov: null, want };
+  }
+  function stripFence(t = '') { return String(t).replace(/```json|```/gi, '').trim(); }
+  function extractJson(t = '') {
+    const s = stripFence(t);
+    const a = s.indexOf('['), o = s.indexOf('{');
+    const startIdx = a === -1 ? o : (o === -1 ? a : Math.min(a, o));
+    if (startIdx === -1) throw new Error('응답에서 JSON을 찾지 못했습니다.');
+    const endIdx = Math.max(s.lastIndexOf(']'), s.lastIndexOf('}'));
+    return JSON.parse(s.slice(startIdx, endIdx + 1));
+  }
+  function setAiStatus(sel, cls, msg) { const box = $(sel); if (box) box.innerHTML = `<div class="issue ${cls}">${msg}</div>`; }
+  async function aiCall(prompt, prov) {
+    const key = keyOf(prov);
+    if (!key) throw new Error('NO_KEY');
+    let res;
+    if (prov === 'openai') {
+      res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: modelOf('openai'), messages: [{ role: 'user', content: prompt }], temperature: 0.7, max_tokens: 4096 })
+      });
+    } else {
+      res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelOf('gemini'))}:generateContent?key=${encodeURIComponent(key)}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 4096 } })
+      });
+    }
+    if (!res.ok) {
+      let detail = ''; try { detail = JSON.stringify(await res.json()).slice(0, 200); } catch {}
+      if (res.status === 401 || res.status === 403) throw new Error('KEY_ERROR');
+      if (res.status === 404) throw new Error('MODEL_ERROR');
+      if (res.status === 429) throw new Error(detail.includes('insufficient_quota') ? 'CREDIT' : 'RATE_LIMIT');
+      if (res.status === 402) throw new Error('CREDIT');
+      throw new Error('HTTP_' + res.status);
+    }
+    const data = await res.json();
+    const text = prov === 'openai'
+      ? (data.choices?.[0]?.message?.content || '')
+      : (data.candidates?.[0]?.content?.parts || []).map(p => p.text || '').join('');
+    if (!String(text).trim()) throw new Error('EMPTY');
+    return text;
+  }
+  function aiErrMsg(e, prov) {
+    const m = e && e.message || ''; const who = providerLabel(prov);
+    if (m === 'NO_KEY') return `${who} API 키가 없습니다. 설정 → AI 연동에서 키를 저장하세요.`;
+    if (m === 'KEY_ERROR') return `${who} API 키가 잘못되었거나 권한이 없습니다.`;
+    if (m === 'MODEL_ERROR') return `${who} 모델(${esc(modelOf(prov))})을 찾을 수 없습니다. 모델 이름을 확인하세요.`;
+    if (m === 'RATE_LIMIT') return `${who} 요청 한도(429)에 걸렸습니다. ${prov === 'gemini' ? '무료 한도라면 flash-lite 모델로 바꾸거나 ' : ''}30초 뒤 재시도하세요.`;
+    if (m === 'CREDIT') return `${who} 크레딧이 부족합니다. platform.openai.com → Billing에서 충전 상태를 확인하세요.`;
+    if (m === 'EMPTY') return `${who} 응답이 비어 있습니다. 한 번 더 시도해 보세요.`;
+    if (m.startsWith('HTTP_')) return `${who} 서버 오류(${esc(m.slice(5))})입니다. 잠시 후 재시도하세요.`;
+    return `${who} 처리 오류: ` + esc(m || '알 수 없음');
+  }
+  function topPostExamples(n = 2) {
+    const scoreByPost = {};
+    state.performances.forEach(p => { if (!p.postId || p.isCard) return; scoreByPost[p.postId] = (scoreByPost[p.postId] || 0) + num(p.revenue) * 2 + num(p.clicks) * 50 + num(p.likes); });
+    return Object.entries(scoreByPost).sort((a, b) => b[1] - a[1]).slice(0, n)
+      .map(([pid]) => state.posts.find(p => p.id === pid)).filter(p => p && p.text)
+      .map((p, i) => `— 성과 좋았던 내 글 예시 ${i + 1} (${p.channel}) —\n${p.text.slice(0, 400)}`);
+  }
+  function voiceBlock() {
+    const parts = [];
+    const v = (aiConf().voice || '').trim();
+    if (v) parts.push(`[내 말투 프로필 — 반드시 이 스타일을 따를 것]\n${v}`);
+    const ex = topPostExamples();
+    if (ex.length) parts.push(`[성과가 좋았던 내 글 — 말투와 구성 참고]\n${ex.join('\n\n')}`);
+    return parts.join('\n\n');
+  }
+  const AI_RULES = `필수 규칙:
+1) 제휴/협찬/제품제공/판매 글이면 각 글의 첫 줄을 반드시 "[제휴]" "[광고]" "[제품 제공]" "[판매]" 중 알맞은 표시문구로 시작한다.
+2) 직접 경험이 아니면 "써보니/먹어보니/가보니" 같은 직접 체험 단정 표현을 쓰지 않는다. "후기들을 종합하면" 식으로 쓴다.
+3) 금지 표현: 100%, 무조건, 완치, 치료, 최저가 보장, 수익 보장, 최고, 유일.
+4) 해시태그는 채널당 3~7개.
+5) Threads는 500자 이내 후킹형, Instagram은 줄바꿈을 살린 카드뉴스 캡션형, Facebook은 정보+경험 서술형, Blog는 소제목이 있는 700자 내외 요약형.
+6) 장점과 주의점을 균형 있게, 과장 없이.`;
+  function writerContext() {
+    const a = getAsset($('#wAsset')?.value); const c = getCampaign($('#wCampaign')?.value);
+    return {
+      a, c,
+      category: $('#wCategory')?.value || '기타',
+      purpose: $('#wPurpose')?.value || '',
+      disclosure: $('#wDisclosure')?.value || 'none',
+      experience: $('#wExperience')?.value || '',
+      idea: ($('#wIdea')?.value || '').trim(),
+      pros: ($('#wPros')?.value || '').trim() || a.pros || '',
+      cons: ($('#wCons')?.value || '').trim() || a.cons || '',
+      cta: ($('#wCta')?.value || '').trim() || '자세한 내용은 프로필 링크 참고'
+    };
+  }
+  function buildSuperPrompt() {
+    const w = writerContext(); const vb = voiceBlock();
+    return `너는 한국 SNS 수익화 콘텐츠 전문가다. 아래 소재로 트렌드 평가 + 4개 채널 글 + 카드뉴스 문구를 만들어라. 결과는 설명 없이 JSON 하나만 출력한다.
+
+${AI_RULES}
+${vb ? '\n' + vb + '\n' : ''}
+[소재 정보]
+- 이름: ${w.a.name || w.idea.split('\n')[0] || '미정'}
+- 카테고리: ${w.category} / 글 목적: ${w.purpose}
+- 광고·제휴 상태: ${w.disclosure} (none이면 표시문구 생략)
+- 경험 상태: ${w.experience}
+- 핵심 내용: ${w.idea || '없음'}
+- 장점: ${w.pros || '없음'}
+- 단점·주의점: ${w.cons || '없음'}
+- 유입 문구: ${w.cta}
+- 캠페인: ${w.c.name || '없음'}
+
+[출력 JSON 형식 — 키 이름을 그대로 사용]
+{
+  "trend": {"keyword": "", "category": "${w.category}", "trendReason": "", "relatedProducts": [], "purchaseIntentScore": 0, "snsPotentialScore": 0, "blogPotentialScore": 0, "affiliatePotentialScore": 0, "policyRiskScore": 0},
+  "posts": {"Threads": "", "Instagram": "", "Facebook": "", "Blog": ""},
+  "cards": ["카드1 제목|카드1 본문", "카드2 제목|카드2 본문"],
+  "caption": "인스타그램 게시용 캡션"
+}
+점수는 1~5 숫자. cards는 5~8개.`;
+  }
+  function applyUnified(obj) {
+    const done = [];
+    if (obj.trend && String(obj.trend.keyword || '').trim()) { state.trendKeywords.push(normalizeTrend(obj.trend)); done.push('트렌드 1건 등록'); }
+    if (obj.posts && typeof obj.posts === 'object') {
+      let n = 0;
+      CHANNELS.forEach(ch => { const t = obj.posts[ch] ?? obj.posts[ch.toLowerCase()]; if (t && String(t).trim()) { outputs[ch] = String(t).trim(); n++; } });
+      if (n) { renderOutputs(); renderSafety(); done.push(`채널 글 ${n}개 채움`); }
+    }
+    if (Array.isArray(obj.cards) && obj.cards.length) {
+      const idea = obj.cards.map(c => String(c).replace('|', ': ')).join('\n').slice(0, 2000);
+      if ($('#cardIdea')) { $('#cardIdea').value = idea; done.push(`카드뉴스 문구 ${obj.cards.length}장 → 카드뉴스 제작소 "핵심 내용"에 전달`); }
+    }
+    if (obj.caption && $('#cardCaption')) { $('#cardCaption').value = String(obj.caption); done.push('카드뉴스 캡션 채움'); }
+    if (done.length) save();
+    return done;
+  }
+  async function runAiTrends() {
+    const btn = $('#aiFetchTrends'); const box = '#aiTrendStatus';
+    const r = resolveProvider('trends');
+    if (!r.prov) return setAiStatus(box, 'warn', `${providerLabel(r.want)} 키가 없습니다. [AI 연동 설정 열기]에서 키를 저장하거나, 기존처럼 프롬프트 복사→붙여넣기 방식을 사용하세요.`);
+    if (btn) btn.disabled = true;
+    setAiStatus(box, 'warn', `⏳ ${providerLabel(r.prov)}에게 오늘의 트렌드를 요청하는 중… (약 5~15초)`);
+    try {
+      const prompt = `너는 한국 SNS 수익화 리서치 도우미다. 오늘(${today()}) 기준 한국에서 구매 전환 가능성이 높은 트렌드 키워드 6개를 골라라. 계절성, 최근 소비 흐름, 제휴(쿠팡 등) 적합성, 정책 위험을 함께 평가하고, 예상 객단가가 높은(수수료 수익이 큰) 키워드를 2개 이상 포함하라.\n\n${trendJsonPrompt()}`;
+      const arr = extractJson(await aiCall(prompt, r.prov));
+      if (!Array.isArray(arr)) throw new Error('배열 형식이 아닙니다.');
+      const added = arr.map(normalizeTrend).filter(t => t.keyword);
+      if (!added.length) throw new Error('키워드를 추출하지 못했습니다.');
+      state.trendKeywords.push(...added); save();
+      setAiStatus(box, 'good', `✅ ${providerLabel(r.prov)}가 ${added.length}개 트렌드를 저장했습니다.${r.note ? ' (' + r.note + ')' : ''} 아래 목록에서 S·A 등급을 확인하세요.`);
+    } catch (e) { setAiStatus(box, 'bad', aiErrMsg(e, r.prov)); }
+    if (btn) btn.disabled = false;
+  }
+  async function runAiRefine() {
+    const btn = $('#aiRefineAll'); const box = '#aiWriterStatus';
+    if (!CHANNELS.some(ch => (outputs[ch] || '').trim())) return setAiStatus(box, 'warn', '먼저 [4개 채널 글 만들기]로 초안을 만든 뒤 사용하세요.');
+    const r = resolveProvider('writer');
+    if (!r.prov) return setAiStatus(box, 'warn', `${providerLabel(r.want)} API 키가 없습니다. 키 없이 쓰려면 아래 [통합 프롬프트 복사] → ChatGPT 웹(무료/Plus)에 붙여넣기 → 결과를 [한 번에 배치]에 넣는 수동 경로를 이용하세요.`);
+    const c = aiConf(); if (btn) btn.disabled = true;
+    const w = writerContext();
+    const scoreNow = () => { const rows = CHANNELS.map(ch => checkText(outputs[ch] || '', w.disclosure, w.experience)); return { avg: Math.round(rows.reduce((s, x) => s + x.score, 0) / rows.length), min: Math.min(...rows.map(x => x.score)), rows }; };
+    try {
+      const maxLoops = Math.min(3, Math.max(1, num(c.maxLoops) || 2));
+      let round = 0;
+      let prompt = `너는 한국 SNS 수익화 콘텐츠 에디터다. 아래 4개 채널 초안을 자연스럽고 사람 냄새 나게 다듬어라. 사실과 뼈대는 유지하고 문장만 개선한다. 결과는 설명 없이 JSON 하나만: {"Threads":"","Instagram":"","Facebook":"","Blog":""}\n\n${AI_RULES}\n\n${voiceBlock()}\n\n[초안]\n${CHANNELS.map(ch => `<<${ch}>>\n${outputs[ch] || '(비어 있음 — 소재에 맞게 새로 작성)'}`).join('\n\n')}`;
+      while (true) {
+        round++;
+        setAiStatus(box, 'warn', `⏳ ${providerLabel(r.prov)} 다듬기 ${round}차 진행 중… (${round}/${maxLoops})`);
+        const obj = extractJson(await aiCall(prompt, r.prov));
+        CHANNELS.forEach(ch => { const t = obj[ch] ?? obj[ch.toLowerCase()]; if (t && String(t).trim()) outputs[ch] = String(t).trim(); });
+        renderOutputs(); renderSafety();
+        const { avg, min, rows } = scoreNow();
+        const pass = min >= 85;
+        if (pass || c.autoLoop === false || round >= maxLoops) {
+          setAiStatus(box, pass ? 'good' : 'warn', `${providerLabel(r.prov)} ${round}차 완료 · 평균 <b>${avg}점</b> / 최저 채널 <b>${min}점</b> ${pass ? '— 4개 채널 모두 통과! 확인 후 [게시계획에 저장]을 누르세요.' : '— 아직 85점 미만 채널이 있습니다. 지적 문장을 다듬거나 한 번 더 실행하세요.'}${r.note ? '<br>' + r.note : ''}`);
+          break;
+        }
+        const issues = rows.map((x, i) => `${CHANNELS[i]}: ${x.issues.filter(it => it.level !== 'good').map(it => it.msg).join(' / ') || '없음'}`).join('\n');
+        prompt = `아래 4개 글에서 지적 사항만 고쳐라. 다른 내용은 유지한다. 결과는 설명 없이 JSON 하나만: {"Threads":"","Instagram":"","Facebook":"","Blog":""}\n\n[지적 사항]\n${issues}\n\n[현재 글]\n${CHANNELS.map(ch => `<<${ch}>>\n${outputs[ch] || ''}`).join('\n\n')}`;
+      }
+    } catch (e) { setAiStatus(box, 'bad', aiErrMsg(e, r.prov)); }
+    if (btn) btn.disabled = false;
+  }
+  async function testProvider(prov) {
+    const btnId = prov === 'openai' ? '#testOpenaiKey' : '#testGeminiKey';
+    const boxId = prov === 'openai' ? '#aiOpenaiStatus' : '#aiGeminiStatus';
+    const btn = $(btnId); if (btn) btn.disabled = true;
+    // 저장 전 입력값으로도 테스트되도록 임시 반영
+    collectAiSettings(false);
+    setAiStatus(boxId, 'warn', '연결을 확인하는 중…');
+    try { const t = await aiCall('테스트입니다. "연결 성공" 네 글자만 출력해.', prov); setAiStatus(boxId, 'good', `✅ 연결 성공! ${providerLabel(prov)} · ${esc(modelOf(prov))} 응답: ${esc(String(t).slice(0, 40))}`); }
+    catch (e) { setAiStatus(boxId, 'bad', aiErrMsg(e, prov)); }
+    if (btn) btn.disabled = false;
+  }
+  function collectAiSettings(doSave = true) {
+    state.settings.ai = {
+      ...aiConf(),
+      geminiKey: $('#aiGeminiKey').value.trim(), geminiModel: $('#aiGeminiModel').value, geminiCustom: $('#aiGeminiCustom').value.trim(),
+      openaiKey: $('#aiOpenaiKey').value.trim(), openaiModel: $('#aiOpenaiModel').value, openaiCustom: $('#aiOpenaiCustom').value.trim(),
+      roleTrends: $('#aiRoleTrends').value, roleWriter: $('#aiRoleWriter').value,
+      autoLoop: $('#aiAutoLoop').value === 'on', maxLoops: num($('#aiMaxLoops').value) || 2
+    };
+    if (doSave) { save(); renderAiSettings(); setAiStatus('#aiStatus', 'good', '✅ 설정을 저장했습니다.'); }
+  }
+  function saveAiVoice() { state.settings.ai = { ...aiConf(), voice: $('#aiVoice').value.trim() }; save(); renderAiSettings(); toast('말투 프로필을 저장했습니다.'); }
+  function voiceFromTop() {
+    const ex = topPostExamples(3);
+    if (!ex.length) return toast('성과기록과 연결된 글이 아직 없습니다. 성과를 먼저 입력해 주세요.');
+    $('#aiVoice').value = (($('#aiVoice').value || '') + '\n\n' + ex.join('\n\n')).trim().slice(0, 3000);
+    toast('상위 글 예시를 추가했습니다. [프로필 저장]을 눌러 확정하세요.');
+  }
+  function renderAiSettings() {
+    const c = aiConf(); if (!$('#aiGeminiKey')) return;
+    $('#aiGeminiKey').value = c.geminiKey || ''; setVal('aiGeminiModel', c.geminiModel || 'gemini-2.5-flash'); $('#aiGeminiCustom').value = c.geminiCustom || '';
+    $('#aiOpenaiKey').value = c.openaiKey || ''; setVal('aiOpenaiModel', c.openaiModel || 'gpt-4o-mini'); $('#aiOpenaiCustom').value = c.openaiCustom || '';
+    setVal('aiRoleTrends', c.roleTrends || 'gemini'); setVal('aiRoleWriter', c.roleWriter || 'openai');
+    setVal('aiAutoLoop', c.autoLoop === false ? 'off' : 'on'); setVal('aiMaxLoops', String(c.maxLoops || 2));
+    $('#aiVoice').value = c.voice || '';
+  }
+
+  /* ===== v8.5 네이버 안심 모드 ===== */
+  function naverSafe(text = '') {
+    let out = String(text);
+    out = out.split('\n').filter(line => !/^\s*\[(제휴|광고|제품|판매)/.test(line)).join('\n');
+    out = out.replace(/https?:\/\/\S+/g, '');
+    out = out.replace(/쿠팡\s*파트너스|파트너스\s*활동|일정액의?\s*수수료[^.\n#!?]*[.!?\n]?/g, '');
+    out = out.replace(/프로필\s*링크(에서|를|로)?[^.\n#!?]*[.!?\n]?/g, '');
+    out = out.replace(/(지금\s*)?(구매|주문)(는|은)?\s*(여기|링크|아래)[^.\n#!?]*[.!?\n]?/g, '');
+    out = out.replace(/최저가[^.\n#!?]*[.!?\n]?/g, '');
+    out = out.replace(/링크\s*(클릭|눌러|타고)[^.\n#!?]*[.!?\n]?/g, '');
+    out = out.split('\n').map(l => l.replace(/[ \t]{2,}/g, ' ').trim()).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    if (out && !/다음\s*글/.test(out)) out += '\n\n더 자세한 비교와 정리는 다음 글에서 이어가겠습니다.';
+    return out;
+  }
+  function makeNaverSafe() {
+    const src = (outputs.Blog || '').trim();
+    if (!src) return setAiStatus('#naverSafeStatus', 'warn', 'Blog 글이 비어 있습니다. 먼저 [4개 채널 글 만들기]를 실행하세요.');
+    const out = naverSafe(src);
+    $('#naverSafeOut').value = out;
+    if (!out) return setAiStatus('#naverSafeStatus', 'warn', '상업성 문구를 제거하니 남는 내용이 없습니다. Blog 글에 정보성 본문(비교·팁·주의점)을 보강한 뒤 다시 시도하세요.');
+    const removed = Math.max(0, src.length - out.length);
+    setAiStatus('#naverSafeStatus', 'good', `✅ 정보성 버전을 만들었습니다 (상업성 표현 약 ${removed}자 제거·치환). 네이버 블로그에는 이 버전을, 제휴 링크는 링크허브에만 두세요.`);
+  }
+
+  /* ===== v8.5 황금 조합 분석 ===== */
+  function timeSlotOf(iso) {
+    if (!iso) return '시간 미지정';
+    const hh = Number(String(iso).split('T')[1]?.slice(0, 2));
+    if (isNaN(hh)) return '시간 미지정';
+    if (hh < 11) return '아침(~11시)';
+    if (hh < 15) return '점심(11~15시)';
+    if (hh < 19) return '오후(15~19시)';
+    if (hh < 23) return '저녁(19~23시)';
+    return '심야';
+  }
+  function comboStats() {
+    const map = {};
+    state.performances.forEach(p => {
+      const asset = getAsset(p.assetId);
+      const cat = asset.type || getCampaign(p.campaignId).category || '기타';
+      const content = p.isCard ? state.cardNews.find(x => x.id === p.postId) : state.posts.find(x => x.id === p.postId);
+      const slot = timeSlotOf(content && content.plannedAt);
+      const key = `${cat}|${p.channel || '기타'}|${slot}`;
+      const row = map[key] = map[key] || { cat, channel: p.channel || '기타', slot, n: 0, clicks: 0, rev: 0 };
+      row.n++; row.clicks += num(p.clicks); row.rev += num(p.revenue) - num(p.cost);
+    });
+    return Object.values(map).sort((a, b) => b.rev - a.rev || b.clicks - a.clicks);
+  }
+  function renderGoldenCombos() {
+    const box = $('#goldenCombos'); if (!box) return;
+    const rows = comboStats();
+    if (state.performances.length < 3) { box.innerHTML = '<div class="issue warn">성과기록이 3건 이상 쌓이면 분석이 시작됩니다. 지금은 데이터를 모으는 단계입니다.</div>'; return; }
+    box.innerHTML = rows.slice(0, 6).map((r, i) => `<div class="combo-row"><span class="combo-rank">${i + 1}위</span><span class="badge gray">${esc(r.cat)}</span><span class="badge gray">${esc(r.channel)}</span><span class="badge gray">${esc(r.slot)}</span><span class="badge ${r.rev > 0 ? 'good' : 'warn'}">순수익 ${money(r.rev)}</span><span class="badge gray">클릭 ${r.clicks}</span><span class="badge gray">${r.n}건 · 건당 ${money(Math.round(r.rev / r.n))}</span></div>`).join('')
+      + `<p class="hint">1위 조합의 편수를 늘리고, 순수익이 마이너스인 조합은 소재나 시간대를 바꿔 테스트하세요.</p>`;
+  }
+
+  /* ===== v8.5 시즌 준비 캘린더 ===== */
+  const SEASON_CAL = {
+    1: { hot: ['방한용품', '홈트 기구', '새해 다이어리'], prep: ['발렌타인 선물', '새학기 준비물', '환절기 건강템'] },
+    2: { hot: ['발렌타인 선물', '졸업·입학 선물'], prep: ['새학기 용품', '화이트데이', '봄옷·꽃샘추위'] },
+    3: { hot: ['새학기 용품', '화이트데이', '봄 패션'], prep: ['벚꽃 나들이템', '미세먼지(마스크·공기청정기)', '캠핑 시즌 개막'] },
+    4: { hot: ['피크닉·나들이템', '황사 대비'], prep: ['어버이날·어린이날 선물', '초여름 냉방(선풍기)'] },
+    5: { hot: ['가정의 달 선물', '캠핑용품'], prep: ['장마 대비(제습기·우산)', '쿨매트·냉감 침구'] },
+    6: { hot: ['초여름 냉방템', '장마 용품'], prep: ['본격 무더위(목선풍기·휴대 선풍기)', '여름휴가 용품'] },
+    7: { hot: ['폭염 대비템', '휴가·물놀이 용품'], prep: ['말복 보양식', '개학 준비물', '가을 캠핑 예열'] },
+    8: { hot: ['휴가 막바지템', '개학 준비물'], prep: ['추석 선물세트', '가을 환절기 건강템'] },
+    9: { hot: ['추석 선물', '가을 나들이'], prep: ['겨울 준비 시작(전기요·가습기)', '수능 응원 선물'] },
+    10: { hot: ['단풍 캠핑', '핼러윈'], prep: ['김장 용품', '빼빼로데이', '블랙프라이데이 위시리스트'] },
+    11: { hot: ['빼빼로·수능', '블프 특가', '김장'], prep: ['크리스마스 선물', '연말 모임템', '본격 방한'] },
+    12: { hot: ['크리스마스', '연말 선물', '방한용품'], prep: ['새해 다이어리·플래너', '설 선물', '홈트 결심템'] }
+  };
+  function renderSeasonCalendar() {
+    const box = $('#seasonCalendar'); if (!box) return;
+    const m = new Date().getMonth() + 1;
+    const cur = SEASON_CAL[m]; const next = SEASON_CAL[m % 12 + 1];
+    const chip = k => `<span class="season-chip">${esc(k)}<button data-season-kw="${esc(k)}" type="button">+트렌드</button></span>`;
+    box.innerHTML = `<p style="margin:4px 0 6px"><b>지금(${m}월) 잘 팔리는 것</b> — 이미 경쟁이 붙은 키워드입니다.</p><div>${cur.hot.map(k => `<span class="season-chip">${esc(k)}</span>`).join('')}</div>
+      <p style="margin:14px 0 6px"><b>지금 준비할 것 (${m}월 말~${m % 12 + 1}월 대비)</b> — 남들보다 6주 먼저 글을 쌓아둘 키워드입니다. [+트렌드]로 바로 등록하세요.</p><div>${cur.prep.map(chip).join('')}</div>
+      <p style="margin:14px 0 6px;color:#64748b;font-size:13px">다음 달(${m % 12 + 1}월) 미리보기: ${next.hot.concat(next.prep).slice(0, 4).map(esc).join(' · ')}</p>`;
+    $$('[data-season-kw]', box).forEach(b => b.onclick = () => {
+      const kw = b.dataset.seasonKw;
+      if (state.trendKeywords.some(t => t.keyword === kw)) return toast('이미 트렌드 목록에 있는 키워드입니다.');
+      state.trendKeywords.push(normalizeTrend({ keyword: kw, category: '계절이슈', trendReason: `시즌 캘린더 추천 (${m}월 선제 준비)`, purchaseIntentScore: 4, snsPotentialScore: 3, blogPotentialScore: 4, affiliatePotentialScore: 4, policyRiskScore: 1 }));
+      save(); toast(`"${kw}"를 트렌드 목록에 등록했습니다.`);
+    });
+  }
+
+  /* ===== v8.5 새 버전 자동 알림 ===== */
+  function showUpdateBanner() { const b = $('#updateBanner'); if (b) b.hidden = false; }
+  function initServiceWorkerUpdates() {
+    if (!('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.register('service-worker.js').then(reg => {
+      setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing; if (!nw) return;
+        nw.addEventListener('statechange', () => {
+          if (nw.state === 'activated' && navigator.serviceWorker.controller) showUpdateBanner();
+        });
+      });
+    }).catch(() => {});
+  }
+
+  function bindAi() {
+    const on = (bid, fn) => { const el = $('#' + bid); if (el) el.onclick = fn; };
+    on('saveAiSettings', () => collectAiSettings(true));
+    on('testGeminiKey', () => testProvider('gemini'));
+    on('testOpenaiKey', () => testProvider('openai'));
+    on('saveAiVoice', saveAiVoice); on('aiVoiceFromTop', voiceFromTop);
+    on('aiFetchTrends', runAiTrends); on('goAiSettings', () => switchView('aiSettings'));
+    on('aiRefineAll', runAiRefine);
+    on('copySuperPrompt', () => { copy(buildSuperPrompt()); toast('통합 프롬프트를 복사했습니다. AI에 붙여넣고, 결과 JSON을 [한 번에 배치] 칸에 넣으세요.'); });
+    on('aiUnifiedApply', () => {
+      const raw = ($('#aiUnifiedJson').value || '').trim();
+      if (!raw) return toast('붙여넣은 JSON이 없습니다.');
+      try {
+        const done = applyUnified(extractJson(raw));
+        $('#aiUnifiedResult').innerHTML = done.length ? `<div class="issue good">✅ 배치 완료: ${done.join(' · ')}</div>` : '<div class="issue warn">배치할 항목을 찾지 못했습니다. trend / posts / cards / caption 키 이름을 확인하세요.</div>';
+      } catch (e) { $('#aiUnifiedResult').innerHTML = `<div class="issue bad">JSON 오류: ${esc(e.message)}. 앞뒤 설명 문장이 섞여 있으면 지우고 JSON만 붙여넣으세요.</div>`; }
+    });
+    on('aiUnifiedClear', () => { $('#aiUnifiedJson').value = ''; $('#aiUnifiedResult').innerHTML = ''; });
+    on('naverSafeMake', makeNaverSafe);
+    on('naverSafeCopy', () => { const t = $('#naverSafeOut').value.trim(); if (!t) return toast('먼저 [네이버 안심 버전 만들기]를 실행하세요.'); copy(t); });
+    document.addEventListener('click', e => {
+      if (e.target && e.target.id === 'updateApply') location.reload();
+      if (e.target && e.target.id === 'updateLater') { const b = $('#updateBanner'); if (b) b.hidden = true; }
+    });
+    renderAiSettings();
+    const baseRenderAll = renderAll;
+    renderAll = function () { baseRenderAll(); try { renderGoldenCombos(); renderSeasonCalendar(); } catch (e) {} };
+    renderGoldenCombos(); renderSeasonCalendar();
+  }
+
   function init() {
-    bindTabs(); bindInstall(); bindButtons(); setDates(); renderAll();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    bindTabs(); bindInstall(); bindButtons(); bindAi(); setDates(); renderAll();
+    initServiceWorkerUpdates();
   }
 
   function bindTabs() {
@@ -2784,5 +3239,6 @@ main{padding:16px 18px 24px}
   init();
 })();
 
-</script></body>
+</script><div id="updateBanner" hidden=""><span>🔄 새 버전이 준비되었습니다.</span><button id="updateApply" type="button">지금 적용</button><button id="updateLater" type="button">나중에</button></div>
+</body>
 </html>
