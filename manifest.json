@@ -1,7 +1,7 @@
 {
-  "name": "멀티 SNS 수익화 관리자 Pro v8.5.2 자동 최신 모델판",
+  "name": "멀티 SNS 수익화 관리자 Pro v8.5.3 터보 블로그 패치판",
   "short_name": "SNS수익Pro",
-  "description": "스마트폰은 2안형 상단 탭, 태블릿/PC는 4안형 사이드바로 작동하는 개인용 수동 게시형 멀티 SNS 수익화 PWA",
+  "description": "상품DB→캠페인+글쓰기 자동화, 네이버 블로그 품질 모드, ChatGPT Responses API 호환을 적용한 개인용 수동 게시형 멀티 SNS 수익화 PWA",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
