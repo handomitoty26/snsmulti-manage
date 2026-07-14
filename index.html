@@ -6,7 +6,7 @@
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="#111827" name="theme-color"/>
 <meta content="Threads, Instagram, Facebook, 블로그, 카드뉴스를 캠페인 단위로 관리하는 멀티 SNS 수익화 PWA" name="description"/>
-<title>멀티 SNS 수익화 관리자 Pro v8.5.5 맛집·여행 수익화 워크플로우판</title>
+<title>멀티 SNS 수익화 관리자 Pro v8.5.6 초고수 벤치마킹 분석센터판</title>
 <link href="manifest.json" rel="manifest"/>
 
 <link href="icon-192.png" rel="icon" type="image/png"/>
@@ -144,6 +144,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <button class="nav-btn side-nav-btn" data-view="planner" type="button"><span class="ico">□</span><span>게시관리</span></button>
 <button class="nav-btn side-nav-btn" data-view="links" type="button"><span class="ico">🔗</span><span>링크허브</span></button>
 <button class="nav-btn side-nav-btn" data-view="performance" type="button"><span class="ico">▥</span><span>성과분석</span></button>
+<button class="nav-btn side-nav-btn" data-view="expertCenter" type="button"><span class="ico">★</span><span>초고수분석</span></button>
 <button class="nav-btn side-nav-btn" data-view="policyCenter" type="button"><span class="ico">◇</span><span>정책·관리</span></button>
 <button class="nav-btn side-nav-btn" data-view="backup" type="button"><span class="ico">☁</span><span>백업</span></button>
 </aside>
@@ -834,6 +835,196 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 </article>
 </div>
 </section>
+<section class="view" id="expertCenter">
+<div class="card">
+<h2>초고수 벤치마킹 분석센터 <span class="badge good">v8.5.6</span></h2>
+<p class="hint">상위 수익자의 노하우를 "발굴 → 점수화 → 심층 해부 → 우리식 변형 → 성과 검증 → 승리 공식 저장" 5단계로 시스템화합니다. 자동 크롤링·자동 수집은 하지 않으며, 사용자가 직접 본 공개 콘텐츠만 분석합니다. 문구·사진·디자인 복제는 차단되고 구조와 전략만 추출합니다.</p>
+<div class="kpis" id="expertKpis"></div>
+</div>
+<div class="grid two">
+<article class="card">
+<h2>1단계 · 초고수 발굴 프롬프트 생성기</h2>
+<p class="hint">AI에게 "계정을 찾아줘"라고 하면 존재하지 않는 계정을 지어낼 수 있습니다. 대신 AI가 검색 전략을 설계하고, 검색은 내가 10분만 직접 합니다.</p>
+<div class="form-grid">
+<label class="field"><span>내 카테고리</span><select id="exPromptCategory"><option>맛집</option><option>여행</option><option>생활용품</option><option>전자기기</option><option>혼합</option></select></label>
+<label class="field"><span>발굴 플랫폼</span><select id="exPromptPlatform"><option>전체</option><option>Threads</option><option>Instagram</option><option>Facebook</option><option>Blog</option><option>YouTube</option></select></label>
+</div>
+<div class="actions wrap">
+<button class="btn btn-primary" id="copyExpertKeywordPrompt">초고수 검색 키워드 20개 생성</button>
+<button class="btn btn-secondary" id="copyExpertRoutePrompt">플랫폼별 발굴 루트 안내</button>
+<button class="btn btn-ghost" id="copyExpertFilterPrompt">30초 1차 필터 질문지</button>
+</div>
+<div class="safety-box"><b>진짜 초고수 시그널 5가지 (팔로워 수 아님)</b><br/>① 링크 구조: 프로필 링크허브에 제휴/스토어/협찬 문의가 정리됨 ② 광고 표시: [협찬]·[제휴] 표시 게시물이 반복됨 = 실제로 돈을 받는 증거 ③ 저장 유도: "저장해두세요" 콘텐츠 비율 ④ 반복 공식: 제목·구조가 템플릿처럼 반복됨 ⑤ 구매 의도 댓글: "어디서 사요?", "링크 주세요" 비율</div>
+<h2>검색 바로가기</h2>
+<div class="official-links">
+<a href="https://in.naver.com/" rel="noopener" target="_blank">네이버 인플루언서 검색</a>
+<a href="https://search.naver.com/" rel="noopener" target="_blank">네이버 통합검색</a>
+<a href="https://www.instagram.com/explore/" rel="noopener" target="_blank">인스타그램 탐색</a>
+<a href="https://www.threads.com/" rel="noopener" target="_blank">Threads 검색</a>
+<a href="https://www.youtube.com/results?search_query=SNS+%EC%88%98%EC%9D%B5%ED%99%94" rel="noopener" target="_blank">YouTube 검색</a>
+</div>
+</article>
+<article class="card">
+<h2>계정 후보 등록 + 시그널 점수</h2>
+<input id="exEditId" type="hidden"/>
+<div class="form-grid">
+<label class="field"><span>계정명/별칭</span><input id="exName" placeholder="예: 생활템 비교 A계정"/></label>
+<label class="field"><span>플랫폼</span><select id="exPlatform"><option>Threads</option><option>Instagram</option><option>Facebook</option><option>Blog</option><option>YouTube</option><option>기타</option></select></label>
+<label class="field full"><span>계정 링크</span><input id="exLink" placeholder="https://..."/></label>
+<label class="field"><span>카테고리</span><select id="exCategory"><option>맛집</option><option>여행</option><option>생활용품</option><option>전자기기</option><option>혼합</option><option>기타</option></select></label>
+<label class="field"><span>추정 수익모델</span><input id="exRevenueModels" placeholder="예: 쿠팡제휴, 협찬"/></label>
+<label class="field full"><span>첫인상 메모</span><textarea id="exFirstImpression" placeholder="링크허브 구조, 반복되는 콘텐츠 형태, 댓글 분위기 등 직접 관찰한 내용"></textarea></label>
+<label class="field"><span>상태</span><select id="exStatus"><option>후보</option><option>분석중</option><option>S급확정</option><option>보류</option><option>제외</option></select></label>
+</div>
+<h2>시그널 점수 (각 0~20)</h2>
+<div class="score-grid">
+<label>링크 구조 <input id="exSigLink" max="20" min="0" type="number" value="10"/></label>
+<label>광고 표시 반복 <input id="exSigDisclosure" max="20" min="0" type="number" value="10"/></label>
+<label>저장 유도력 <input id="exSigSave" max="20" min="0" type="number" value="10"/></label>
+<label>반복 공식 보유 <input id="exSigRepeat" max="20" min="0" type="number" value="10"/></label>
+<label>구매 의도 댓글 <input id="exSigComments" max="20" min="0" type="number" value="10"/></label>
+</div>
+<div class="actions"><button class="btn btn-primary" id="saveExpertCandidate">후보 저장</button><button class="btn btn-ghost" id="clearExpertForm">입력 초기화</button></div>
+</article>
+</div>
+<div class="grid two">
+<article class="card">
+<h2>2단계 · AI 점수화 (붙여넣기 분석)</h2>
+<p class="hint">후보 계정의 <b>공개된</b> 프로필 소개글 + 대표 게시물 캡션 2~3개 + 내 관찰 메모를 아래에 붙여넣으세요. AI는 붙여넣은 자료만 근거로 점수를 매깁니다.</p>
+<textarea class="large-text" id="exObservedText" placeholder="계정명:&#10;프로필 소개:&#10;대표 게시물 캡션 1:&#10;대표 게시물 캡션 2:&#10;관찰 메모: 링크허브 6단 구성, [협찬] 표시 주 2회 이상 등"></textarea>
+<div class="actions wrap">
+<button class="btn btn-primary" id="copyExpertScorePrompt">계정 분석 프롬프트 복사</button>
+<button class="btn btn-secondary" id="aiScoreExpertCandidate">⚡ AI로 바로 점수화</button>
+</div>
+<div class="safety-box" id="exScoreStatus"></div>
+<h2>AI JSON 결과 붙여넣기</h2>
+<textarea class="large-text" id="exCandidateAiJson" placeholder="ChatGPT/Gemini가 만든 JSON 배열만 붙여넣으세요."></textarea>
+<div class="actions wrap">
+<button class="btn btn-primary" id="importExpertCandidateJson">JSON 가져오기</button>
+<button class="btn btn-danger-soft" id="copyExpertJsonFixPrompt">JSON 오류 수정 프롬프트 복사</button>
+</div>
+<div class="safety-box" id="exCandidateImportResult"></div>
+</article>
+<article class="card">
+<h2>계정 후보 점수표</h2>
+<p class="hint">S·A 등급만 3단계(심층 해부)로 넘기세요. B 이하를 버리는 것이 분석 시간을 지키는 절반입니다.</p>
+<div class="filters">
+<select id="exFilterGrade"><option value="">등급 전체</option><option value="SA">S+A만</option><option>S</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
+<select id="exFilterCategory"><option value="">카테고리 전체</option><option>맛집</option><option>여행</option><option>생활용품</option><option>전자기기</option><option>혼합</option><option>기타</option></select>
+<select id="exFilterStatus"><option value="">상태 전체</option><option>후보</option><option>분석중</option><option>S급확정</option><option>보류</option><option>제외</option></select>
+</div>
+<div class="list" id="expertCandidateList"></div>
+</article>
+</div>
+<div class="grid two">
+<article class="card">
+<h2>3단계 · 대표 콘텐츠 심층 해부</h2>
+<p class="hint">S급 계정의 대표 콘텐츠를 1건씩 해부해 노하우 DNA를 추출합니다. 원문은 분석에만 쓰고, 저장 시에는 앞부분 200자 요약만 보관합니다.</p>
+<div class="form-grid">
+<label class="field"><span>대상 계정</span><select id="exDissectCandidate"></select></label>
+<label class="field"><span>콘텐츠 유형</span><select id="exContentType"><option>Threads 글</option><option>Instagram 카드뉴스</option><option>Instagram 캡션</option><option>Facebook 글</option><option>블로그 글</option><option>링크허브</option><option>기타</option></select></label>
+<label class="field"><span>콘텐츠 제목/요약</span><input id="exContentTitle" placeholder="예: 캠핑 의자 비교 카드뉴스"/></label>
+<label class="field"><span>원본 링크</span><input id="exContentLink" placeholder="https://..."/></label>
+</div>
+<label class="field full"><span>원문/캡션 붙여넣기 (직접 본 공개 콘텐츠)</span><textarea class="large-text" id="exContentRaw" placeholder="본문이나 캡션을 붙여넣으세요. 카드뉴스면 장별 문구를 줄바꿈으로."></textarea></label>
+<div class="actions wrap">
+<button class="btn btn-primary" id="copyDissectPrompt">해부 프롬프트 복사</button>
+<button class="btn btn-secondary" id="aiDissectContent">⚡ AI로 바로 해부</button>
+</div>
+<div class="safety-box" id="exDissectStatus"></div>
+<h2>해부 JSON 결과 붙여넣기</h2>
+<textarea class="large-text" id="exDissectJson" placeholder="AI가 만든 해부 JSON(객체)을 붙여넣으세요."></textarea>
+<div class="actions wrap">
+<button class="btn btn-primary" id="importDissectJson">해부 결과 저장</button>
+<button class="btn btn-danger-soft" id="copyDissectJsonFixPrompt">JSON 오류 수정 프롬프트 복사</button>
+</div>
+<div class="safety-box" id="exDissectImportResult"></div>
+<div class="safety-box"><b>복제 차단 원칙</b><br/>해부 결과의 공식은 반드시 {대상}, {숫자} 같은 변수형이어야 합니다. 원문 문장이 그대로 들어온 패턴은 저장 시 자동으로 걸러집니다.</div>
+</article>
+<article class="card">
+<h2>해부 결과 기록</h2>
+<div class="list" id="expertContentList"></div>
+<div class="divider"></div>
+<h2>노하우 패턴 저장소</h2>
+<p class="hint">해부에서 추출된 패턴이 유형별로 쌓입니다. 맛집에서 발견한 제목 공식을 전자기기 캠페인에 재사용할 수 있습니다.</p>
+<div class="form-grid">
+<label class="field"><span>유형</span><select id="kpType"><option>제목공식</option><option>후킹공식</option><option>본문골격</option><option>수익동선</option><option>신뢰장치</option><option>CTA문구</option><option>기타</option></select></label>
+<label class="field"><span>카테고리</span><select id="kpCategory"><option>혼합</option><option>맛집</option><option>여행</option><option>생활용품</option><option>전자기기</option></select></label>
+<label class="field full"><span>패턴 공식 (변수형)</span><input id="kpFormula" placeholder="예: {대상} 사기 전에 꼭 확인할 {숫자}가지"/></label>
+<label class="field full"><span>메모</span><input id="kpMemo" placeholder="어떤 상황에서 강한 패턴인지"/></label>
+</div>
+<div class="actions"><button class="btn btn-secondary" id="saveKnowhowPattern">패턴 직접 추가</button></div>
+<div class="filters">
+<select id="kpFilterType"><option value="">유형 전체</option><option>제목공식</option><option>후킹공식</option><option>본문골격</option><option>수익동선</option><option>신뢰장치</option><option>CTA문구</option><option>기타</option></select>
+<select id="kpFilterCategory"><option value="">카테고리 전체</option><option>혼합</option><option>맛집</option><option>여행</option><option>생활용품</option><option>전자기기</option></select>
+</div>
+<div class="list" id="knowhowPatternList"></div>
+</article>
+</div>
+<div class="grid two">
+<article class="card">
+<h2>4단계 · 우리식 변형 생성기</h2>
+<p class="hint">패턴의 구조만 빌리고 문구는 완전히 새로 씁니다. 내 상품DB 소재 + 내 말투 프로필 + 내 경험 상태가 자동 반영됩니다.</p>
+<div class="form-grid">
+<label class="field full"><span>사용할 패턴</span><select id="tfPattern"></select></label>
+<label class="field"><span>내 소재 (상품DB)</span><select id="tfAsset"></select></label>
+<label class="field"><span>연결 캠페인</span><select id="tfCampaign"></select></label>
+<label class="field"><span>광고/제휴 상태</span><select id="tfDisclosure"><option value="affiliate">제휴/쿠팡</option><option value="sponsor">협찬/광고</option><option value="gifted">제품·식사 제공</option><option value="none">일반</option><option value="ownStore">내 상품/스토어</option></select></label>
+</div>
+<div class="checklist" id="expertChecklist">
+<label><input type="checkbox"/> 원문 문장을 그대로 가져오지 않는다</label>
+<label><input type="checkbox"/> 사진·카드뉴스 디자인을 복제하지 않는다</label>
+<label><input type="checkbox"/> 직접 경험하지 않은 것을 직접 경험처럼 쓰지 않는다</label>
+<label><input type="checkbox"/> 검증되지 않은 수익 인증을 사실처럼 쓰지 않는다</label>
+<label><input type="checkbox"/> 제휴/협찬 표시를 첫 부분에 넣는다</label>
+<label><input type="checkbox"/> 장점만이 아니라 단점·주의점도 함께 쓴다</label>
+</div>
+<div class="safety-box" id="expertChecklistResult"></div>
+<div class="actions wrap">
+<button class="btn btn-primary" id="copyTransformPrompt">변형 프롬프트 복사</button>
+<button class="btn btn-secondary" id="aiTransformNow">⚡ AI로 바로 변형</button>
+</div>
+<div class="safety-box" id="tfStatus"></div>
+<h2>변형 JSON 결과 붙여넣기</h2>
+<textarea class="large-text" id="tfJson" placeholder="AI가 만든 변형 JSON(객체)을 붙여넣으세요."></textarea>
+<div class="actions wrap">
+<button class="btn btn-primary" id="importTransformJson">결과 채우기</button>
+<button class="btn btn-danger-soft" id="copyTransformJsonFixPrompt">JSON 오류 수정 프롬프트 복사</button>
+</div>
+<div class="safety-box" id="tfImportResult"></div>
+</article>
+<article class="card">
+<h2>변형 결과 → 게시계획 저장</h2>
+<div class="form-grid">
+<label class="field full"><span>Threads 글</span><textarea id="tfThreads"></textarea></label>
+<label class="field full"><span>Instagram 카드뉴스 (줄바꿈으로 장 구분)</span><textarea id="tfCardText"></textarea></label>
+<label class="field full"><span>Facebook 글</span><textarea id="tfFacebook"></textarea></label>
+<label class="field full"><span>Blog 목차/초안</span><textarea id="tfBlogOutline"></textarea></label>
+<label class="field"><span>링크허브 버튼명</span><input id="tfLinkHubTitle"/></label>
+</div>
+<div class="actions wrap">
+<button class="btn btn-primary" id="saveTransformToPlanner">게시계획 + 카드뉴스 + 링크허브로 저장</button>
+</div>
+<p class="hint">저장된 글에는 패턴 ID가 태그됩니다. 이후 성과분석 탭에서 성과를 입력하면 5단계 리포트에 패턴별로 자동 집계됩니다. 게시 전 정책검수와 표시문구를 반드시 확인하세요.</p>
+</article>
+</div>
+<div class="grid two">
+<article class="card">
+<h2>5단계 · 패턴별 성과 리포트</h2>
+<p class="hint">같은 패턴으로 만든 글들의 클릭·저장·구매·순수익을 묶어 비교합니다. 조회수보다 클릭·구매·순수익 순으로 평가합니다.</p>
+<div class="actions wrap">
+<button class="btn btn-secondary" id="refreshPatternReport">리포트 새로고침</button>
+<button class="btn btn-ghost" id="exportPatternReportCsv">패턴 리포트 CSV</button>
+</div>
+<div class="list" id="patternReportList"></div>
+</article>
+<article class="card">
+<h2>승리 공식 저장소</h2>
+<p class="hint">성과가 검증된 패턴을 승격하면 여기에 저장됩니다. 이 순간부터 남의 노하우가 아니라 내 데이터로 검증된 내 공식입니다.</p>
+<div class="list" id="winningFormulaList"></div>
+</article>
+</div>
+</section>
 <section class="view" id="updateTasks">
 <div class="grid two">
 <article class="card">
@@ -1050,6 +1241,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 <li><b>v6.0</b> 자동 연결 없는 ChatGPT 복사용 프롬프트 버튼, 블로그·카드뉴스·Threads 고급화 프롬프트 센터, 백업 dataVersion 6.0 적용</li>
 <li><b>v7.0</b> 트렌드 키워드 수익화 리서치 센터, ChatGPT/Gemini 트렌드 조사 프롬프트, JSON 붙여넣기, 수익 점수 자동 등급, 상품DB/캠페인 전환, 성과 연결 리포트 적용</li>
 <li><b>v7.1~v7.4</b> 출처별 트렌드 입력 고도화, 상품 후보 수익성 분석표, 목적별 AI 프롬프트, JSON 오류 수정, 트렌드 실전 운영 보드, 백업 dataVersion 7.4 적용</li>
+<li><b>v8.5.6</b> 초고수 벤치마킹 분석센터, 발굴 프롬프트 생성기, 계정 후보 점수표, 콘텐츠 심층 해부, 노하우 패턴 저장소, 우리식 변형 생성기, 패턴별 성과 리포트, 승리 공식 저장소 추가</li>
 <li><b>v8.5.5</b> 맛집·여행 후기 수익화 워크플로우, 여행 카테고리, 세부 유형/지역/방문일/사진 상태 필드, 맛집 후기·후보·여행 코스·준비물 자동 구성 기능 추가</li>
 <li><b>v8.5.4</b> AI 이미지 플래너, 이미지 패키지 자동 생성, 카드뉴스 자동 전송, AI 이미지 프롬프트/촬영 체크리스트/이미지 정책검수 기능 추가</li>
 <li><b>v8.5.3</b> 상품DB → 캠페인+글쓰기 자동화, 네이버 블로그 품질 모드, 블로그 전용 AI 모델, ChatGPT Responses API 호환 패치 적용</li>
@@ -1067,7 +1259,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   'use strict';
 
   const APP_KEY = 'multiSnsProfitCardnewsManager.v1';
-  const DATA_VERSION = '8.5.5';
+  const DATA_VERSION = '8.5.6';
   const CHANNELS = ['Threads', 'Instagram', 'Facebook', 'Blog'];
   const DISCLOSURES = {
     none: '',
@@ -1125,6 +1317,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
       dataVersion: DATA_VERSION,
       campaigns: [], assets: [], posts: [], cardNews: [], performances: [], links: [], linkClicks: [], trendKeywords: [], trendProductCandidates: [],
       policyUpdates: [], revenueModels: [], infoNotes: [], benchmarkCases: [], benchmarkInsights: [], updateTasks: [], mediaKits: [], chatGptPrompts: [],
+      expertCandidates: [], expertContents: [], knowhowPatterns: [], winningFormulas: [],
       prelaunchChecks: {},
       settings: { brand: 'SNS 수익 노트', accent: '#2563eb', scoreWeights: defaultScoreWeights(), linkHub: defaultLinkHubSettings() }, createdAt: nowISO()
     };
@@ -1132,7 +1325,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
   function migrate(data = {}) {
     const base = defaultState();
     const next = { ...base, ...(data || {}) };
-    ['campaigns','assets','posts','cardNews','performances','links','linkClicks','trendKeywords','trendProductCandidates','policyUpdates','revenueModels','infoNotes','benchmarkCases','benchmarkInsights','updateTasks','mediaKits','chatGptPrompts'].forEach(k => { if (!Array.isArray(next[k])) next[k] = []; });
+    ['campaigns','assets','posts','cardNews','performances','links','linkClicks','trendKeywords','trendProductCandidates','policyUpdates','revenueModels','infoNotes','benchmarkCases','benchmarkInsights','updateTasks','mediaKits','chatGptPrompts','expertCandidates','expertContents','knowhowPatterns','winningFormulas'].forEach(k => { if (!Array.isArray(next[k])) next[k] = []; });
     next.settings = { ...base.settings, ...(next.settings || {}) };
     next.prelaunchChecks = { ...(base.prelaunchChecks || {}), ...(next.prelaunchChecks || {}) };
     next.settings.scoreWeights = { ...defaultScoreWeights(), ...(next.settings.scoreWeights || {}) };
@@ -1149,6 +1342,12 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
     next.assets = next.assets.map(a => ({ subType: '', location: '', visitDate: '', photoStatus: '', ...a }));
     next.trendKeywords = next.trendKeywords.map(t => ({ searchInterest: '', shoppingInterest: '', snsSpreadLevel: '', seasonality: '', competitionLevel: '', expectedPrice: 0, expectedCommissionRate: 0, purchaseConcernLevel: '', repeatContentPotential: '', blogSearchPotential: '', cardSavePotential: '', sponsorPotential: '', directExperienceNeed: '', policyMemo: '', ...t }));
     next.trendProductCandidates = next.trendProductCandidates.map(c => ({ productType: '기타', expectedPrice: 0, commissionRate: 0, expectedProfit: 0, affiliatePotential: 3, sponsorPotential: 3, blogPotential: 3, cardPotential: 3, threadsPotential: 3, purchaseConcern: 3, competitionLevel: 2, policyRisk: 2, directExperienceNeed: 2, pros: '', cons: '', linkHubTitle: '', target: '', nonTarget: '', memo: '', status: '검토중', ...c }));
+    next.expertCandidates = next.expertCandidates.map(c => ({ name: '', platform: 'Threads', link: '', category: '혼합', revenueModels: '', firstImpression: '', estimatedStrategy: '', aiReason: '', status: '후보', ...c, signals: { linkStructure: 0, disclosure: 0, saveHook: 0, repeatFormula: 0, purchaseComments: 0, ...(c.signals || {}) } }));
+    next.expertContents = next.expertContents.map(c => ({ candidateId: '', candidateName: '', title: '', type: '기타', link: '', excerpt: '', ...c, analysis: { titleFormula: '', hookType: '', hookFormula: '', bodyFlow: [], revenuePath: '', trustDevices: [], disclosureStyle: '', ctaFormula: '', repeatability: '', policyRisk: '', doNotCopy: [], ...(c.analysis || {}) } }));
+    next.knowhowPatterns = next.knowhowPatterns.map(p => ({ type: '기타', formula: '', category: '혼합', sourceContentId: '', sourceName: '', memo: '', useCount: 0, ...p }));
+    next.winningFormulas = next.winningFormulas.map(w => ({ patternId: '', type: '기타', formula: '', category: '혼합', sourceName: '', reason: '', promotedAt: '', ...w, statsSnapshot: { uses: 0, clicks: 0, saves: 0, purchases: 0, net: 0, score: 0, ...(w.statsSnapshot || {}) } }));
+    next.posts = next.posts.map(p => ({ patternId: '', ...p }));
+    next.cardNews = next.cardNews.map(c => ({ patternId: '', ...c }));
     next.dataVersion = DATA_VERSION;
     return next;
   }
@@ -1161,7 +1360,7 @@ main{max-width:1180px;margin:0 auto;padding:18px 16px 42px}.card,.kpi{background
 
   const NAV_GROUPS = {
     dashboard: [['홈', 'dashboard']],
-    content: [['트렌드 수집', 'trends'], ['상품·맛집DB', 'assets'], ['멀티SNS 글쓰기', 'writer'], ['카드뉴스 제작소', 'cardnews'], ['블로그·협찬', 'blog'], ['ChatGPT 프롬프트', 'chatgptPrompts'], ['정보수집', 'infoNotes'], ['벤치마킹', 'benchmark']],
+    content: [['트렌드 수집', 'trends'], ['상품·맛집DB', 'assets'], ['멀티SNS 글쓰기', 'writer'], ['카드뉴스 제작소', 'cardnews'], ['블로그·협찬', 'blog'], ['ChatGPT 프롬프트', 'chatgptPrompts'], ['정보수집', 'infoNotes'], ['벤치마킹', 'benchmark'], ['초고수 분석센터', 'expertCenter']],
     campaign: [['캠페인', 'campaigns'], ['수익모델', 'revenueModels'], ['게시계획', 'planner']],
     links: [['링크허브', 'links']],
     analysis: [['성과기록', 'performance'], ['리포트', 'report'], ['업데이트추천', 'updateTasks']],
@@ -1595,7 +1794,7 @@ ${vb ? '\n' + vb + '\n' : ''}
   }
 
   function init() {
-    bindTabs(); bindInstall(); bindButtons(); bindAi(); setDates(); renderAll();
+    bindTabs(); bindInstall(); bindButtons(); bindAi(); bindExpertCenter(); setDates(); renderAll();
     initServiceWorkerUpdates();
   }
 
@@ -1729,14 +1928,621 @@ ${vb ? '\n' + vb + '\n' : ''}
     renderScoreWeightInputs(); renderLinkHubInputs();
   }
 
+  /* ===== v8.5.6 초고수 벤치마킹 분석센터 ===== */
+  let editingExpertId = '';
+  const EXPERT_SIGNALS = [['linkStructure', '링크 구조'], ['disclosure', '광고 표시 반복'], ['saveHook', '저장 유도력'], ['repeatFormula', '반복 공식 보유'], ['purchaseComments', '구매 의도 댓글']];
+  const PATTERN_TYPES = ['제목공식', '후킹공식', '본문골격', '수익동선', '신뢰장치', 'CTA문구', '기타'];
+
+  function expertSignalTotal(c) { const s = c.signals || {}; return EXPERT_SIGNALS.reduce((t, [k]) => t + clampScore(s[k], 0, 20), 0); }
+  function expertGrade(c) {
+    const total = expertSignalTotal(c);
+    const grade = total >= 80 ? 'S' : total >= 65 ? 'A' : total >= 50 ? 'B' : total >= 35 ? 'C' : 'D';
+    return { total, grade };
+  }
+  function expertSafetyRules() {
+    return `중요 원칙:
+- 자동 크롤링이나 자동 수집은 하지 않는다. 사용자가 직접 본 공개 정보만 다룬다.
+- 실제로 확인할 수 없는 계정 이름, 팔로워 수, 수익 금액을 지어내지 않는다.
+- 수익 규모는 "추정"이며 사실처럼 단정하지 않는다.
+- 목적은 복사가 아니라 구조와 전략 추출이다.`;
+  }
+  function expertKeywordPrompt() {
+    const cat = $('#exPromptCategory')?.value || '혼합';
+    const plat = $('#exPromptPlatform')?.value || '전체';
+    return `너는 한국 SNS 수익화 리서치 전략가다.
+나는 "${cat}" 카테고리에서 실제로 돈을 벌고 있는 상위 수익자 계정을 ${plat === '전체' ? 'Threads, Instagram, 네이버 블로그, Facebook' : plat}에서 직접 검색으로 찾으려고 한다.
+
+${expertSafetyRules()}
+
+진짜 초고수를 가려내는 시그널:
+1) 프로필 링크허브에 제휴/스토어/협찬 문의가 정리되어 있다
+2) [협찬] [제휴] [광고] 표시 게시물이 반복적으로 올라온다 (돈을 받고 있다는 증거)
+3) "저장해두세요" 류의 저장 유도 콘텐츠 비율이 높다
+4) 제목과 구조가 템플릿처럼 반복된다 (검증된 공식 보유)
+5) "어디서 사요?" "링크 주세요" 같은 구매 의도 댓글이 많다
+
+요청:
+- 위 시그널을 가진 계정이 검색에 걸릴 만한 한국어 검색 키워드/해시태그 20개를 만들어라.
+- 계정 이름을 추천하지 말고, 오직 검색어만 제시하라.
+- 각 검색어마다 "이 검색어로 어떤 유형의 초고수가 걸리는지" 1줄 설명을 붙여라.
+- 예시 방향: "${cat} 내돈내산 비교", "${cat} 협찬 문의는 프로필", "저장각 ${cat}" 같은 실전형 검색어.`;
+  }
+  function expertRoutePrompt() {
+    const cat = $('#exPromptCategory')?.value || '혼합';
+    return `너는 한국 SNS 수익화 리서치 전략가다.
+"${cat}" 카테고리의 상위 수익자 계정을 내가 스마트폰으로 직접 찾을 수 있게, 플랫폼별 수동 탐색 동선을 단계별로 설계해라.
+
+${expertSafetyRules()}
+
+포함할 플랫폼: Threads, Instagram, 네이버(인플루언서 검색 포함), Facebook, YouTube
+각 플랫폼마다:
+1) 어디로 들어가서 (메뉴/검색창/탐색탭)
+2) 무엇을 검색하고 (검색어 2~3개)
+3) 결과에서 무엇을 기준으로 후보를 고르는지 (30초 판별 기준)
+4) 후보를 찾으면 무엇을 메모해야 하는지 (프로필 소개, 링크허브 구조, 광고 표시 빈도, 대표 게시물 캡션)
+를 구체적으로 알려줘라. 전체 소요시간이 15분을 넘지 않게 설계하라.`;
+  }
+  function expertFilterPrompt() {
+    return `너는 한국 SNS 수익화 리서치 전략가다.
+SNS 계정을 열었을 때 30초 안에 "이 계정이 실제 수익형 초고수인지" 판별하는 체크 질문 7개를 만들어라.
+
+${expertSafetyRules()}
+
+조건:
+- 팔로워 수를 기준으로 쓰지 마라. 링크 구조, 광고 표시, 저장 유도, 반복 공식, 구매 의도 댓글 중심으로.
+- 각 질문은 예/아니오로 답할 수 있어야 한다.
+- 7개 중 몇 개 이상이면 후보 등록 가치가 있는지 커트라인도 제시하라.`;
+  }
+  function expertScoreJsonSchema() {
+    return `[
+  {
+    "name": "",
+    "platform": "",
+    "category": "",
+    "revenueModels": "",
+    "signals": { "linkStructure": 0, "disclosure": 0, "saveHook": 0, "repeatFormula": 0, "purchaseComments": 0 },
+    "estimatedStrategy": "",
+    "finalGrade": "",
+    "oneLineReason": ""
+  }
+]`;
+  }
+  function expertScorePrompt(observed) {
+    return `너는 한국 SNS 수익화 분석가다. 아래는 내가 직접 관찰한 SNS 계정 후보의 공개 자료(프로필 소개, 대표 게시물 캡션, 관찰 메모)다.
+이 자료만 근거로 계정의 수익화 실력을 점수화해라.
+
+${expertSafetyRules()}
+- 붙여넣은 자료에 근거가 없는 항목은 추측으로 높이지 말고 낮은 점수를 줘라.
+
+점수 기준 (각 0~20점):
+- linkStructure: 프로필/링크허브의 수익 연결 구조가 체계적인가
+- disclosure: 협찬/제휴 표시가 반복적으로 확인되는가 (실제 수익 증거)
+- saveHook: 저장을 유도하는 콘텐츠 설계가 보이는가
+- repeatFormula: 제목/구조가 반복 가능한 공식으로 보이는가
+- purchaseComments: 구매 의도 댓글/반응 근거가 있는가
+
+finalGrade는 합계 기준 S(80+)/A(65+)/B(50+)/C(35+)/D 중 하나.
+category는 맛집/여행/생활용품/전자기기/혼합/기타 중 하나.
+estimatedStrategy는 "콘텐츠 → 링크 → 수익" 흐름을 1줄로.
+
+설명은 쓰지 말고 아래 JSON 배열만 출력해라. 계정이 여러 개면 배열에 여러 개 넣어라.
+
+${expertScoreJsonSchema()}
+
+관찰 자료:
+${observed}`;
+  }
+  function normalizeExpertCandidate(o = {}) {
+    const s = o.signals || {};
+    return {
+      id: id(), name: String(o.name || '').trim(), platform: o.platform || 'Threads', link: String(o.link || '').trim(),
+      category: o.category || '혼합', revenueModels: Array.isArray(o.revenueModels) ? o.revenueModels.join(', ') : String(o.revenueModels || ''),
+      firstImpression: String(o.firstImpression || o.oneLineReason || ''), status: o.status || '후보',
+      estimatedStrategy: String(o.estimatedStrategy || ''), aiReason: String(o.oneLineReason || ''),
+      signals: { linkStructure: clampScore(s.linkStructure, 0, 20), disclosure: clampScore(s.disclosure, 0, 20), saveHook: clampScore(s.saveHook, 0, 20), repeatFormula: clampScore(s.repeatFormula, 0, 20), purchaseComments: clampScore(s.purchaseComments, 0, 20) },
+      createdAt: nowISO()
+    };
+  }
+  function saveExpertCandidate() {
+    const name = $('#exName').value.trim(); if (!name) return toast('계정명/별칭을 입력하세요.');
+    const obj = {
+      name, platform: $('#exPlatform').value, link: $('#exLink').value.trim(), category: $('#exCategory').value,
+      revenueModels: $('#exRevenueModels').value.trim(), firstImpression: $('#exFirstImpression').value.trim(), status: $('#exStatus').value,
+      signals: { linkStructure: clampScore($('#exSigLink').value, 0, 20), disclosure: clampScore($('#exSigDisclosure').value, 0, 20), saveHook: clampScore($('#exSigSave').value, 0, 20), repeatFormula: clampScore($('#exSigRepeat').value, 0, 20), purchaseComments: clampScore($('#exSigComments').value, 0, 20) }
+    };
+    upsert(state.expertCandidates, obj, editingExpertId);
+    editingExpertId = ''; clearExpertCandidateForm(); save(); toast('계정 후보를 저장했습니다.');
+  }
+  function clearExpertCandidateForm() {
+    editingExpertId = ''; clearFields(['exName', 'exLink', 'exRevenueModels', 'exFirstImpression']);
+    ['exSigLink', 'exSigDisclosure', 'exSigSave', 'exSigRepeat', 'exSigComments'].forEach(i => setVal(i, 10));
+    setVal('exStatus', '후보');
+  }
+  function fillExpertCandidateForm(idv) {
+    const c = state.expertCandidates.find(x => x.id === idv); if (!c) return; editingExpertId = c.id;
+    setVal('exName', c.name); setVal('exPlatform', c.platform); setVal('exLink', c.link); setVal('exCategory', c.category);
+    setVal('exRevenueModels', c.revenueModels); setVal('exFirstImpression', c.firstImpression); setVal('exStatus', c.status);
+    const s = c.signals || {}; setVal('exSigLink', s.linkStructure); setVal('exSigDisclosure', s.disclosure); setVal('exSigSave', s.saveHook); setVal('exSigRepeat', s.repeatFormula); setVal('exSigComments', s.purchaseComments);
+    toast('후보 수정 모드입니다. 저장을 누르면 반영됩니다.');
+  }
+  function expertCandidatesFiltered() {
+    const gf = $('#exFilterGrade')?.value || '', cf = $('#exFilterCategory')?.value || '', sf = $('#exFilterStatus')?.value || '';
+    return state.expertCandidates.filter(c => {
+      const g = expertGrade(c).grade;
+      if (gf === 'SA' && !['S', 'A'].includes(g)) return false;
+      if (gf && gf !== 'SA' && g !== gf) return false;
+      if (cf && c.category !== cf) return false;
+      if (sf && c.status !== sf) return false;
+      return true;
+    }).sort((a, b) => expertSignalTotal(b) - expertSignalTotal(a));
+  }
+  function renderExpertCandidates() {
+    const box = $('#expertCandidateList'); if (!box) return;
+    const arr = expertCandidatesFiltered();
+    box.innerHTML = arr.length ? arr.map(c => {
+      const g = expertGrade(c);
+      const badgeCls = g.grade === 'S' ? 'good' : g.grade === 'A' ? 'good' : g.grade === 'B' ? 'warn' : 'gray';
+      return `<div class="item"><h3>${esc(c.name)} <span class="badge ${badgeCls}">${g.grade} · ${g.total}점</span></h3>
+      <div class="meta"><span class="badge gray">${esc(c.platform)}</span><span class="badge gray">${esc(c.category)}</span><span class="badge gray">${esc(c.status)}</span>${c.revenueModels ? `<span class="badge gray">${esc(c.revenueModels)}</span>` : ''}</div>
+      ${c.estimatedStrategy ? `<p>수익 동선(추정): ${esc(c.estimatedStrategy)}</p>` : ''}${c.firstImpression ? `<p>${esc(c.firstImpression)}</p>` : ''}${c.link ? `<p><a href="${esc(c.link)}" target="_blank" rel="noopener">계정 열기</a></p>` : ''}
+      <div class="actions wrap"><button class="mini" data-ex-dissect="${c.id}">해부하기</button><button class="mini" data-ex-edit="${c.id}">수정</button><button class="mini" data-ex-del="${c.id}">삭제</button></div></div>`;
+    }).join('') : empty('아직 후보가 없습니다. 1단계 프롬프트로 검색 키워드를 만들고 10분만 직접 검색해 보세요.');
+    $$('[data-ex-edit]', box).forEach(b => b.onclick = () => fillExpertCandidateForm(b.dataset.exEdit));
+    $$('[data-ex-del]', box).forEach(b => b.onclick = () => { if (!confirm('이 후보를 삭제할까요?')) return; state.expertCandidates = state.expertCandidates.filter(x => x.id !== b.dataset.exDel); save(); });
+    $$('[data-ex-dissect]', box).forEach(b => b.onclick = () => { setVal('exDissectCandidate', b.dataset.exDissect); const el = $('#exDissectCandidate'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); toast('3단계 심층 해부 대상으로 선택했습니다.'); });
+  }
+  function importExpertCandidateJson() {
+    const raw = stripFence($('#exCandidateAiJson')?.value || '').trim();
+    const box = $('#exCandidateImportResult'); if (!box) return;
+    if (!raw) { box.innerHTML = '<div class="issue warn">JSON을 먼저 붙여넣으세요.</div>'; return; }
+    try {
+      const parsed = extractJson(raw);
+      const arr = Array.isArray(parsed) ? parsed : [parsed];
+      const added = arr.map(normalizeExpertCandidate).filter(c => c.name);
+      if (!added.length) throw new Error('name 항목이 있는 후보를 찾지 못했습니다.');
+      state.expertCandidates.push(...added); save();
+      box.innerHTML = `<div class="issue good">${added.length}개 계정 후보를 저장했습니다. 오른쪽 점수표에서 S·A 등급을 확인하세요.</div>`;
+      toast('AI 점수화 결과를 저장했습니다.');
+    } catch (e) { box.innerHTML = `<div class="issue bad">JSON 오류: ${esc(e.message)}<br>JSON 오류 수정 프롬프트를 복사해 AI에 붙여넣으면 형식을 고칠 수 있습니다.</div>`; }
+  }
+  async function aiScoreExpertCandidate() {
+    const observed = ($('#exObservedText')?.value || '').trim();
+    if (!observed) return setAiStatus('#exScoreStatus', 'warn', '먼저 관찰 자료(프로필 소개, 캡션, 메모)를 붙여넣으세요.');
+    const r = resolveProvider('trends');
+    if (!r.prov) return setAiStatus('#exScoreStatus', 'warn', `${providerLabel(r.want)} 키가 없습니다. 설정 → AI 연동에서 키를 저장하거나, [계정 분석 프롬프트 복사] 방식으로 사용하세요.`);
+    const btn = $('#aiScoreExpertCandidate'); if (btn) btn.disabled = true;
+    setAiStatus('#exScoreStatus', 'warn', `⏳ ${providerLabel(r.prov)}가 계정을 점수화하는 중… (약 5~15초)`);
+    try {
+      const parsed = extractJson(await aiCall(expertScorePrompt(observed), r.prov));
+      const arr = Array.isArray(parsed) ? parsed : [parsed];
+      const added = arr.map(normalizeExpertCandidate).filter(c => c.name);
+      if (!added.length) throw new Error('후보를 추출하지 못했습니다.');
+      state.expertCandidates.push(...added); save();
+      setAiStatus('#exScoreStatus', 'good', `✅ ${added.length}개 후보를 점수화해 저장했습니다.${r.note ? ' (' + r.note + ')' : ''} 점수표에서 확인하세요.`);
+    } catch (e) { setAiStatus('#exScoreStatus', 'bad', aiErrMsg(e, r.prov)); }
+    if (btn) btn.disabled = false;
+  }
+
+  /* ----- 3단계 심층 해부 ----- */
+  function dissectJsonSchema() {
+    return `{
+  "titleFormula": "",
+  "hookType": "",
+  "hookFormula": "",
+  "bodyFlow": [],
+  "revenuePath": "",
+  "trustDevices": [],
+  "disclosureStyle": "",
+  "ctaFormula": "",
+  "repeatability": "",
+  "policyRisk": "",
+  "doNotCopy": [],
+  "patterns": [ { "type": "제목공식", "formula": "", "note": "" } ]
+}`;
+  }
+  function dissectPrompt() {
+    const cand = state.expertCandidates.find(c => c.id === $('#exDissectCandidate')?.value);
+    const raw = ($('#exContentRaw')?.value || '').trim();
+    return `너는 한국 SNS 수익화 콘텐츠 구조 분석가다. 아래는 내가 직접 본 공개 콘텐츠의 본문/캡션이다.
+이 콘텐츠를 다시 쓰거나 문장을 다듬지 말고, 오직 "구조와 전략"만 해부해라.
+
+${expertSafetyRules()}
+- 모든 공식(formula)은 원문 문장이 아니라 {대상}, {숫자}, {상황} 같은 변수형 패턴으로 추상화해서 써라. 원문 문장을 그대로 쓰면 안 된다.
+- doNotCopy에는 그대로 쓰면 표절이 되는 이 콘텐츠 고유의 문구, 별명, 디자인 요소를 나열해라.
+
+콘텐츠 정보:
+- 계정: ${cand ? cand.name + ' (' + cand.platform + ')' : '미지정'}
+- 유형: ${$('#exContentType')?.value || ''}
+- 제목/요약: ${$('#exContentTitle')?.value || ''}
+
+분석 항목:
+- titleFormula: 제목의 변수형 공식
+- hookType: 첫 3초 후킹 유형 (공포형/궁금형/공감형/숫자형/비교형/기타 중 하나)
+- hookFormula: 첫 문장의 변수형 공식
+- bodyFlow: 본문 골격을 단계 배열로 (예: ["문제제기","흔한 실수","체크포인트","추천 대상","링크 유도"])
+- revenuePath: 어느 지점에서 어떻게 수익 링크로 보내는지 1줄
+- trustDevices: 신뢰 장치 배열 (예: 실측 사진, 단점 공개, 가격 명시)
+- disclosureStyle: 광고/협찬 표시 위치와 방식
+- ctaFormula: 링크 유도 문구의 변수형 공식
+- repeatability: 높음/보통/낮음
+- policyRisk: 낮음/보통/높음
+- patterns: 재사용 가치가 있는 패턴들. type은 제목공식/후킹공식/본문골격/수익동선/신뢰장치/CTA문구/기타 중 하나.
+
+설명은 쓰지 말고 아래 JSON 객체만 출력해라.
+
+${dissectJsonSchema()}
+
+원문:
+${raw}`;
+  }
+  function patternLooksCopied(formula, raw) {
+    const f = String(formula || '').trim();
+    if (f.length < 13) return false;
+    return String(raw || '').includes(f);
+  }
+  function applyDissectResult(obj) {
+    const raw = ($('#exContentRaw')?.value || '').trim();
+    const candId = $('#exDissectCandidate')?.value || '';
+    const cand = state.expertCandidates.find(c => c.id === candId);
+    const a = obj || {};
+    const content = {
+      id: id(), candidateId: candId, candidateName: cand?.name || '',
+      title: ($('#exContentTitle')?.value || '').trim() || String(a.titleFormula || '해부 콘텐츠'),
+      type: $('#exContentType')?.value || '기타', link: ($('#exContentLink')?.value || '').trim(),
+      excerpt: raw.slice(0, 200),
+      analysis: {
+        titleFormula: String(a.titleFormula || ''), hookType: String(a.hookType || ''), hookFormula: String(a.hookFormula || ''),
+        bodyFlow: Array.isArray(a.bodyFlow) ? a.bodyFlow.map(String) : [], revenuePath: String(a.revenuePath || ''),
+        trustDevices: Array.isArray(a.trustDevices) ? a.trustDevices.map(String) : [], disclosureStyle: String(a.disclosureStyle || ''),
+        ctaFormula: String(a.ctaFormula || ''), repeatability: String(a.repeatability || ''), policyRisk: String(a.policyRisk || ''),
+        doNotCopy: Array.isArray(a.doNotCopy) ? a.doNotCopy.map(String) : []
+      },
+      createdAt: nowISO()
+    };
+    state.expertContents.push(content);
+    if (cand && cand.status === '후보') cand.status = '분석중';
+    let rawPatterns = Array.isArray(a.patterns) ? a.patterns.slice() : [];
+    if (!rawPatterns.length) {
+      if (a.titleFormula) rawPatterns.push({ type: '제목공식', formula: a.titleFormula, note: '' });
+      if (a.hookFormula) rawPatterns.push({ type: '후킹공식', formula: a.hookFormula, note: a.hookType || '' });
+      if (Array.isArray(a.bodyFlow) && a.bodyFlow.length) rawPatterns.push({ type: '본문골격', formula: a.bodyFlow.join(' → '), note: '' });
+      if (a.revenuePath) rawPatterns.push({ type: '수익동선', formula: a.revenuePath, note: '' });
+      if (a.ctaFormula) rawPatterns.push({ type: 'CTA문구', formula: a.ctaFormula, note: '' });
+    }
+    let saved = 0, blocked = 0;
+    rawPatterns.forEach(p => {
+      const formula = String(p.formula || '').trim(); if (!formula) return;
+      if (patternLooksCopied(formula, raw)) { blocked++; return; }
+      state.knowhowPatterns.push({
+        id: id(), type: PATTERN_TYPES.includes(p.type) ? p.type : '기타', formula,
+        category: cand?.category || '혼합', sourceContentId: content.id, sourceName: `${cand?.name || '미지정'} · ${content.title}`.slice(0, 60),
+        memo: String(p.note || ''), useCount: 0, createdAt: nowISO()
+      });
+      saved++;
+    });
+    save();
+    return { saved, blocked, contentTitle: content.title };
+  }
+  function importDissectJson() {
+    const rawJson = ($('#exDissectJson')?.value || '').trim();
+    const box = $('#exDissectImportResult'); if (!box) return;
+    if (!rawJson) { box.innerHTML = '<div class="issue warn">해부 JSON을 먼저 붙여넣으세요.</div>'; return; }
+    try {
+      const parsed = extractJson(rawJson);
+      const obj = Array.isArray(parsed) ? parsed[0] : parsed;
+      const r = applyDissectResult(obj);
+      box.innerHTML = `<div class="issue good">해부 결과를 저장했습니다. 패턴 ${r.saved}개 추출${r.blocked ? ` · 원문과 동일해 차단된 패턴 ${r.blocked}개` : ''}. 패턴 저장소에서 확인하세요.</div>`;
+      toast('해부 결과와 패턴을 저장했습니다.');
+    } catch (e) { box.innerHTML = `<div class="issue bad">JSON 오류: ${esc(e.message)}<br>JSON 오류 수정 프롬프트로 형식을 고친 뒤 다시 붙여넣으세요.</div>`; }
+  }
+  async function aiDissectContent() {
+    const raw = ($('#exContentRaw')?.value || '').trim();
+    if (!raw) return setAiStatus('#exDissectStatus', 'warn', '먼저 원문/캡션을 붙여넣으세요.');
+    const r = resolveProvider('trends');
+    if (!r.prov) return setAiStatus('#exDissectStatus', 'warn', `${providerLabel(r.want)} 키가 없습니다. [해부 프롬프트 복사] 방식으로 사용하세요.`);
+    const btn = $('#aiDissectContent'); if (btn) btn.disabled = true;
+    setAiStatus('#exDissectStatus', 'warn', `⏳ ${providerLabel(r.prov)}가 콘텐츠 구조를 해부하는 중… (약 5~20초)`);
+    try {
+      const parsed = extractJson(await aiCall(dissectPrompt(), r.prov));
+      const obj = Array.isArray(parsed) ? parsed[0] : parsed;
+      const res = applyDissectResult(obj);
+      setAiStatus('#exDissectStatus', 'good', `✅ "${esc(res.contentTitle)}" 해부 완료. 패턴 ${res.saved}개 추출${res.blocked ? ` · 원문 복제 위험으로 차단 ${res.blocked}개` : ''}.${r.note ? ' (' + r.note + ')' : ''}`);
+    } catch (e) { setAiStatus('#exDissectStatus', 'bad', aiErrMsg(e, r.prov)); }
+    if (btn) btn.disabled = false;
+  }
+  function renderExpertContents() {
+    const box = $('#expertContentList'); if (!box) return;
+    const arr = state.expertContents.slice().reverse().slice(0, 10);
+    box.innerHTML = arr.length ? arr.map(c => {
+      const a = c.analysis || {};
+      return `<div class="item"><h3>${esc(c.title)}</h3>
+      <div class="meta"><span class="badge gray">${esc(c.type)}</span>${c.candidateName ? `<span class="badge gray">${esc(c.candidateName)}</span>` : ''}${a.hookType ? `<span class="badge gray">후킹 ${esc(a.hookType)}</span>` : ''}${a.policyRisk ? `<span class="badge ${a.policyRisk === '높음' ? 'warn' : 'gray'}">정책위험 ${esc(a.policyRisk)}</span>` : ''}</div>
+      ${a.bodyFlow?.length ? `<p>골격: ${esc(a.bodyFlow.join(' → '))}</p>` : ''}${a.revenuePath ? `<p>수익 동선: ${esc(a.revenuePath)}</p>` : ''}
+      ${a.doNotCopy?.length ? `<p class="hint">복제 금지: ${esc(a.doNotCopy.join(', ').slice(0, 120))}</p>` : ''}
+      <div class="actions wrap"><button class="mini" data-ec-del="${c.id}">삭제</button></div></div>`;
+    }).join('') : empty('아직 해부한 콘텐츠가 없습니다. S급 계정의 대표 콘텐츠부터 해부해 보세요.');
+    $$('[data-ec-del]', box).forEach(b => b.onclick = () => { if (!confirm('이 해부 기록을 삭제할까요?')) return; state.expertContents = state.expertContents.filter(x => x.id !== b.dataset.ecDel); save(); });
+  }
+
+  /* ----- 노하우 패턴 저장소 ----- */
+  function saveKnowhowPattern() {
+    const formula = $('#kpFormula').value.trim(); if (!formula) return toast('패턴 공식을 입력하세요.');
+    state.knowhowPatterns.push({ id: id(), type: $('#kpType').value, formula, category: $('#kpCategory').value, sourceContentId: '', sourceName: '직접 입력', memo: $('#kpMemo').value.trim(), useCount: 0, createdAt: nowISO() });
+    clearFields(['kpFormula', 'kpMemo']); save(); toast('패턴을 저장했습니다.');
+  }
+  function patternPostIds(pid) {
+    return state.posts.filter(p => p.patternId === pid).map(p => p.id).concat(state.cardNews.filter(c => c.patternId === pid).map(c => c.id));
+  }
+  function patternStats(pid) {
+    const ids = patternPostIds(pid);
+    const perfs = state.performances.filter(pf => ids.includes(pf.postId));
+    const agg = { uses: ids.length, records: perfs.length, views: sum(perfs, 'views'), clicks: sum(perfs, 'clicks'), saves: sum(perfs, 'saves'), shares: sum(perfs, 'shares'), purchases: sum(perfs, 'purchases'), revenue: sum(perfs, 'revenue'), cost: sum(perfs, 'cost') };
+    agg.net = agg.revenue - agg.cost;
+    agg.score = perfs.length ? Math.round(profitScore(perfs)) : 0;
+    return agg;
+  }
+  function knowhowPatternsFiltered() {
+    const tf = $('#kpFilterType')?.value || '', cf = $('#kpFilterCategory')?.value || '';
+    return state.knowhowPatterns.filter(p => (!tf || p.type === tf) && (!cf || p.category === cf)).slice().reverse();
+  }
+  function renderKnowhowPatterns() {
+    const box = $('#knowhowPatternList'); if (!box) return;
+    const arr = knowhowPatternsFiltered();
+    box.innerHTML = arr.length ? arr.map(p => {
+      const st = patternStats(p.id);
+      const isWinner = state.winningFormulas.some(w => w.patternId === p.id);
+      return `<div class="item"><h3>${esc(p.formula)}</h3>
+      <div class="meta"><span class="badge good">${esc(p.type)}</span><span class="badge gray">${esc(p.category)}</span><span class="badge gray">사용 ${p.useCount || 0}회</span>${st.records ? `<span class="badge gray">클릭 ${st.clicks}</span><span class="badge ${st.net > 0 ? 'good' : 'gray'}">순수익 ${money(st.net)}</span>` : ''}${isWinner ? '<span class="badge good">승리 공식</span>' : ''}</div>
+      <p class="hint">${esc(p.sourceName || '')}${p.memo ? ' · ' + esc(p.memo) : ''}</p>
+      <div class="actions wrap"><button class="mini" data-kp-use="${p.id}">변형에 사용</button><button class="mini" data-kp-promote="${p.id}">승리 공식 승격</button><button class="mini" data-kp-del="${p.id}">삭제</button></div></div>`;
+    }).join('') : empty('패턴이 없습니다. 3단계 해부를 하거나 직접 추가하세요.');
+    $$('[data-kp-use]', box).forEach(b => b.onclick = () => { setVal('tfPattern', b.dataset.kpUse); const el = $('#tfPattern'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); toast('4단계 변형 생성기에 패턴을 연결했습니다.'); });
+    $$('[data-kp-promote]', box).forEach(b => b.onclick = () => promotePattern(b.dataset.kpPromote));
+    $$('[data-kp-del]', box).forEach(b => b.onclick = () => { if (!confirm('이 패턴을 삭제할까요?')) return; state.knowhowPatterns = state.knowhowPatterns.filter(x => x.id !== b.dataset.kpDel); save(); });
+  }
+
+  /* ----- 4단계 우리식 변형 생성기 ----- */
+  function expertChecklistPassed() { const boxes = $$('#expertChecklist input'); return boxes.length && boxes.every(x => x.checked); }
+  function renderExpertChecklistStatus() {
+    const box = $('#expertChecklistResult'); if (!box) return;
+    box.innerHTML = expertChecklistPassed()
+      ? '<div class="issue good">무단 복제 방지 체크리스트를 통과했습니다. 그래도 게시 전 정책검수를 다시 확인하세요.</div>'
+      : '<div class="issue warn">체크되지 않은 항목이 있으면 변형 저장이 차단됩니다. 구조는 빌리되 문구는 완전히 새로 씁니다.</div>';
+  }
+  function tfExperienceOf(asset) {
+    const exp = String(asset?.experience || '');
+    return /직접|제공받아/.test(exp) ? exp : '자료 조사/후기 정리';
+  }
+  function transformJsonSchema() {
+    return `{
+  "threads": "",
+  "cardNews": ["1장 문구", "2장 문구"],
+  "facebook": "",
+  "blogOutline": "",
+  "linkHubTitle": ""
+}`;
+  }
+  function transformPrompt() {
+    const pattern = state.knowhowPatterns.find(p => p.id === $('#tfPattern')?.value);
+    const asset = getAsset($('#tfAsset')?.value || '');
+    if (!pattern) return '';
+    const exp = tfExperienceOf(asset);
+    const disc = $('#tfDisclosure')?.value || 'affiliate';
+    const voice = (aiConf().voice || '').trim();
+    const related = state.expertContents.find(c => c.id === pattern.sourceContentId);
+    const doNotCopy = related?.analysis?.doNotCopy?.length ? `\n절대 쓰면 안 되는 원본 고유 요소: ${related.analysis.doNotCopy.join(', ')}` : '';
+    return `너는 한국 SNS 수익화 콘텐츠 작가다. 아래 "구조 패턴"의 뼈대만 빌려서, 내 소재로 완전히 새로운 콘텐츠를 만들어라.
+
+${expertSafetyRules()}
+- 원본의 문장, 별명, 고유 표현을 재사용하지 마라. 구조만 빌리고 문구는 100% 새로 써라.${doNotCopy}
+- 경험 상태는 "${exp}"다. ${exp === '자료 조사/후기 정리' ? '직접 써봤다/가봤다는 표현을 절대 쓰지 말고, 후기 공통점과 자료 기준으로 정리하는 말투를 써라.' : '과장 없이 실제 경험 기반으로 써라.'}
+- "100%", "무조건", "최저가 보장", "수익 보장" 같은 과장·보장 표현을 쓰지 마라.
+- 장점만 쓰지 말고 단점이나 구매/방문 전 주의점을 반드시 포함해라.
+- 각 글의 첫 부분에 광고 표시 문구를 넣어라: "${DISCLOSURES[disc] || DISCLOSURES.affiliate}"
+${voice ? `- 내 말투 프로필을 지켜라: ${voice}` : ''}
+
+구조 패턴 (${pattern.type}): ${pattern.formula}
+${pattern.memo ? `패턴 메모: ${pattern.memo}` : ''}
+
+내 소재:
+- 이름: ${asset?.name || $('#tfLinkHubTitle')?.value || '(소재 미선택 — 일반 소재로 작성)'}
+- 구분: ${asset?.type || ''} / 가격대: ${asset?.price || ''}
+- 장점: ${asset?.pros || ''}
+- 단점: ${asset?.cons || ''}
+- 추천 대상: ${asset?.audience || ''}
+
+만들 것:
+- threads: Threads용 짧은 글 (후킹 1줄 + 핵심 + 링크 유도, 500자 이내)
+- cardNews: Instagram 카드뉴스 5~7장 문구 배열 (1장은 표지 제목)
+- facebook: Facebook용 대화 유도형 글
+- blogOutline: 블로그 목차 (번호 목록, 마지막에 제휴/협찬 표시 및 링크 안내 항목 포함)
+- linkHubTitle: 링크허브 버튼명 (10자 내외)
+
+설명은 쓰지 말고 아래 JSON 객체만 출력해라.
+
+${transformJsonSchema()}`;
+  }
+  function applyTransformResult(obj) {
+    const o = obj || {};
+    if (o.threads) setVal('tfThreads', String(o.threads));
+    if (Array.isArray(o.cardNews) && o.cardNews.length) setVal('tfCardText', o.cardNews.map(String).join('\n'));
+    else if (o.cardNews) setVal('tfCardText', String(o.cardNews));
+    if (o.facebook) setVal('tfFacebook', String(o.facebook));
+    if (o.blogOutline) setVal('tfBlogOutline', String(o.blogOutline));
+    if (o.linkHubTitle) setVal('tfLinkHubTitle', String(o.linkHubTitle));
+  }
+  function importTransformJson() {
+    const rawJson = ($('#tfJson')?.value || '').trim();
+    const box = $('#tfImportResult'); if (!box) return;
+    if (!rawJson) { box.innerHTML = '<div class="issue warn">변형 JSON을 먼저 붙여넣으세요.</div>'; return; }
+    try {
+      const parsed = extractJson(rawJson);
+      applyTransformResult(Array.isArray(parsed) ? parsed[0] : parsed);
+      box.innerHTML = '<div class="issue good">변형 결과를 채웠습니다. 내용을 검수한 뒤 게시계획으로 저장하세요.</div>';
+    } catch (e) { box.innerHTML = `<div class="issue bad">JSON 오류: ${esc(e.message)}</div>`; }
+  }
+  async function aiTransformNow() {
+    if (!$('#tfPattern')?.value) return setAiStatus('#tfStatus', 'warn', '먼저 사용할 패턴을 선택하세요.');
+    if (!expertChecklistPassed()) return setAiStatus('#tfStatus', 'warn', '무단 복제 방지 체크리스트를 먼저 모두 확인하세요.');
+    const r = resolveProvider('writer');
+    if (!r.prov) return setAiStatus('#tfStatus', 'warn', `${providerLabel(r.want)} 키가 없습니다. [변형 프롬프트 복사] 방식으로 사용하세요.`);
+    const btn = $('#aiTransformNow'); if (btn) btn.disabled = true;
+    setAiStatus('#tfStatus', 'warn', `⏳ ${providerLabel(r.prov)}가 우리식 변형 콘텐츠를 만드는 중… (약 10~25초)`);
+    try {
+      const parsed = extractJson(await aiCall(transformPrompt(), r.prov));
+      applyTransformResult(Array.isArray(parsed) ? parsed[0] : parsed);
+      setAiStatus('#tfStatus', 'good', `✅ 변형 완료. 사실관계·가격·표시문구를 검수한 뒤 게시계획으로 저장하세요.${r.note ? ' (' + r.note + ')' : ''}`);
+    } catch (e) { setAiStatus('#tfStatus', 'bad', aiErrMsg(e, r.prov)); }
+    if (btn) btn.disabled = false;
+  }
+  function saveTransformToPlanner() {
+    if (!expertChecklistPassed()) return toast('무단 복제 방지 체크리스트를 먼저 모두 확인하세요.');
+    const pattern = state.knowhowPatterns.find(p => p.id === $('#tfPattern')?.value);
+    if (!pattern) return toast('사용할 패턴을 선택하세요.');
+    const hasAny = ['tfThreads', 'tfCardText', 'tfFacebook', 'tfBlogOutline'].some(i => ($('#' + i)?.value || '').trim());
+    if (!hasAny) return toast('저장할 변형 결과가 없습니다. 먼저 변형을 실행하세요.');
+    const asset = getAsset($('#tfAsset')?.value || '');
+    const disc = $('#tfDisclosure')?.value || 'affiliate';
+    const exp = tfExperienceOf(asset);
+    const title = ($('#tfLinkHubTitle')?.value || '').trim() || `[패턴실험] ${pattern.formula.slice(0, 20)}`;
+    let campId = $('#tfCampaign')?.value || '';
+    if (!campId) {
+      campId = id();
+      state.campaigns.push({ id: campId, name: `[패턴실험] ${title}`.slice(0, 40), category: asset?.type || pattern.category || '혼합', goal: '벤치마킹 패턴 검증', clickGoal: 100, revenueGoal: 30000, cost: 0, start: today(), end: today(), memo: `패턴: ${pattern.type} · ${pattern.formula}`, createdAt: nowISO() });
+    }
+    let savedCount = 0;
+    [['Threads', 'tfThreads', '짧은 글'], ['Facebook', 'tfFacebook', '짧은 글'], ['Blog', 'tfBlogOutline', '블로그 글']].forEach(([ch, sel, fmt]) => {
+      const text = ($('#' + sel)?.value || '').trim(); if (!text) return;
+      const line = disclosureLine(disc, ch);
+      const body = line && !text.startsWith(line.slice(0, 4)) ? `${line}\n\n${text}` : text;
+      state.posts.push({ id: id(), channel: ch, format: fmt, text: body, title, campaignId: campId, assetId: asset?.id || '', patternId: pattern.id, disclosure: disc, experience: exp, status: '대기', plannedAt: '', safetyScore: checkText(body, disc, exp).score, createdAt: nowISO() });
+      savedCount++;
+    });
+    const cardText = ($('#tfCardText')?.value || '').trim();
+    if (cardText) {
+      const lines = cardText.split('\n').map(s => s.trim()).filter(Boolean).slice(0, 8);
+      state.cardNews.push({ id: id(), title, cards: lines.map((line, i) => ({ id: id(), no: i + 1, title: i === 0 ? (line || title) : `${i + 1}장`, body: i === 0 ? '' : line })), meta: { name: title, category: asset?.type || pattern.category || '혼합', disclosure: disc, experience: exp }, caption: cardText.slice(0, 900), campaignId: campId, assetId: asset?.id || '', patternId: pattern.id, status: '대기', plannedAt: '', safetyScore: checkText(cardText, disc, exp).score, createdAt: nowISO() });
+      savedCount++;
+    }
+    if (($('#tfLinkHubTitle')?.value || '').trim()) state.links.push({ id: id(), title: $('#tfLinkHubTitle').value.trim(), type: disc === 'affiliate' ? '쿠팡 제휴' : '기타', url: '#', desc: `패턴 실험용 링크허브 버튼 (${pattern.type})`, createdAt: nowISO() });
+    pattern.useCount = (pattern.useCount || 0) + 1;
+    save(); toast(`변형 콘텐츠 ${savedCount}건을 패턴 태그와 함께 저장했습니다. 게시관리에서 확인하세요.`);
+  }
+
+  /* ----- 5단계 패턴별 성과 리포트 + 승리 공식 ----- */
+  function reportablePatterns() {
+    return state.knowhowPatterns.filter(p => (p.useCount || 0) > 0 || patternPostIds(p.id).length > 0);
+  }
+  function renderPatternReport() {
+    const box = $('#patternReportList'); if (!box) return;
+    const arr = reportablePatterns().map(p => ({ p, st: patternStats(p.id) })).sort((a, b) => (b.st.net - a.st.net) || (b.st.clicks - a.st.clicks));
+    box.innerHTML = arr.length ? arr.map(({ p, st }) => `<div class="item"><h3>${esc(p.formula)}</h3>
+      <div class="meta"><span class="badge good">${esc(p.type)}</span><span class="badge gray">글 ${st.uses}건 · 성과기록 ${st.records}건</span><span class="badge gray">클릭 ${st.clicks}</span><span class="badge gray">저장 ${st.saves}</span><span class="badge gray">구매/문의 ${st.purchases}</span><span class="badge ${st.net > 0 ? 'good' : 'gray'}">순수익 ${money(st.net)}</span><span class="badge ${st.score > 150 ? 'good' : st.score > 60 ? 'warn' : 'gray'}">점수 ${st.score}</span></div>
+      ${st.records ? '' : '<p class="hint">아직 성과 기록이 없습니다. 게시 후 성과분석 탭에서 성과를 입력하면 자동 집계됩니다.</p>'}
+      <div class="actions wrap"><button class="mini" data-pr-promote="${p.id}">승리 공식 승격</button></div></div>`).join('') : empty('패턴이 태그된 콘텐츠가 없습니다. 4단계에서 변형 콘텐츠를 저장하고 게시 후 성과를 입력하세요.');
+    $$('[data-pr-promote]', box).forEach(b => b.onclick = () => promotePattern(b.dataset.prPromote));
+  }
+  function patternReportCsv() {
+    const head = ['패턴', '유형', '카테고리', '글수', '성과기록', '조회', '클릭', '저장', '공유', '구매', '수익', '비용', '순수익', '점수'];
+    const rows = reportablePatterns().map(p => { const st = patternStats(p.id); return [p.formula, p.type, p.category, st.uses, st.records, st.views, st.clicks, st.saves, st.shares, st.purchases, st.revenue, st.cost, st.net, st.score]; });
+    return [head, ...rows].map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\n');
+  }
+  function promotePattern(pid) {
+    const p = state.knowhowPatterns.find(x => x.id === pid); if (!p) return;
+    const st = patternStats(pid);
+    const existing = state.winningFormulas.find(w => w.patternId === pid);
+    const snapshot = { uses: st.uses, clicks: st.clicks, saves: st.saves, purchases: st.purchases, net: st.net, score: st.score };
+    if (existing) { existing.statsSnapshot = snapshot; existing.promotedAt = nowISO(); save(); return toast('승리 공식의 성과 스냅샷을 갱신했습니다.'); }
+    if (!st.records && !confirm('아직 성과 기록이 없는 패턴입니다. 그래도 승리 공식으로 승격할까요?')) return;
+    state.winningFormulas.push({ id: id(), patternId: pid, type: p.type, formula: p.formula, category: p.category, sourceName: p.sourceName || '', statsSnapshot: snapshot, reason: st.records ? `클릭 ${st.clicks} · 구매/문의 ${st.purchases} · 순수익 ${st.net}원 검증` : '수동 승격 (성과 검증 전)', promotedAt: nowISO(), createdAt: nowISO() });
+    save(); toast('승리 공식 저장소에 승격했습니다.');
+  }
+  function renderWinningFormulas() {
+    const box = $('#winningFormulaList'); if (!box) return;
+    const arr = state.winningFormulas.slice().reverse();
+    box.innerHTML = arr.length ? arr.map(w => {
+      const s = w.statsSnapshot || {};
+      return `<div class="item"><h3>🏆 ${esc(w.formula)}</h3>
+      <div class="meta"><span class="badge good">${esc(w.type)}</span><span class="badge gray">${esc(w.category)}</span>${s.clicks != null ? `<span class="badge gray">클릭 ${s.clicks}</span>` : ''}${s.purchases != null ? `<span class="badge gray">구매 ${s.purchases}</span>` : ''}${s.net != null ? `<span class="badge ${s.net > 0 ? 'good' : 'gray'}">순수익 ${money(s.net)}</span>` : ''}</div>
+      <p class="hint">${esc(w.reason || '')}</p>
+      <div class="actions wrap"><button class="mini" data-wf-use="${esc(w.patternId)}">변형에 사용</button><button class="mini" data-wf-copy="${w.id}">공식 복사</button><button class="mini" data-wf-del="${w.id}">삭제</button></div></div>`;
+    }).join('') : empty('아직 승리 공식이 없습니다. 5단계 리포트에서 성과가 검증된 패턴을 승격하세요.');
+    $$('[data-wf-use]', box).forEach(b => b.onclick = () => {
+      const pid = b.dataset.wfUse;
+      if (!state.knowhowPatterns.some(p => p.id === pid)) return toast('원본 패턴이 삭제되어 연결할 수 없습니다. 공식 복사를 사용하세요.');
+      setVal('tfPattern', pid); const el = $('#tfPattern'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); toast('승리 공식을 변형 생성기에 연결했습니다.');
+    });
+    $$('[data-wf-copy]', box).forEach(b => b.onclick = () => { const w = state.winningFormulas.find(x => x.id === b.dataset.wfCopy); if (w) copy(`[승리 공식 · ${w.type}] ${w.formula}`); });
+    $$('[data-wf-del]', box).forEach(b => b.onclick = () => { if (!confirm('이 승리 공식을 삭제할까요?')) return; state.winningFormulas = state.winningFormulas.filter(x => x.id !== b.dataset.wfDel); save(); });
+  }
+
+  /* ----- 렌더/바인딩 ----- */
+  function renderExpertKpis() {
+    const box = $('#expertKpis'); if (!box) return;
+    const cards = [
+      ['계정 후보', state.expertCandidates.length],
+      ['S·A 등급', state.expertCandidates.filter(c => ['S', 'A'].includes(expertGrade(c).grade)).length],
+      ['해부 콘텐츠', state.expertContents.length],
+      ['보유 패턴', state.knowhowPatterns.length],
+      ['패턴 실험 글', state.posts.filter(p => p.patternId).length + state.cardNews.filter(c => c.patternId).length],
+      ['승리 공식', state.winningFormulas.length]
+    ];
+    box.innerHTML = cards.map(([label, val]) => `<div class="kpi"><b>${esc(val)}</b><span>${esc(label)}</span></div>`).join('');
+  }
+  function renderExpertSelects() {
+    const candSel = $('#exDissectCandidate');
+    if (candSel) {
+      const cur = candSel.value;
+      candSel.innerHTML = '<option value="">계정 선택</option>' + state.expertCandidates.slice().sort((a, b) => expertSignalTotal(b) - expertSignalTotal(a)).map(c => `<option value="${c.id}">${esc(c.name)} · ${expertGrade(c).grade}급 (${esc(c.platform)})</option>`).join('');
+      if (cur && state.expertCandidates.some(c => c.id === cur)) candSel.value = cur;
+    }
+    const patSel = $('#tfPattern');
+    if (patSel) {
+      const cur = patSel.value;
+      patSel.innerHTML = '<option value="">패턴 선택</option>' + state.knowhowPatterns.slice().reverse().map(p => `<option value="${p.id}">[${esc(p.type)}] ${esc(p.formula.slice(0, 40))}</option>`).join('');
+      if (cur && state.knowhowPatterns.some(p => p.id === cur)) patSel.value = cur;
+    }
+  }
+  function renderExpertCenter() {
+    if (!$('#expertCenter')) return;
+    renderExpertKpis(); renderExpertSelects(); renderExpertCandidates(); renderExpertContents(); renderKnowhowPatterns(); renderPatternReport(); renderWinningFormulas(); renderExpertChecklistStatus();
+  }
+  function bindExpertCenter() {
+    if (!$('#expertCenter')) return;
+    if ($('#copyExpertKeywordPrompt')) $('#copyExpertKeywordPrompt').onclick = () => copy(expertKeywordPrompt());
+    if ($('#copyExpertRoutePrompt')) $('#copyExpertRoutePrompt').onclick = () => copy(expertRoutePrompt());
+    if ($('#copyExpertFilterPrompt')) $('#copyExpertFilterPrompt').onclick = () => copy(expertFilterPrompt());
+    if ($('#saveExpertCandidate')) $('#saveExpertCandidate').onclick = saveExpertCandidate;
+    if ($('#clearExpertForm')) $('#clearExpertForm').onclick = () => { clearExpertCandidateForm(); toast('입력을 초기화했습니다.'); };
+    if ($('#copyExpertScorePrompt')) $('#copyExpertScorePrompt').onclick = () => { const t = ($('#exObservedText')?.value || '').trim(); if (!t) return toast('먼저 관찰 자료를 붙여넣으세요.'); copy(expertScorePrompt(t)); };
+    if ($('#aiScoreExpertCandidate')) $('#aiScoreExpertCandidate').onclick = aiScoreExpertCandidate;
+    if ($('#importExpertCandidateJson')) $('#importExpertCandidateJson').onclick = importExpertCandidateJson;
+    if ($('#copyExpertJsonFixPrompt')) $('#copyExpertJsonFixPrompt').onclick = () => copy(trendJsonFixPrompt($('#exCandidateAiJson')?.value || ''));
+    if ($('#copyDissectPrompt')) $('#copyDissectPrompt').onclick = () => { if (!($('#exContentRaw')?.value || '').trim()) return toast('먼저 원문/캡션을 붙여넣으세요.'); copy(dissectPrompt()); };
+    if ($('#aiDissectContent')) $('#aiDissectContent').onclick = aiDissectContent;
+    if ($('#importDissectJson')) $('#importDissectJson').onclick = importDissectJson;
+    if ($('#copyDissectJsonFixPrompt')) $('#copyDissectJsonFixPrompt').onclick = () => copy(trendJsonFixPrompt($('#exDissectJson')?.value || ''));
+    if ($('#saveKnowhowPattern')) $('#saveKnowhowPattern').onclick = saveKnowhowPattern;
+    if ($('#copyTransformPrompt')) $('#copyTransformPrompt').onclick = () => { const t = transformPrompt(); if (!t) return toast('먼저 사용할 패턴을 선택하세요.'); copy(t); };
+    if ($('#aiTransformNow')) $('#aiTransformNow').onclick = aiTransformNow;
+    if ($('#importTransformJson')) $('#importTransformJson').onclick = importTransformJson;
+    if ($('#copyTransformJsonFixPrompt')) $('#copyTransformJsonFixPrompt').onclick = () => copy(trendJsonFixPrompt($('#tfJson')?.value || ''));
+    if ($('#saveTransformToPlanner')) $('#saveTransformToPlanner').onclick = saveTransformToPlanner;
+    if ($('#refreshPatternReport')) $('#refreshPatternReport').onclick = renderPatternReport;
+    if ($('#exportPatternReportCsv')) $('#exportPatternReportCsv').onclick = () => download(`pattern-report-${today()}.csv`, patternReportCsv(), 'text/csv;charset=utf-8');
+    ['exFilterGrade', 'exFilterCategory', 'exFilterStatus'].forEach(i => { const el = $('#' + i); if (el) el.onchange = renderExpertCandidates; });
+    ['kpFilterType', 'kpFilterCategory'].forEach(i => { const el = $('#' + i); if (el) el.onchange = renderKnowhowPatterns; });
+    $$('#expertChecklist input').forEach(cb => cb.onchange = renderExpertChecklistStatus);
+  }
+
   function renderAll() {
-    renderSelects(); renderDashboard(); renderCampaigns(); renderTrends(); renderTrendProductCandidates(); renderTrendActionBoard(); renderTrendConversionFlow(); renderAssets(); renderPlanner(); renderPerformances(); renderRevenueModels(); renderLinks(); renderLinkClicks(); renderPolicyUpdates(); renderInfoNotes(); renderBenchmarkCases(); renderUpdateTasks(); renderReports(); renderTrendReports(); renderPreflight(); renderMissingPerformance(); renderMediaKits(); renderPrelaunchChecks(); renderChatGptPromptCenter(); renderSafety(); drawChannelChart();
+    renderSelects(); renderDashboard(); renderCampaigns(); renderTrends(); renderTrendProductCandidates(); renderTrendActionBoard(); renderTrendConversionFlow(); renderAssets(); renderPlanner(); renderPerformances(); renderRevenueModels(); renderLinks(); renderLinkClicks(); renderPolicyUpdates(); renderInfoNotes(); renderBenchmarkCases(); renderUpdateTasks(); renderReports(); renderTrendReports(); renderPreflight(); renderMissingPerformance(); renderMediaKits(); renderPrelaunchChecks(); renderChatGptPromptCenter(); renderExpertCenter(); renderSafety(); drawChannelChart();
   }
   function renderSelects() {
     const campOptions = '<option value="">선택 안 함</option>' + state.campaigns.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-    ['#wCampaign', '#cardCampaign', '#blogCampaign', '#rmCampaign', '#reportCampaign', '#linkClickCampaign', '#mediaKitCampaign', '#imagePlanCampaign'].forEach(s => { const el = $(s); if (el) el.innerHTML = campOptions; });
+    ['#wCampaign', '#cardCampaign', '#blogCampaign', '#rmCampaign', '#reportCampaign', '#linkClickCampaign', '#mediaKitCampaign', '#imagePlanCampaign', '#tfCampaign'].forEach(s => { const el = $(s); if (el) el.innerHTML = campOptions; });
     const assetOptions = '<option value="">직접 입력</option>' + state.assets.map(a => `<option value="${a.id}">${esc(a.name)} · ${esc(a.type)}</option>`).join('');
-    ['#wAsset', '#cardAsset', '#blogAsset', '#imagePlanAsset'].forEach(s => { const el = $(s); if (el) el.innerHTML = assetOptions; });
+    ['#wAsset', '#cardAsset', '#blogAsset', '#imagePlanAsset', '#tfAsset'].forEach(s => { const el = $(s); if (el) el.innerHTML = assetOptions; });
     const contentOptions = '<option value="">선택</option>' + state.posts.map(p => `<option value="${p.id}">${esc(p.channel)} · ${esc(titleOfPost(p))}</option>`).join('') + state.cardNews.map(c => `<option value="card:${c.id}">Instagram 카드뉴스 · ${esc(c.title)}</option>`).join('');
     $('#pPost').innerHTML = contentOptions;
     const linkOptions = '<option value="">링크 선택</option>' + state.links.map(l => `<option value="${l.id}">${esc(l.title)} · ${esc(l.type)}</option>`).join('');
@@ -3588,7 +4394,7 @@ main{padding:16px 18px 24px}
     const dataReady = state.campaigns.length && state.assets.length && state.links.length;
     return [
       { ok: missingIds.length === 0, title: '필수 화면 연결', detail: missingIds.length ? `누락 화면: ${missingIds.join(', ')}` : '주요 탭과 화면이 모두 있습니다.' },
-      { ok: DATA_VERSION === '8.5.5', title: '데이터 구조 버전', detail: `현재 dataVersion ${DATA_VERSION}` },
+      { ok: DATA_VERSION === '8.5.6', title: '데이터 구조 버전', detail: `현재 dataVersion ${DATA_VERSION}` },
       { ok: !!navigator.serviceWorker || location.protocol === 'file:', title: 'PWA 서비스워커 준비', detail: 'GitHub Pages에서는 service-worker.js로 오프라인 캐시를 사용할 수 있습니다.' },
       { ok: !!document.querySelector('link[rel="manifest"]'), title: 'manifest 연결', detail: '홈 화면 설치용 manifest.json이 연결되어 있습니다.' },
       { ok: !!dataReady, title: '실전 데이터 준비', detail: dataReady ? '캠페인·DB·링크허브 데이터가 있습니다.' : '실전 샘플팩 또는 실제 데이터를 먼저 넣어보세요.' },
