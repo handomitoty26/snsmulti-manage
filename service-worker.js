@@ -1,4 +1,10 @@
-const CACHE_NAME = 'multi-sns-profit-v8.5.6-expert-benchmark-center';
+const CACHE_NAME = 'pwa-snsmulti-manage-v1';
+/* 이 앱 캐시 판정 — 같은 주소의 다른 기숙사 앱 캐시는 지우지 않는다(원본 규칙: ROSA scripts/dorm-pwa) */
+const OWN_PREFIXES = ['pwa-snsmulti-manage-v', 'multi-sns-profit-v'];
+function isOwnCache(key) {
+  if (key === CACHE_NAME) return false;
+  return OWN_PREFIXES.some(p => key.startsWith(p) && /^[0-9]/.test(key.slice(p.length)));
+}
 const CORE_ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', event => {
@@ -8,7 +14,7 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+    caches.keys().then(keys => Promise.all(keys.filter(isOwnCache).map(k => caches.delete(k))))
   );
   self.clients.claim();
 });
